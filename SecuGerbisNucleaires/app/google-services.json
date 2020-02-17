@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "271935859867",
+    "firebase_url": "https://secu-gerbis-nucleaires.firebaseio.com",
+    "project_id": "secu-gerbis-nucleaires",
+    "storage_bucket": "secu-gerbis-nucleaires.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:271935859867:android:5d53569b183bcfdf7a6a3e",
+        "android_client_info": {
+          "package_name": "fr.isen.gerbisnucleaires.secugerbisnucleaires"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "271935859867-qi1vek4hal8vdlrgqjh9tgakha7gll16.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgh6MzU5LK2sNGEdXGa5q1f7W6-uh-t3g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "271935859867-qi1vek4hal8vdlrgqjh9tgakha7gll16.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
