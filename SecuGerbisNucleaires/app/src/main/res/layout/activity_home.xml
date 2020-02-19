@@ -25,8 +25,18 @@
         android:contentDescription="@string/patient_icon"
         app:layout_constraintBottom_toTopOf="@+id/personnalInfoButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/patient" />
+
+    <ImageView
+        android:id="@+id/chatID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/patientsInfoButton"
+        app:srcCompat="@mipmap/chat_foreground" />
 </androidx.constraintlayout.widget.ConstraintLayout>

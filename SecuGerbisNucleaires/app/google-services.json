@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "271935859867",
-    "firebase_url": "https://secu-gerbis-nucleaires.firebaseio.com",
-    "project_id": "secu-gerbis-nucleaires",
-    "storage_bucket": "secu-gerbis-nucleaires.appspot.com"
+    "project_number": "225216560699",
+    "firebase_url": "https://nursemessenger.firebaseio.com",
+    "project_id": "nursemessenger",
+    "storage_bucket": "nursemessenger.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:271935859867:android:5d53569b183bcfdf7a6a3e",
+        "mobilesdk_app_id": "1:225216560699:android:a71a1f7e8ff1b5e3eba61e",
         "android_client_info": {
           "package_name": "fr.isen.gerbisnucleaires.secugerbisnucleaires"
         }
       },
       "oauth_client": [
         {
-          "client_id": "271935859867-qi1vek4hal8vdlrgqjh9tgakha7gll16.apps.googleusercontent.com",
+          "client_id": "225216560699-22uhcp2u2o4qf6sovft40qqr2qvgocus.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAgh6MzU5LK2sNGEdXGa5q1f7W6-uh-t3g"
+          "current_key": "AIzaSyDomunSsoivQFllOD-A53PZoMiS2GfpDR8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "271935859867-qi1vek4hal8vdlrgqjh9tgakha7gll16.apps.googleusercontent.com",
+              "client_id": "225216560699-22uhcp2u2o4qf6sovft40qqr2qvgocus.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

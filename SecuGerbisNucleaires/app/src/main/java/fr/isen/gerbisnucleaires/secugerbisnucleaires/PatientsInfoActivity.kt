@@ -14,7 +14,8 @@ class PatientsInfoActivity : AppCompatActivity() {
     private val patients: ArrayList<Patient> = arrayListOf(
         Patient(Name("Marsaut", "Mayeul", "Mr"), "Fou"),
         Patient(Name("Duee", "Allan", "Mr"), "Autorigole"),
-        Patient(Name("Thomas", "Valentin", "Mme"), "Existe")
+        Patient(Name("Thomas", "Valentin", "Mme"), "Existe"),
+        Patient(Name("Garcia Rota", "Lucas", "Mr"), "Monocouille et tri tétons")
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {

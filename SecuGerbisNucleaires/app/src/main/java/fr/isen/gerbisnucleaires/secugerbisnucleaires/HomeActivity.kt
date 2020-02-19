@@ -21,6 +21,10 @@ class HomeActivity : AppCompatActivity() {
         patientsInfoButton.setOnClickListener {
             newIntent(this, PatientsInfoActivity::class.java)
         }
+
+        chatID.setOnClickListener {
+            newIntent(this, MessengerActivity::class.java)
+        }
     }
 
     // Start new activity
