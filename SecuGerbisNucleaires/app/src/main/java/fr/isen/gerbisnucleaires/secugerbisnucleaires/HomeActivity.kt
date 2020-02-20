@@ -21,6 +21,14 @@ class HomeActivity : AppCompatActivity() {
         patientsInfoButton.setOnClickListener {
             newIntent(this, PatientsInfoActivity::class.java)
         }
+
+        textPatient.setOnClickListener {
+            newIntent(this, PatientsInfoActivity::class.java)
+        }
+
+        textInfirmiers.setOnClickListener {
+            newIntent(this, PersonalInfoActivity::class.java)
+        }
     }
 
     // Start new activity
