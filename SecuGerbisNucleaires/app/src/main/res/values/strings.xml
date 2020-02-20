@@ -7,4 +7,6 @@
     <string name="patient_disease">Disease :</string>
     <string name="patient_age">Age : </string>
     <string name="years_old">years old</string>
+    <string name="list_of_patient_visits">List Of Visits : </string>
+    <string name="edit_patient_info">Edit Patient Info</string>
 </resources>
