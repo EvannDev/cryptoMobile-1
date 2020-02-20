@@ -8,8 +8,10 @@
         android:id="@+id/patientName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorBlack"
         app:layout_constraintStart_toEndOf="@+id/patientTitle"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -17,10 +19,48 @@
         android:id="@+id/patientDisease"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toEndOf="@+id/patientDiseaseName"
+        app:layout_constraintTop_toTopOf="@+id/patientDiseaseName" />
+
+    <TextView
+        android:id="@+id/patientDiseaseName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/patient_disease"
+        android:textColor="@color/colorBlack"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/patientAgeName"
+        app:layout_constraintTop_toBottomOf="@+id/patientAgeName" />
+
+    <TextView
+        android:id="@+id/patientAge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@+id/patientAgeName"
+        app:layout_constraintTop_toTopOf="@+id/patientAgeName" />
+
+    <TextView
+        android:id="@+id/patientAgeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="@string/years_old"
+        app:layout_constraintStart_toEndOf="@+id/patientAge"
+        app:layout_constraintTop_toTopOf="@+id/patientAge" />
+
+    <TextView
+        android:id="@+id/patientAgeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/patientName" />
+        android:text="@string/patient_age"
+        android:textColor="@color/colorBlack"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/patientTitle"
+        app:layout_constraintTop_toBottomOf="@+id/patientTitle" />
 
     <TextView
         android:id="@+id/patientTitle"
@@ -28,6 +68,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorBlack"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,7 +78,7 @@
         android:layout_width="409dp"
         android:layout_height="1dp"
         android:layout_marginTop="8dp"
-        android:background="#4D4D4D"
+        android:background="@color/colorDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

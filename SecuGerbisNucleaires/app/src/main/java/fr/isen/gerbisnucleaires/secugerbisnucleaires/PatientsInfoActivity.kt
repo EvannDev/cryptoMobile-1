@@ -12,10 +12,10 @@ import kotlinx.android.synthetic.main.activity_patients_info.*
 class PatientsInfoActivity : AppCompatActivity() {
 
     private val patients: ArrayList<Patient> = arrayListOf(
-        Patient(Name("Marsaut", "Mayeul", "Mr"), "Fou"),
-        Patient(Name("Duee", "Allan", "Mr"), "Autorigole"),
-        Patient(Name("Thomas", "Valentin", "Mme"), "Existe"),
-        Patient(Name("Garcia Rota", "Lucas", "Mr"), "Monocouille et tri tétons")
+        Patient(Name("Marsaut", "Mayeul", "Mr"), "Fou", 21),
+        Patient(Name("Duee", "Allan", "Mr"), "Autorigole", 22),
+        Patient(Name("Thomas", "Valentin", "Mme"), "Existe", 45),
+        Patient(Name("Garcia Rota", "Lucas", "Mr"), "Monocouille et tri tétons",8)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {

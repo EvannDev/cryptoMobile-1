@@ -9,6 +9,7 @@ class PatientHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bindValue(patient: Patient) {
         itemView.patientTitle.text = patient.name.title
         itemView.patientName.text = (patient.name.name + " " + patient.name.firstName)
+        itemView.patientAge.text =  patient.age.toString()
         itemView.patientDisease.text = patient.disease
     }
 }
