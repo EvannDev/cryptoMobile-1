@@ -8,10 +8,10 @@
         android:id="@+id/patientName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
-        android:textStyle="bold"
         android:textColor="@color/colorBlack"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/patientTitle"
         app:layout_constraintTop_toTopOf="parent" />
 
