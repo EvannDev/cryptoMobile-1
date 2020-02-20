@@ -30,13 +30,26 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/patient" />
 
-    <ImageView
-        android:id="@+id/chatID"
+    <TextView
+        android:id="@+id/textPatient"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="15dp"
+        android:text="Patient informations"
+        android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/patientsInfoButton"
-        app:srcCompat="@mipmap/chat_foreground" />
+        app:layout_constraintTop_toBottomOf="@+id/patientsInfoButton" />
+
+    <TextView
+        android:id="@+id/textInfirmiers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Nurse informations"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/personnalInfoButton" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

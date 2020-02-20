@@ -22,8 +22,12 @@ class HomeActivity : AppCompatActivity() {
             newIntent(this, PatientsInfoActivity::class.java)
         }
 
-        chatID.setOnClickListener {
-            newIntent(this, MessengerActivity::class.java)
+        textPatient.setOnClickListener {
+            newIntent(this, PatientsInfoActivity::class.java)
+        }
+
+        textInfirmiers.setOnClickListener {
+            newIntent(this, PersonalInfoActivity::class.java)
         }
     }
 
