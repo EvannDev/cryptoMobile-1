@@ -1,8 +1,3 @@
 package fr.isen.gerbisnucleaires.secugerbisnucleaires
 
-data class Nurse(
-    val firstname: String,
-    val lastname: String,
-    val phoneNumber: String,
-    val email: String
-)
+class Nurse(val id: String, val firstname:String, val lastname: String, val phone: String, val email:String)

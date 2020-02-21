@@ -1,13 +1,12 @@
 package fr.isen.gerbisnucleaires.secugerbisnucleaires
 
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.android.synthetic.main.activity_edit_personal.*
-
+import fr.isen.gerbisnucleaires.secugerbisnucleaires.R
 
 class EditPersonalActivity : AppCompatActivity() {
 
@@ -27,25 +26,31 @@ class EditPersonalActivity : AppCompatActivity() {
         emailText = findViewById(R.id.emailModify)
         buttonSave = findViewById(R.id.buttonSaveChanges)
 
-        buttonSaveChanges.setOnClickListener {
+        buttonSave.setOnClickListener {
             saveData()
         }
     }
 
     private fun saveData(){
-        val firstname = firstNameText.text.toString()
-        val lastname = lastNameText.text.toString()
-        val phone = phoneText.text.toString()
-        val email = emailText.text.toString()
-
+        val firstname = firstNameText.text.toString().trim()
+        val lastname = lastNameText.text.toString().trim()
+        val phone = phoneText.text.toString().trim()
+        val email = emailText.text.toString().trim()
         if(firstname.isEmpty() || lastname.isEmpty() || phone.isEmpty() || email.isEmpty()){
-            firstNameText.error = "Please fill this blanks"
+            firstNameText.error = "Please enter a firstname"
+            lastNameText.error = "Please enter a lastname"
+            phoneText.error = "Please enter a number"
+            emailText.error = "Please enter an email"
+            return
         }
 
-        val nurse = Nurse(firstname, lastname, phone, email)
-        val database = FirebaseDatabase.getInstance()
-        val reference = database.getReference("database/secu-gerbis-nucleaires/data/user/K1QZEtEX7LTf9N96oDSc")
-        reference.push().setValue(nurse)
-        Toast.makeText(this, "Changes saved", Toast.LENGTH_LONG).show()
+        val ref = FirebaseDatabase.getInstance().getReference("nurses")
+        val nurseID = ref.push().key!!
+
+        val nurse = Nurse(nurseID, firstname, lastname, phone, email)
+
+        ref.child(nurseID).setValue(nurse).addOnCompleteListener {
+            Toast.makeText(applicationContext, "Changes saved", Toast.LENGTH_LONG).show()
+        }
     }
 }

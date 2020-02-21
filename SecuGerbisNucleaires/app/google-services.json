@@ -1,42 +1,42 @@
 {
   "project_info": {
-    "project_number": "271935859867",
-    "firebase_url": "https://secu-gerbis-nucleaires.firebaseio.com",
-    "project_id": "secu-gerbis-nucleaires",
-    "storage_bucket": "secu-gerbis-nucleaires.appspot.com"
+    "project_number": "383232385072",
+    "firebase_url": "https://secus-gerbis-nucleaires.firebaseio.com",
+    "project_id": "secus-gerbis-nucleaires",
+    "storage_bucket": "secus-gerbis-nucleaires.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:271935859867:android:5d53569b183bcfdf7a6a3e",
+        "mobilesdk_app_id": "1:383232385072:android:b4b55dee455a8a25800df5",
         "android_client_info": {
           "package_name": "fr.isen.gerbisnucleaires.secugerbisnucleaires"
         }
       },
       "oauth_client": [
         {
-          "client_id": "271935859867-i9h7b5rj2ub2u5gniabsqnv2qgcv2tk8.apps.googleusercontent.com",
+          "client_id": "383232385072-7m2qgbrit369rvggpvgk8ls1jngm23jm.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "fr.isen.gerbisnucleaires.secugerbisnucleaires",
-            "certificate_hash": "34a3ffdee12a72cfd70af109e490ad7a0e36ecd8"
+            "certificate_hash": "1d70b3d2d068ac1787c57f07caf7a9bfb93f9730"
           }
         },
         {
-          "client_id": "271935859867-qi1vek4hal8vdlrgqjh9tgakha7gll16.apps.googleusercontent.com",
+          "client_id": "383232385072-4qf3n3lpu6iqnnndp7ih4kcihir34vmj.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAgh6MzU5LK2sNGEdXGa5q1f7W6-uh-t3g"
+          "current_key": "AIzaSyDC7uXC2WxsMiYlqxp1JDR3ZouFgNWRvDM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "271935859867-qi1vek4hal8vdlrgqjh9tgakha7gll16.apps.googleusercontent.com",
+              "client_id": "383232385072-4qf3n3lpu6iqnnndp7ih4kcihir34vmj.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
