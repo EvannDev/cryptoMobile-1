@@ -34,6 +34,8 @@ class PatientsInfoActivity : AppCompatActivity(), PatientAdapter.OnItemClickList
         Patient(Name("De Bailliencourt", "Evann", "Mr"), "Test 1234 ",32)
     )
 
+    private val lol = 0
+
     @SuppressLint("WrongConstant")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
