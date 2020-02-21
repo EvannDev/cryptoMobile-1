@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".ChiffrementActivity"></activity>
+        <activity android:name=".LoginActivity" />
         <activity android:name=".MessengerActivity" />
         <activity android:name=".PatientsInfoActivity" />
         <activity android:name=".PersonalInfoActivity" />
