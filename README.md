@@ -5,8 +5,7 @@ Un super projet
 
 ## Identifiants
 
-### DEBUG
-- __Clé__ : gernucl-debug.keystore
+- __Clé__ : gernucl.jks
 - __Mot de passe__ : gerbis
 
 - __Alias__ : gerbis

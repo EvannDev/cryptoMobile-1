@@ -2,4 +2,11 @@
     <string name="app_name">SecuGerbisNucleaires</string>
     <string name="book_icon">Book icon</string>
     <string name="patient_icon">Patient icon</string>
+    <string name="patients_list">Patient\'s List : </string>
+    <string name="add_patient">Add Patient</string>
+    <string name="patient_disease">Disease :</string>
+    <string name="patient_age">Age : </string>
+    <string name="years_old">years old</string>
+    <string name="list_of_patient_visits">List Of Visits : </string>
+    <string name="edit_patient_info">Edit Patient Info</string>
 </resources>
