@@ -11,8 +11,3 @@ Un super projet
 
 - __Alias__ : gerbis
 - __Mot de passe__ : nucleaires123
-
-### RELEASE
-- __Clé__ : gernucl.keystore
-- __Mot de passe__ : gerbis
-- __Alias__ : gerbis
