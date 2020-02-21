@@ -5,8 +5,14 @@ Un super projet
 
 ## Identifiants
 
-- __Clé__ : gernucl.jks
+### DEBUG
+- __Clé__ : gernucl-debug.keystore
 - __Mot de passe__ : gerbis
 
 - __Alias__ : gerbis
 - __Mot de passe__ : nucleaires123
+
+### RELEASE
+- __Clé__ : gernucl.keystore
+- __Mot de passe__ : gerbis
+- __Alias__ : gerbis
