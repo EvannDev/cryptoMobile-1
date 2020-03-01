@@ -2,16 +2,18 @@ package fr.isen.gerbisnucleaires.secugerbisnucleaires
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.recyclerview.PatientAdapter
-import fr.isen.gerbisnucleaires.secugerbisnucleaires.recyclerview.patient.Name
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.recyclerview.patient.Patient
 import kotlinx.android.synthetic.main.activity_patients_info.*
+
 
 class PatientsInfoActivity : AppCompatActivity(), PatientAdapter.OnItemClickListener {
     override fun onItemClick(patient: Patient) {
@@ -22,24 +24,52 @@ class PatientsInfoActivity : AppCompatActivity(), PatientAdapter.OnItemClickList
         intent.putExtra("age", patient.age.toString())
         intent.putExtra("disease", patient.disease)
         startActivity(intent)
-        //Toast.makeText(this, "Clicked: ${patient.name}", Toast.LENGTH_LONG).show()
     }
 
-    private val patients: ArrayList<Patient> = arrayListOf(
-        Patient(Name("Marsaut", "Mayeul", "Mr"), "Fou", 21),
-        Patient(Name("Duee", "Allan", "Mr"), "Autorigole qsd hsd idsbcijds jsdijsddsij dsji ijs sijd jids jds ojds jd js ojdsodsosdjjds jds  sod dsj dsj sdoj dso ", 22),
-        Patient(Name("Thomas", "Valentin", "Mme"), "Existe", 45),
-        Patient(Name("Garcia Rota", "Lucas", "Mr"), "Monocouille et tri tétons",8) ,
-        Patient(Name("Bilisari", "Elio", "Mr"), "Test",100),
-        Patient(Name("De Bailliencourt", "Evann", "Mr"), "Test 1234 ",32)
-    )
+    val patients: ArrayList<Patient> = arrayListOf()
 
     @SuppressLint("WrongConstant")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patients_info)
 
-        patientsRecycler.layoutManager = LinearLayoutManager(this)
-        patientsRecycler.adapter = PatientAdapter(patients,this)
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.getReference("Patients" )
+
+        val postListener = object : ValueEventListener {
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (childSnapshot in dataSnapshot.children) {
+                    val patient = childSnapshot.getValue(Patient::class.java)!!
+                    patients.add(patient)
+
+                    patientsRecycler.layoutManager = LinearLayoutManager(this@PatientsInfoActivity)
+                    patientsRecycler.adapter = PatientAdapter(patients,this@PatientsInfoActivity)
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+                Toast.makeText(this@PatientsInfoActivity, "Can't read informations from Firebase", Toast.LENGTH_LONG).show()
+            }
+        }
+        myRef.addValueEventListener(postListener)
+
+        addPatientButtonClick()
+    }
+
+    fun addPatientButtonClick() {
+        addPatientButton.setOnClickListener {
+            val intent = Intent(this@PatientsInfoActivity, AddPatientActivity::class.java)
+            intent.putExtra("title", "")
+            intent.putExtra("first_name", "")
+            intent.putExtra("last_name","")
+            intent.putExtra("age", "")
+            intent.putExtra("disease", "")
+            startActivity(intent)
+        }
+    }
+    override fun onBackPressed() {
+        val intent = Intent(this@PatientsInfoActivity, HomeActivity::class.java)
+        startActivity(intent)
     }
 }

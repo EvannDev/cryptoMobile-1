@@ -1,34 +1,50 @@
 {
   "project_info": {
-    "project_number": "225216560699",
-    "firebase_url": "https://nursemessenger.firebaseio.com",
-    "project_id": "nursemessenger",
-    "storage_bucket": "nursemessenger.appspot.com"
+    "project_number": "383232385072",
+    "firebase_url": "https://secus-gerbis-nucleaires.firebaseio.com",
+    "project_id": "secus-gerbis-nucleaires",
+    "storage_bucket": "secus-gerbis-nucleaires.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:225216560699:android:a71a1f7e8ff1b5e3eba61e",
+        "mobilesdk_app_id": "1:383232385072:android:b4b55dee455a8a25800df5",
         "android_client_info": {
           "package_name": "fr.isen.gerbisnucleaires.secugerbisnucleaires"
         }
       },
       "oauth_client": [
         {
-          "client_id": "225216560699-22uhcp2u2o4qf6sovft40qqr2qvgocus.apps.googleusercontent.com",
+          "client_id": "383232385072-isens2odu4ch0com72h11qcua71s4n34.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.isen.gerbisnucleaires.secugerbisnucleaires",
+            "certificate_hash": "fb22f2ecd2efd607a19f9dd3001004912f7e9933"
+          }
+        },
+        {
+          "client_id": "383232385072-7m2qgbrit369rvggpvgk8ls1jngm23jm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.isen.gerbisnucleaires.secugerbisnucleaires",
+            "certificate_hash": "1d70b3d2d068ac1787c57f07caf7a9bfb93f9730"
+          }
+        },
+        {
+          "client_id": "383232385072-4qf3n3lpu6iqnnndp7ih4kcihir34vmj.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDomunSsoivQFllOD-A53PZoMiS2GfpDR8"
+          "current_key": "AIzaSyDC7uXC2WxsMiYlqxp1JDR3ZouFgNWRvDM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "225216560699-22uhcp2u2o4qf6sovft40qqr2qvgocus.apps.googleusercontent.com",
+              "client_id": "383232385072-4qf3n3lpu6iqnnndp7ih4kcihir34vmj.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
