@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.activity_patients_info.*
 class PatientsInfoActivity : AppCompatActivity(), PatientAdapter.OnItemClickListener {
     override fun onItemClick(patient: Patient) {
         val intent = Intent(this@PatientsInfoActivity, SpecificPatientActivity::class.java)
+        intent.putExtra("uuid", patient.uuid)
         intent.putExtra("title", patient.name.title)
         intent.putExtra("first_name", patient.name.firstName)
         intent.putExtra("last_name", patient.name.name)
@@ -60,6 +61,7 @@ class PatientsInfoActivity : AppCompatActivity(), PatientAdapter.OnItemClickList
     fun addPatientButtonClick() {
         addPatientButton.setOnClickListener {
             val intent = Intent(this@PatientsInfoActivity, AddPatientActivity::class.java)
+            intent.putExtra("uuid", "")
             intent.putExtra("title", "")
             intent.putExtra("first_name", "")
             intent.putExtra("last_name","")

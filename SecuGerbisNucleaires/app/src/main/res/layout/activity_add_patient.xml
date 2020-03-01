@@ -48,7 +48,7 @@
             android:id="@+id/addPatientFirstnameFieldInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/lastname" />
+            android:hint="@string/firstname" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <EditText

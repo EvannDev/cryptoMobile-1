@@ -12,6 +12,7 @@ class SpecificPatientActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_specific_patient)
 
+        val uuid = intent.getStringExtra("uuid")
         val title = intent.getStringExtra("title")
         val firstName = intent.getStringExtra("first_name")
         val lastName = intent.getStringExtra("last_name")
@@ -22,16 +23,17 @@ class SpecificPatientActivity : AppCompatActivity() {
         specificPatientAge.text = ("$age years old")
         specificPatientDisease.text = disease
 
-        updatePatientInfo(title, lastName, firstName, age, disease)
+        updatePatientInfo(uuid, title, lastName, firstName, age, disease)
     }
 
-    fun updatePatientInfo(title : String, lastName : String, firstName : String, age : String, disease : String) {
+    fun updatePatientInfo(uuid : String, title : String, lastName : String, firstName : String, age : String, disease : String) {
         SpecificPatientEditButton.setOnClickListener {
 
             val intent = Intent(this@SpecificPatientActivity, AddPatientActivity::class.java)
+            intent.putExtra("uuid", uuid)
             intent.putExtra("title", title)
-            intent.putExtra("first_name", lastName)
-            intent.putExtra("last_name",firstName)
+            intent.putExtra("first_name", firstName)
+            intent.putExtra("last_name",lastName)
             intent.putExtra("age", age)
             intent.putExtra("disease", disease)
             startActivity(intent)
