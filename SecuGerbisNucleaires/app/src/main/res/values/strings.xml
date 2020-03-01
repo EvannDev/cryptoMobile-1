@@ -15,4 +15,5 @@
     <string name="disease_explanation">Disease Explanation :</string>
     <string name="add_a_patient">Add a Patient</string>
     <string name="cancel">Cancel</string>
+    <string name="_0">0</string>
 </resources>

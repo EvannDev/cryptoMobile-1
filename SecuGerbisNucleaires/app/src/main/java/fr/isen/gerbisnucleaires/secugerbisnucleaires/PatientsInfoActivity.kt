@@ -63,7 +63,7 @@ class PatientsInfoActivity : AppCompatActivity(), PatientAdapter.OnItemClickList
             intent.putExtra("title", "")
             intent.putExtra("first_name", "")
             intent.putExtra("last_name","")
-            intent.putExtra("age", "")
+            intent.putExtra("age", "0")
             intent.putExtra("disease", "")
             startActivity(intent)
         }

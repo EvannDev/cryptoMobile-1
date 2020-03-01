@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddPatientActivity">
+
+    <TextView
+        android:id="@+id/addPatientTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/add_a_patient"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textColor="@color/colorBlack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/addPatientLastnameField"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/addPatientTitleSpinner"
+        app:layout_constraintTop_toBottomOf="@+id/addPatientTitleSpinner">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/addPatientLastnameFieldInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/lastname" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/addPatientFirstnameField"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="@+id/addPatientLastnameField"
+        app:layout_constraintStart_toStartOf="@+id/addPatientLastnameField"
+        app:layout_constraintTop_toBottomOf="@+id/addPatientLastnameField">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/addPatientFirstnameFieldInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/lastname" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <EditText
+        android:id="@+id/addPatientAgeValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:text="@string/_0"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="@+id/addPatientFirstnameField"
+        app:layout_constraintTop_toBottomOf="@+id/addPatientFirstnameField"
+        />
+
+    <TextView
+        android:id="@+id/addPatientAgeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/age"
+        android:textSize="16sp"
+        android:textColor="@color/colorBlack"
+        app:layout_constraintBottom_toBottomOf="@+id/addPatientAgeValue"
+        app:layout_constraintEnd_toStartOf="@+id/addPatientAgeValue"
+        app:layout_constraintStart_toStartOf="@+id/addPatientFirstnameField"
+        app:layout_constraintTop_toTopOf="@+id/addPatientAgeValue" />
+
+    <Spinner
+        android:id="@+id/addPatientTitleSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:entries="@array/titleArray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addPatientTitle" />
+
+    <TextView
+        android:id="@+id/addPatientDiseaseTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:textSize="16sp"
+        android:textColor="@color/colorBlack"
+        android:text="@string/disease_explanation"
+        app:layout_constraintStart_toStartOf="@+id/addPatientFirstnameField"
+        app:layout_constraintTop_toBottomOf="@+id/addPatientAgeValue" />
+
+    <EditText
+        android:id="@+id/addPatientDiseaseValue"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        app:layout_constraintBottom_toTopOf="@+id/addPatientCancelButton"
+        app:layout_constraintEnd_toEndOf="@+id/addPatientAgeValue"
+        app:layout_constraintStart_toStartOf="@+id/addPatientDiseaseTitle"
+        app:layout_constraintTop_toBottomOf="@+id/addPatientDiseaseTitle" />
+
+    <Button
+        android:id="@+id/addPatientCancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/addPatientAddButton"
+        app:layout_constraintStart_toStartOf="@+id/addPatientDiseaseValue"
+        app:layout_constraintTop_toBottomOf="@+id/addPatientDiseaseValue" />
+
+    <Button
+        android:id="@+id/addPatientAddButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="@string/add_patient"
+        app:layout_constraintBottom_toBottomOf="@+id/addPatientCancelButton"
+        app:layout_constraintEnd_toEndOf="@+id/addPatientDiseaseValue"
+        app:layout_constraintStart_toEndOf="@+id/addPatientCancelButton"
+        app:layout_constraintTop_toTopOf="@+id/addPatientCancelButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
