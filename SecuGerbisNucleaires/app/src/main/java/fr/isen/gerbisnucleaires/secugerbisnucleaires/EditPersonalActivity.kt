@@ -20,6 +20,8 @@ class EditPersonalActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_personal)
 
+        val nurseId = intent.getStringExtra("nurseId")
+
         firstNameText = findViewById(R.id.firstnameModify)
         lastNameText = findViewById(R.id.lastnameModify)
         phoneText = findViewById(R.id.phoneModify)
@@ -27,11 +29,11 @@ class EditPersonalActivity : AppCompatActivity() {
         buttonSave = findViewById(R.id.buttonSaveChanges)
 
         buttonSave.setOnClickListener {
-            saveData()
+            saveData(nurseId)
         }
     }
 
-    private fun saveData(){
+    private fun saveData(nurseId : String){
         val firstname = firstNameText.text.toString().trim()
         val lastname = lastNameText.text.toString().trim()
         val phone = phoneText.text.toString().trim()
@@ -44,12 +46,11 @@ class EditPersonalActivity : AppCompatActivity() {
             return
         }
 
-        val ref = FirebaseDatabase.getInstance().getReference("nurses")
-        val nurseID = ref.push().key!!
+        val ref = FirebaseDatabase.getInstance().getReference("Nurses")
 
-        val nurse = Nurse(nurseID, firstname, lastname, phone, email)
+        val nurse = Nurse(nurseId, firstname, lastname, phone, email)
 
-        ref.child(nurseID).setValue(nurse).addOnCompleteListener {
+        ref.child(nurseId).setValue(nurse).addOnCompleteListener {
             Toast.makeText(applicationContext, "Changes saved", Toast.LENGTH_LONG).show()
         }
     }
