@@ -8,13 +8,15 @@
 
     <TextView
         android:id="@+id/specificPatientName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:textStyle="bold"
+        android:layout_marginEnd="16dp"
         android:textColor="@color/colorBlack"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/SpecificPatientDeletePatientButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -64,7 +66,7 @@
         app:layout_constraintTop_toTopOf="@+id/specificPatientDiseaseName" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/SpecificPatientRecyclerView"
+        android:id="@+id/visitRecycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="32dp"
@@ -78,14 +80,14 @@
         android:id="@+id/SpecificPatientEditButton"
         android:layout_width="172dp"
         android:layout_height="48dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="32dp"
         android:background="@color/colorBlack"
         android:text="@string/edit_patient_info"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/SpecificPatientListOfVisits"
@@ -99,6 +101,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/specificPatientDisease" />
+
+    <Button
+        android:id="@+id/SpecificPatientDeletePatientButton"
+        android:layout_width="136dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/colorRed"
+        android:text="@string/delete_patient"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/specificPatientName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/specificPatientName" />
+
+    <Button
+        android:id="@+id/SpecificPatientAddVisitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_visit"
+        android:background="@color/colorBlack"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/SpecificPatientEditButton"
+        app:layout_constraintEnd_toStartOf="@+id/SpecificPatientEditButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/SpecificPatientEditButton" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,4 +16,12 @@
     <string name="add_a_patient">Add a Patient</string>
     <string name="cancel">Cancel</string>
     <string name="_0">0</string>
+    <string name="temperature">Temperature</string>
+    <string name="treatment">Treatment :</string>
+    <string name="patient_state">Patient State :</string>
+    <string name="add_visit">Add Visit</string>
+    <string name="date">--/--/----</string>
+    <string name="dateName">Date :</string>
+    <string name="treatment_given">Treatment Given :</string>
+    <string name="delete_patient">Delete Patient</string>
 </resources>
