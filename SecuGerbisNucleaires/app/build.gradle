@@ -33,20 +33,18 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.google.firebase:firebase-database:19.2.1'
-<<<<<<< HEAD
+
+    implementation 'com.google.firebase:firebase-auth:16.0.5'
     testImplementation 'junit:junit:4.12'
-=======
+
     implementation 'com.firebaseui:firebase-ui-database:3.1.0'
     testImplementation 'junit:junit:4.13'
->>>>>>> e08dfa533a0fbb6e774f48c4d077e5e47297896b
+
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-<<<<<<< HEAD
-=======
-    // New dependencies here
-//    implementation 'com.squareup.picasso:picasso:2.71828'
+
     implementation 'androidx.biometric:biometric:1.0.1'
     implementation 'com.google.android.material:material:1.1.0'
->>>>>>> e08dfa533a0fbb6e774f48c4d077e5e47297896b
+
 }
