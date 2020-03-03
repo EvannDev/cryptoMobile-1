@@ -6,12 +6,18 @@ import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.Nurse
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
 
 class SignUpActivity : AppCompatActivity() {
 
+
+    private val TAG = "SignUpActivity"
     private lateinit var mAuth: FirebaseAuth
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,18 +61,34 @@ class SignUpActivity : AppCompatActivity() {
             Toast.makeText(this,"Invalid Admin Code ", Toast.LENGTH_LONG).show()
         }
         else{
-            createAccount(email,password)
+            createAccount()
         }
     }
 
-    private fun createAccount(email: String, password: String) {
+    private fun createAccount() {
+
+        val email = emailSignUpEdit.text.toString()
+        val password = passwordSignUpEdit.text.toString()
+        val firstname = firstnameSignUpEdit.text.toString()
+        val lastname = lastnameSignUpEdit.text.toString()
+        val phone = phoneSignUpEdit.text.toString()
+        val adminCode = codeAdminEdit.text.toString()
+
+        val nurseId = FirebaseDatabase.getInstance().reference.push().key.toString()
+
+        val nurse = Nurse(nurseId, firstname, lastname, phone, email)
+
+        FirebaseDatabase.getInstance().getReference("Nurse").child(nurseId).setValue(nurse).addOnCompleteListener {
+            Toast.makeText(this, "Registered", Toast.LENGTH_LONG).show()
+        }
 
         mAuth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    val user = mAuth.currentUser
+            .addOnCompleteListener(this) {
+                if (it.isSuccessful) {
+                    Toast.makeText(this, "Registered", Toast.LENGTH_LONG).show()
                     sendEmailVerification()
                     goToLogin()
+                    finish()
                 } else {
                     Toast.makeText(baseContext, "Authentication failed.",
                         Toast.LENGTH_SHORT).show()
