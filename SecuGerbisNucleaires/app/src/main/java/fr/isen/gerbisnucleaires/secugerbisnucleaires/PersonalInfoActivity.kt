@@ -42,6 +42,7 @@ class PersonalInfoActivity : AppCompatActivity() {
 
         ref.reference
             .child("Nurse")
+
             .child(user!!.uid)
             .addListenerForSingleValueEvent(object : ValueEventListener{
                 override fun onCancelled(p0: DatabaseError) {

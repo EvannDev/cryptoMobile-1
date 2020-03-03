@@ -17,20 +17,20 @@ class LoginActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
 
-        buttonLogin.setOnClickListener{
+        buttonLogin.setOnClickListener {
             doLogin()
         }
 
-        buttonLogout.setOnClickListener{
+        buttonLogout.setOnClickListener {
             doLogout()
         }
 
-        textbuttonsignin.setOnClickListener{
+        textbuttonsignin.setOnClickListener {
             goToSignUp()
         }
     }
 
-    private fun doLogout(){
+    private fun doLogout() {
         mAuth.signOut()
         Toast.makeText(this,"Logout successfull", Toast.LENGTH_SHORT)
     }
@@ -64,7 +64,7 @@ class LoginActivity : AppCompatActivity() {
         startActivity(homeIntent)
     }
 
-    private fun goToSignUp(){
+    private fun goToSignUp() {
         val signUpIntent = Intent(
             this,
             SignUpActivity::class.java
