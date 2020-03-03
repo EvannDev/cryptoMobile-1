@@ -8,12 +8,17 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
-import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.Post
-import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.User
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
 
 class SignUpActivity : AppCompatActivity() {
+
+    val email = emailSignUpEdit.text.toString()
+    val password = passwordSignUpEdit.text.toString()
+    val firstname = firstnameSignUpEdit.text.toString()
+    val lastname = lastnameSignUpEdit.text.toString()
+    val phone = phoneSignUpEdit.text.toString()
+    val adminCode = codeAdminEdit.text.toString()
 
     private lateinit var mAuth: FirebaseAuth
     private lateinit var userDatabase: DatabaseReference
@@ -32,12 +37,6 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun registerUser() {
-        val email = emailSignUpEdit.text.toString()
-        val password = passwordSignUpEdit.text.toString()
-        val firstname = firstnameSignUpEdit.text.toString()
-        val lastname = lastnameSignUpEdit.text.toString()
-        val phone = phoneSignUpEdit.text.toString()
-        val adminCode = codeAdminEdit.text.toString()
 
         val database = FirebaseDatabase.getInstance()
         var ref = database.getReference("Code_Admin")
@@ -90,13 +89,26 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun createAccount(email: String, password: String) {
 
+        var map = mutableMapOf<String, Any>()
+        map["firstname"] = firstname
+        map["lastname"] = lastname
+        map["phone"] = phone
+        map["email"] = email
+        map["password"] = password
+
+        val userID = FirebaseDatabase.getInstance().reference.child("Nurse").push().key.toString()
+
+        FirebaseDatabase.getInstance().reference.child("Nurse").child(userID).setValue(map).addOnCompleteListener {
+            Toast.makeText(this, "Registered", Toast.LENGTH_LONG).show()
+        }
+
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val user = mAuth.currentUser
                     sendEmailVerification()
-                    submitUser()
                     updateUI(user)
+                    goToLogin()
                 } else {
                     Toast.makeText(baseContext, "Authentication failed.",
                         Toast.LENGTH_SHORT).show()
@@ -123,55 +135,9 @@ class SignUpActivity : AppCompatActivity() {
             }
     }
 
-    private fun submitUser(){
-
-        val userID = "123456"
-
-        userDatabase.child("user").child(userID).addListenerForSingleValueEvent(
-            object : ValueEventListener{
-                override fun onCancelled(p0: DatabaseError) {
-                }
-
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val user = dataSnapshot.getValue(User::class.java)
-
-                    writeNewPost(userID,
-                        user!!.firstname,
-                        user.lastname,
-                        user.email,
-                        user.phone)
-
-
-                    finish()
-
-                }
-            }
-        )
-    }
-
-    private fun writeNewPost(userID: String,
-                             firstname: String,
-                             lastname: String,
-                             email: String,
-                             phone: String){
-        val key = userDatabase.child("user").push().key
-
-        val post = Post(userID,firstname,lastname,email,phone)
-        val postValues = post.toMap()
-
-        val childUpdates = HashMap<String, Any>()
-
-        childUpdates["/user/$key"] = postValues
-
-        userDatabase.updateChildren(childUpdates)
-    }
-
-
-
     private fun updateUI(user: FirebaseUser?) {
         if(user != null){
             Toast.makeText(this,"You already have an account",Toast.LENGTH_LONG).show();
-            goToLogin()
         }else {
             Toast.makeText(this,"You don't have account",Toast.LENGTH_LONG).show();
         }
@@ -184,7 +150,4 @@ class SignUpActivity : AppCompatActivity() {
         )
         startActivity(homeIntent)
     }
-
-
-
 }

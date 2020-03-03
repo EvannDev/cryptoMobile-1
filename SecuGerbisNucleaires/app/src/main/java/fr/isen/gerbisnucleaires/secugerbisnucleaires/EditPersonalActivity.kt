@@ -7,8 +7,8 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import fr.isen.gerbisnucleaires.secugerbisnucleaires.R
 
 class EditPersonalActivity : AppCompatActivity() {
 
@@ -60,7 +60,9 @@ class EditPersonalActivity : AppCompatActivity() {
 
         val ref = FirebaseDatabase.getInstance().reference
 
-        ref.child("Nurse").child("Mettre_Un_Nurse_Id_en_lien_avec_Evann_a_la_connexion").updateChildren(map).addOnCompleteListener {
+        val user = FirebaseAuth.getInstance().currentUser
+
+        ref.child("Nurse").child(user!!.uid).updateChildren(map).addOnCompleteListener {
             Toast.makeText(applicationContext, "Changes saved", Toast.LENGTH_LONG).show()
         }
     }

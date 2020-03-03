@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -17,16 +18,18 @@ class PersonalInfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_personal_item)
 
+        val user = FirebaseAuth.getInstance().currentUser
+
         FirebaseDatabase.getInstance().reference
             .child("Nurse")
-            .child("Mettre_Un_Nurse_Id_en_lien_avec_Evann_a_la_connexion")
+            .child(user!!.uid)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
                     Toast.makeText(applicationContext, "Can not read data from database", Toast.LENGTH_LONG).show()
                 }
 
                 override fun onDataChange(p0: DataSnapshot) {
-                    var map = p0.value as Map<String, Any>
+                    val map = p0.value as Map<*, *>
                     firstnameNurse.text = map["firstname"].toString()
                     lastnameNurse.text = map["lastname"].toString()
                     phoneNurse.text = map["phone"].toString()
