@@ -3,6 +3,8 @@ package fr.isen.gerbisnucleaires.secugerbisnucleaires
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.security.keystore.KeyGenParameterSpec
+import android.security.keystore.KeyProperties
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -10,12 +12,17 @@ import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_home.*
+import java.net.Authenticator
+import java.security.KeyStore
 import java.util.concurrent.Executor
+import javax.crypto.KeyGenerator
+import javax.crypto.SecretKey
 
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var executor: Executor
     private lateinit var biometricPrompt: BiometricPrompt
+    private lateinit var promptInfo: BiometricPrompt.PromptInfo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,12 +56,18 @@ class HomeActivity : AppCompatActivity() {
         biometricPrompt = BiometricPrompt(this, executor,
             object : BiometricPrompt.AuthenticationCallback() {
                 override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-                    Toast.makeText(applicationContext, "Problème d'authentification : $errString", Toast.LENGTH_SHORT)
-                        .show()
+                    // errorCode 13 ==> NegativeButton Event
+                    val text: String = if (errorCode == 13)
+                        "Authentification annulée"
+                    else
+                        "Problème d'authentification : $errString"
+
+                    Toast.makeText(applicationContext, text, Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                     super.onAuthenticationSucceeded(result)
+                    newIntent(applicationContext, PersonalInfoActivity::class.java)
                     Toast.makeText(applicationContext, "Authentification réussie", Toast.LENGTH_SHORT).show()
                 }
 
@@ -63,6 +76,12 @@ class HomeActivity : AppCompatActivity() {
                     Toast.makeText(applicationContext, "Problème d'authentification", Toast.LENGTH_SHORT).show()
                 }
             })
+
+        promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Accéder à vos informations")
+            .setSubtitle("Utiliser l'authentification biométrique pour continuer")
+            .setNegativeButtonText("Annuler")
+            .build()
     }
 
     private fun bioAuth() {
@@ -79,12 +98,7 @@ class HomeActivity : AppCompatActivity() {
                 Log.e(TAG, "L'utilisateur n'a pas configuré la biométrie")
         }
 
-
-        val promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle("Accéder à vos informations")
-            .setSubtitle("Utiliser l'authentification biométrique pour continuer")
-            .setNegativeButtonText("Utiliser un mot de passe")
-            .build()
+        biometricPrompt.authenticate(promptInfo)
     }
 
     // Start new activity
