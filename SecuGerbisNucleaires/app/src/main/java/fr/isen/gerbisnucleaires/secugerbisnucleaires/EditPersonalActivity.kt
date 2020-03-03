@@ -1,5 +1,7 @@
 package fr.isen.gerbisnucleaires.secugerbisnucleaires
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -30,6 +32,7 @@ class EditPersonalActivity : AppCompatActivity() {
 
         buttonSave.setOnClickListener {
             saveData()
+            newIntent(this, PersonalInfoActivity::class.java)
         }
     }
 
@@ -60,5 +63,9 @@ class EditPersonalActivity : AppCompatActivity() {
         ref.child("Nurse").child("Mettre_Un_Nurse_Id_en_lien_avec_Evann_a_la_connexion").updateChildren(map).addOnCompleteListener {
             Toast.makeText(applicationContext, "Changes saved", Toast.LENGTH_LONG).show()
         }
+    }
+
+    private fun newIntent(context: Context, clazz: Class<*>) {
+        startActivity(Intent(context, clazz))
     }
 }
