@@ -38,6 +38,10 @@ class PersonalInfoActivity : AppCompatActivity() {
         buttonEdit.setOnClickListener {
             newIntent(this, EditPersonalActivity::class.java)
         }
+
+        buttonReturn.setOnClickListener {
+            newIntent(this, HomeActivity::class.java)
+        }
     }
 
     private fun newIntent(context: Context, clazz: Class<*>) {
