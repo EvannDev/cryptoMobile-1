@@ -27,7 +27,7 @@ class PersonalInfoActivity : AppCompatActivity() {
                     firstnameNurse.text = map["firstname"].toString()
                     lastnameNurse.text = map["lastname"].toString()
                     phoneNurse.text = map["phone"].toString()
-                    emailNurse.text = map["email"].toString() 
+                    emailNurse.text = map["email"].toString()
                 }
             })
 
