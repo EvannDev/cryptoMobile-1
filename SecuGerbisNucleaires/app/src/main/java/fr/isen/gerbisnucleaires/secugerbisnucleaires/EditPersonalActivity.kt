@@ -23,12 +23,22 @@ class EditPersonalActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_personal)
 
+        val firstname = intent.getStringExtra("firstname")
+        val lastname = intent.getStringExtra("lastname")
+        val phone = intent.getStringExtra("phone")
+        val email = intent.getStringExtra("email")
+
         firstNameText = findViewById(R.id.firstnameModify)
         lastNameText = findViewById(R.id.lastnameModify)
         phoneText = findViewById(R.id.phoneModify)
         emailText = findViewById(R.id.emailModify)
         passwordText = findViewById(R.id.passwordModify)
         buttonSave = findViewById(R.id.buttonSaveChanges)
+
+        firstNameText.setText(firstname.toString())
+        lastNameText.setText(lastname.toString())
+        phoneText.setText(phone.toString())
+        emailText.setText(email.toString())
 
         buttonSave.setOnClickListener {
             saveData()

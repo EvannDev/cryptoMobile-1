@@ -34,20 +34,26 @@ class PersonalInfoActivity : AppCompatActivity() {
                     lastnameNurse.text = map["lastname"].toString()
                     phoneNurse.text = map["phone"].toString()
                     emailNurse.text = map["email"].toString()
+                    editButtonClick(map["firstname"].toString(), map["lastname"].toString(), map["phone"].toString(), map["email"].toString())
                 }
             })
 
 
-        buttonEdit.setOnClickListener {
-            newIntent(this, EditPersonalActivity::class.java)
-        }
-
         buttonReturn.setOnClickListener {
-            newIntent(this, HomeActivity::class.java)
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
         }
     }
 
-    private fun newIntent(context: Context, clazz: Class<*>) {
-        startActivity(Intent(context, clazz))
+    fun editButtonClick(firstname: String, lastname: String, phone: String, email: String){
+        buttonEdit.setOnClickListener {
+            val intent = Intent(this, EditPersonalActivity::class.java)
+            intent.putExtra("firstname", firstname)
+            intent.putExtra("lastname", lastname)
+            intent.putExtra("phone", phone)
+            intent.putExtra("email", email)
+            startActivity(intent)
+            this.finish()
+        }
     }
 }
