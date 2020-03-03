@@ -11,18 +11,8 @@ import kotlinx.android.synthetic.main.activity_patients_info.*
 
 class PatientsInfoActivity : AppCompatActivity() {
 
-    private val patients: ArrayList<Patient> = arrayListOf(
-        Patient(Name("Marsaut", "Mayeul", "Mr"), "Fou"),
-        Patient(Name("Duee", "Allan", "Mr"), "Autorigole"),
-        Patient(Name("Thomas", "Valentin", "Mme"), "Existe"),
-        Patient(Name("Garcia Rota", "Lucas", "Mr"), "Monocouille et tri tétons")
-    )
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patients_info)
-
-        patientsRecycler.layoutManager = LinearLayoutManager(this)
-        patientsRecycler.adapter = PatientAdapter(patients)
     }
 }
