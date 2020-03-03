@@ -18,6 +18,27 @@ class PersonalInfoActivity : AppCompatActivity() {
         val ref = FirebaseDatabase.getInstance()
         val user = FirebaseAuth.getInstance().currentUser
 
+        val dataOfflineRef = FirebaseDatabase.getInstance().getReference("Nurse/")
+        dataOfflineRef.keepSynced(true)
+
+        //Detecting Connection State
+        val connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected")
+        connectedRef.addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+                Toast.makeText(this@PersonalInfoActivity,"onCancelled",Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+               val connected = p0.getValue(Boolean::class.java) ?: false
+                if(connected){
+                    Toast.makeText(this@PersonalInfoActivity,"Online",Toast.LENGTH_LONG).show()
+                }
+                else{
+                    Toast.makeText(this@PersonalInfoActivity,"Offline",Toast.LENGTH_LONG).show()
+                }
+            }
+        })
+
 
         ref.reference
             .child("Nurse")
