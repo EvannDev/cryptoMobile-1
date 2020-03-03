@@ -4,9 +4,13 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.PhoneAuthCredential
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.FirebaseDatabase
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.R
 
@@ -32,7 +36,7 @@ class EditPersonalActivity : AppCompatActivity() {
 
         buttonSave.setOnClickListener {
             saveData()
-            newIntent(this, PersonalInfoActivity::class.java)
+            goToPersonnal()
         }
     }
 
@@ -51,6 +55,11 @@ class EditPersonalActivity : AppCompatActivity() {
             return
         }
 
+        if(password.length < 12){
+            passwordText.error = "Should be longer than 12 caracters"
+            return
+        }
+
         var map = mutableMapOf<String, Any>()
         map["firstname"] = firstname
         map["lastname"] = lastname
@@ -60,12 +69,32 @@ class EditPersonalActivity : AppCompatActivity() {
 
         val ref = FirebaseDatabase.getInstance().reference
 
-        ref.child("Nurse").child("Mettre_Un_Nurse_Id_en_lien_avec_Evann_a_la_connexion").updateChildren(map).addOnCompleteListener {
+        val user = FirebaseAuth.getInstance().currentUser
+
+        user?.updateEmail(email)?.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d("TAG", "User email address updated.")
+            }
+        }
+
+        user?.updatePassword(password)?.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d("TAG", "User password updated.")
+            }
+        }
+
+
+        ref.child("Nurse").child(user!!.uid).updateChildren(map).addOnCompleteListener {
             Toast.makeText(applicationContext, "Changes saved", Toast.LENGTH_LONG).show()
         }
+
     }
 
-    private fun newIntent(context: Context, clazz: Class<*>) {
-        startActivity(Intent(context, clazz))
+    private fun goToPersonnal() {
+        val personnalIntent = Intent(
+            this,
+            PersonalInfoActivity::class.java
+        )
+        startActivity(personnalIntent)
     }
 }
