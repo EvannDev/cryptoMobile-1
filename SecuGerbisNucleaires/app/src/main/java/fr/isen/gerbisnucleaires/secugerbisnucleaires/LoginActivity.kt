@@ -7,7 +7,6 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_sign_up.*
 
 class LoginActivity : AppCompatActivity() {
 
@@ -20,7 +19,13 @@ class LoginActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
 
         buttonLogin.setOnClickListener{
-            doLogin()
+            if(UserEdit.text.toString().isEmpty() || PasswordEdit.text.toString().isEmpty())
+            {
+                Toast.makeText(this,"You should fill everything",Toast.LENGTH_SHORT).show()
+            }
+            else{
+                doLogin()
+            }
         }
 
         buttonLogout.setOnClickListener{

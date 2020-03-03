@@ -10,21 +10,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<<<<<<< HEAD
-        <activity android:name=".LoginActivity"/>
-        <activity android:name=".MessengerActivity" />
-        <activity android:name=".PatientsInfoActivity" />
-        <activity android:name=".PersonalInfoActivity" />
-        <activity android:name=".EditPersonalActivity"/>
-        <activity android:name=".HomeActivity">
-=======
+
         <activity android:name=".SignUpActivity"></activity>
         <activity android:name=".HomeActivity" />
-        <activity android:name=".MessengerActivity" />
+        <activity android:name=".EditPersonalActivity"></activity>
         <activity android:name=".PatientsInfoActivity" />
         <activity android:name=".PersonalInfoActivity" />
         <activity android:name=".LoginActivity">
->>>>>>> e08dfa533a0fbb6e774f48c4d077e5e47297896b
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

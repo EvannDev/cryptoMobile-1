@@ -24,8 +24,6 @@ class SignUpActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
 
-        userDatabase = FirebaseDatabase.getInstance().reference
-
         buttonsignup.setOnClickListener{
             registerUser()
         }
@@ -97,6 +95,7 @@ class SignUpActivity : AppCompatActivity() {
                     sendEmailVerification()
                     submitUser()
                     updateUI(user)
+                    goToLogin()
                 } else {
                     Toast.makeText(baseContext, "Authentication failed.",
                         Toast.LENGTH_SHORT).show()
@@ -125,9 +124,9 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun submitUser(){
 
-        val userID = "123456"
+        val userID = mAuth.currentUser
 
-        userDatabase.child("user").child(userID).addListenerForSingleValueEvent(
+        userDatabase.child("Nurse").child(userID!!.uid).addListenerForSingleValueEvent(
             object : ValueEventListener{
                 override fun onCancelled(p0: DatabaseError) {
                 }
@@ -135,15 +134,12 @@ class SignUpActivity : AppCompatActivity() {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     val user = dataSnapshot.getValue(User::class.java)
 
-                    writeNewPost(userID,
+                    writeNewPost(userID!!.uid,
                         user!!.firstname,
                         user.lastname,
                         user.email,
                         user.phone)
-
-
                     finish()
-
                 }
             }
         )
@@ -171,7 +167,6 @@ class SignUpActivity : AppCompatActivity() {
     private fun updateUI(user: FirebaseUser?) {
         if(user != null){
             Toast.makeText(this,"You already have an account",Toast.LENGTH_LONG).show();
-            goToLogin()
         }else {
             Toast.makeText(this,"You don't have account",Toast.LENGTH_LONG).show();
         }

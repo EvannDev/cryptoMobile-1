@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_personal_item.*
 
@@ -14,9 +15,13 @@ class PersonalInfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_personal_item)
 
-        FirebaseDatabase.getInstance().reference
+        val ref = FirebaseDatabase.getInstance()
+        val user = FirebaseAuth.getInstance().currentUser
+
+
+        ref.reference
             .child("Nurse")
-            .child("Mettre_Un_Nurse_Id_en_lien_avec_Evann_a_la_connexion")
+            .child(user!!.uid)
             .addListenerForSingleValueEvent(object : ValueEventListener{
                 override fun onCancelled(p0: DatabaseError) {
                     Toast.makeText(applicationContext, "Can not read data from database", Toast.LENGTH_LONG).show()
@@ -31,6 +36,9 @@ class PersonalInfoActivity : AppCompatActivity() {
                 }
             })
 
+        homeButton.setOnClickListener{
+            newIntent(this, HomeActivity::class.java)
+        }
 
         buttonEdit.setOnClickListener {
             newIntent(this, EditPersonalActivity::class.java)
