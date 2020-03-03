@@ -1,0 +1,101 @@
+{
+  "project_info": {
+    "project_number": "383232385072",
+    "firebase_url": "https://secus-gerbis-nucleaires.firebaseio.com",
+    "project_id": "secus-gerbis-nucleaires",
+    "storage_bucket": "secus-gerbis-nucleaires.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:383232385072:android:590dc63e7de25462800df5",
+        "android_client_info": {
+          "package_name": "fr.isen.debailliencourt.loginfirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "383232385072-2o67qsmhqr9frc4eo10tl3ctthnbij1g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.isen.debailliencourt.loginfirebase",
+            "certificate_hash": "34a3ffdee12a72cfd70af109e490ad7a0e36ecd8"
+          }
+        },
+        {
+          "client_id": "383232385072-4qf3n3lpu6iqnnndp7ih4kcihir34vmj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDC7uXC2WxsMiYlqxp1JDR3ZouFgNWRvDM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "383232385072-4qf3n3lpu6iqnnndp7ih4kcihir34vmj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:383232385072:android:b4b55dee455a8a25800df5",
+        "android_client_info": {
+          "package_name": "fr.isen.gerbisnucleaires.secugerbisnucleaires"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "383232385072-enuenuvars82lvuagrrlsp4sg110urq2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.isen.gerbisnucleaires.secugerbisnucleaires",
+            "certificate_hash": "34a3ffdee12a72cfd70af109e490ad7a0e36ecd8"
+          }
+        },
+        {
+          "client_id": "383232385072-isens2odu4ch0com72h11qcua71s4n34.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.isen.gerbisnucleaires.secugerbisnucleaires",
+            "certificate_hash": "fb22f2ecd2efd607a19f9dd3001004912f7e9933"
+          }
+        },
+        {
+          "client_id": "383232385072-7m2qgbrit369rvggpvgk8ls1jngm23jm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.isen.gerbisnucleaires.secugerbisnucleaires",
+            "certificate_hash": "1d70b3d2d068ac1787c57f07caf7a9bfb93f9730"
+          }
+        },
+        {
+          "client_id": "383232385072-4qf3n3lpu6iqnnndp7ih4kcihir34vmj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDC7uXC2WxsMiYlqxp1JDR3ZouFgNWRvDM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "383232385072-4qf3n3lpu6iqnnndp7ih4kcihir34vmj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
