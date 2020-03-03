@@ -55,6 +55,11 @@ class EditPersonalActivity : AppCompatActivity() {
             return
         }
 
+        if(password.length < 12){
+            passwordText.error = "Should be longer than 12 caracters"
+            return
+        }
+
         var map = mutableMapOf<String, Any>()
         map["firstname"] = firstname
         map["lastname"] = lastname
