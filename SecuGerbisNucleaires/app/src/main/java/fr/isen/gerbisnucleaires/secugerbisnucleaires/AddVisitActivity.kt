@@ -5,7 +5,6 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.DatePicker
 import android.widget.Toast
@@ -31,23 +30,43 @@ class AddVisitActivity : AppCompatActivity() {
         val patientFirstname = intent.getStringExtra("patientFirstname")
         val patientAge = intent.getStringExtra("patientAge")
         val patientDisease = intent.getStringExtra("patientDisease")
+        val uuid = intent.getStringExtra("uuid")
+        val dateOfVisit = intent.getStringExtra("dateOfVisit")
+        val temperature = intent.getStringExtra("temperature")
+        val treatment = intent.getStringExtra("treatment")
+        val patientState = intent.getStringExtra("patientState")
 
-        addVisitTitle.text = "Add a Visit for $patientTitle $patientLastname $patientFirstname"
+        if(uuid == "" && dateOfVisit == "" && temperature == "" && treatment == "" && patientState == "") {
+            addVisitTitle.text = "Add a Visit for $patientTitle $patientLastname $patientFirstname"
+            addVisitButtonClick(patientUuid, patientTitle, patientLastname, patientFirstname, patientAge, patientDisease)
+        }
+        else {
+            addVisitTitle.text = "Edit Visit for $patientTitle $patientLastname $patientFirstname"
+            addVisitButton.text = "Edit Information"
+            addVisitDateValue.text = dateOfVisit
+            addVisitTemperatureValue.setText(temperature)
+            addVisitTreatmentValue.setText(treatment)
+            addVisitPatientStateValue.setText(patientState)
+
+            editVisitButtonClick(patientUuid, patientTitle, patientLastname, patientFirstname, patientAge, patientDisease, uuid)
+        }
+
 
         dateButtonClick()
-        cancelButtonClick(patientUuid, patientTitle, patientLastname, patientFirstname, patientAge, patientDisease)
-        addVisitButtonClick(patientUuid, patientTitle, patientLastname, patientFirstname, patientAge, patientDisease)
+        cancelButtonClick(uuid, patientUuid, dateOfVisit, temperature, treatment, patientState)
+
 
     }
-    fun cancelButtonClick(patientUuid : String, patientTitle : String, patientlastname : String, patientFirstname: String, patientAge : String, patientDisease : String) {
+    fun cancelButtonClick(uuid : String, patientUuid : String, dateOfVisit : String, temperature: String, treatment : String, patientState : String) {
         addVisitCancelButton.setOnClickListener {
-            val intent = Intent(this@AddVisitActivity, SpecificPatientActivity::class.java)
-            intent.putExtra("uuid", patientUuid)
-            intent.putExtra("title", patientTitle)
-            intent.putExtra("first_name", patientFirstname)
-            intent.putExtra("last_name", patientlastname)
-            intent.putExtra("age", patientAge)
-            intent.putExtra("disease", patientDisease)
+            val intent = Intent(this@AddVisitActivity, SpecificVisitActivity::class.java)
+            intent.putExtra("uuid", uuid)
+            intent.putExtra("patientId", patientUuid)
+            intent.putExtra("temperature", temperature)
+            intent.putExtra("treatment", treatment)
+            intent.putExtra("patientState", patientState)
+            intent.putExtra("dateOfVisit", dateOfVisit)
+
             startActivity(intent)
             this.finish()
         }
@@ -66,8 +85,6 @@ class AddVisitActivity : AppCompatActivity() {
            val visitId = ref.child("Visits").push().key.toString()
 
            val new_visit = Visit(visitId,patientUuid,temperature,treatmentGiven,patientState,dateOfVisit)
-
-           Log.d("TEMPERATURE", "temp = " + temperature)
 
            if(dateOfVisit != "--/--/----" && treatmentGiven != "" && patientState != "" && temperature != "" && (temperature.toDouble() >= 30 && temperature.toDouble() <= 50) ){
                ref.child("Visits").child(visitId).setValue(new_visit)
@@ -93,6 +110,45 @@ class AddVisitActivity : AppCompatActivity() {
                    Toast.makeText(this@AddVisitActivity, "ERREUR : Temperature must be set between 30°C and 50°C !!! ", Toast.LENGTH_LONG).show()
                }
            }
+        }
+    }
+
+    fun editVisitButtonClick(patientUuid : String,  patientTitle : String, patientLastname : String, patientFirstname : String, patientAge: String, patientDisease: String, visitId : String){
+        addVisitButton.setOnClickListener {
+            val dateOfVisit = addVisitDateValue.text.toString()
+            val temperature = addVisitTemperatureValue.text.toString()
+            val treatmentGiven = addVisitTreatmentValue.text.toString()
+            val patientState = addVisitPatientStateValue.text.toString()
+
+            val firebase = FirebaseDatabase.getInstance()
+            val ref = firebase.reference
+
+            val new_visit = Visit(visitId,patientUuid,temperature,treatmentGiven,patientState,dateOfVisit)
+
+            if(dateOfVisit != "--/--/----" && treatmentGiven != "" && patientState != "" && temperature != "" && (temperature.toDouble() >= 30 && temperature.toDouble() <= 50) ){
+                ref.child("Visits").child(visitId).setValue(new_visit)
+
+                val intent = Intent(this@AddVisitActivity, SpecificPatientActivity::class.java)
+                intent.putExtra("uuid", patientUuid)
+                intent.putExtra("title", patientTitle)
+                intent.putExtra("first_name", patientFirstname)
+                intent.putExtra("last_name", patientLastname)
+                intent.putExtra("age", patientAge)
+                intent.putExtra("disease", patientDisease)
+                startActivity(intent)
+
+                Toast.makeText(this@AddVisitActivity, "The Visit for $patientTitle $patientFirstname $patientLastname have just been added to Firebase", Toast.LENGTH_LONG).show()
+
+                this.finish()
+            }
+            else {
+                if(dateOfVisit == "--/--/----" || treatmentGiven == "" || patientState == "") {
+                    Toast.makeText(this@AddVisitActivity, "ERREUR : All field must be fill !!!", Toast.LENGTH_LONG).show()
+                }
+                else {
+                    Toast.makeText(this@AddVisitActivity, "ERREUR : Temperature must be set between 30°C and 50°C !!! ", Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
 

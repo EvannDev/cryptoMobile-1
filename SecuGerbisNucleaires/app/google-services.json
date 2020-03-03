@@ -8,12 +8,57 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:383232385072:android:590dc63e7de25462800df5",
+        "android_client_info": {
+          "package_name": "fr.isen.debailliencourt.loginfirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "383232385072-2o67qsmhqr9frc4eo10tl3ctthnbij1g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.isen.debailliencourt.loginfirebase",
+            "certificate_hash": "34a3ffdee12a72cfd70af109e490ad7a0e36ecd8"
+          }
+        },
+        {
+          "client_id": "383232385072-4qf3n3lpu6iqnnndp7ih4kcihir34vmj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDC7uXC2WxsMiYlqxp1JDR3ZouFgNWRvDM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "383232385072-4qf3n3lpu6iqnnndp7ih4kcihir34vmj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:383232385072:android:b4b55dee455a8a25800df5",
         "android_client_info": {
           "package_name": "fr.isen.gerbisnucleaires.secugerbisnucleaires"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "383232385072-enuenuvars82lvuagrrlsp4sg110urq2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.isen.gerbisnucleaires.secugerbisnucleaires",
+            "certificate_hash": "34a3ffdee12a72cfd70af109e490ad7a0e36ecd8"
+          }
+        },
         {
           "client_id": "383232385072-isens2odu4ch0com72h11qcua71s4n34.apps.googleusercontent.com",
           "client_type": 1,

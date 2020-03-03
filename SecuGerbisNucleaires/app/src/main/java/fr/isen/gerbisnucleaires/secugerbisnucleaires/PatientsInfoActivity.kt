@@ -3,7 +3,6 @@ package fr.isen.gerbisnucleaires.secugerbisnucleaires
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +18,6 @@ import kotlinx.android.synthetic.main.activity_patients_info.*
 class PatientsInfoActivity : AppCompatActivity(), PatientAdapter.OnItemClickListener {
     override fun onItemClick(patient: Patient) {
         val intent = Intent(this@PatientsInfoActivity, SpecificPatientActivity::class.java)
-        Log.d("PatientsInfoActivity", "uuid = " + patient.uuid)
         intent.putExtra("uuid", patient.uuid)
         intent.putExtra("title", patient.name.title)
         intent.putExtra("first_name", patient.name.firstName)

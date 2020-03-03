@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".AddVisitActivity"></activity>
+        <activity android:name=".SpecificVisitActivity" />
+        <activity android:name=".AddVisitActivity" />
         <activity android:name=".AddPatientActivity" />
         <activity android:name=".SpecificPatientActivity" />
         <activity android:name=".LoginActivity" />

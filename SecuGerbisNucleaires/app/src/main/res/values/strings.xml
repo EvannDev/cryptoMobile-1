@@ -24,4 +24,7 @@
     <string name="dateName">Date :</string>
     <string name="treatment_given">Treatment Given :</string>
     <string name="delete_patient">Delete Patient</string>
+    <string name="visit_date">Visit Date :</string>
+    <string name="delete_visit">Delete Visit</string>
+    <string name="edit_visit_info">Edit Visit Info</string>
 </resources>

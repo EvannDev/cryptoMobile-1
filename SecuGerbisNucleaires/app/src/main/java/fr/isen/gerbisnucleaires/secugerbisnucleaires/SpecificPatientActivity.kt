@@ -3,7 +3,6 @@ package fr.isen.gerbisnucleaires.secugerbisnucleaires
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.*
@@ -34,10 +33,10 @@ class SpecificPatientActivity : AppCompatActivity(), VisitAdapter.OnItemClickLis
         updatePatientInfo(uuid, title, lastName, firstName, age, disease)
         addVisit(uuid, title, lastName, firstName, age, disease)
         deletePatient(uuid)
+        cancelButton()
 
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("Visits")
-
 
         val visitListener = object : ValueEventListener {
 
@@ -60,6 +59,13 @@ class SpecificPatientActivity : AppCompatActivity(), VisitAdapter.OnItemClickLis
         myRef.addValueEventListener(visitListener)
     }
 
+    fun  cancelButton() {
+        SpecificPatientCancelButton.setOnClickListener {
+            val intent = Intent(this@SpecificPatientActivity, PatientsInfoActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
     fun updatePatientInfo(uuid : String, title : String, lastName : String, firstName : String, age : String, disease : String) {
         SpecificPatientEditButton.setOnClickListener {
 
@@ -74,15 +80,38 @@ class SpecificPatientActivity : AppCompatActivity(), VisitAdapter.OnItemClickLis
         }
     }
 
-    fun deletePatient(uuid : String){
-        SpecificPatientDeletePatientButton.setOnClickListener {
+    override fun onBackPressed() {
+    }
 
+    private fun deletePatient(uuid : String){
+        SpecificPatientDeletePatientButton.setOnClickListener {
+            val databaseVisit = FirebaseDatabase.getInstance()
+            val myRefVisit = databaseVisit.getReference("Visits")
+
+            val visitListener = object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    for (childSnapshot in dataSnapshot.children) {
+                        val visit = childSnapshot.getValue(Visit::class.java)!!
+                        if(visit.patientId == uuid) {
+                            myRefVisit.child(visit.uuid).removeValue()
+                        }
+                    }
+                }
+
+                override fun onCancelled(p0: DatabaseError) {
+                    Toast.makeText(this@SpecificPatientActivity, "Can't read informations from Firebase", Toast.LENGTH_LONG).show()
+                }
+            }
+            myRefVisit.addValueEventListener(visitListener)
+
+            FirebaseDatabase.getInstance().getReference("Patients").child(uuid).removeValue()
+            val intent = Intent(this@SpecificPatientActivity, PatientsInfoActivity::class.java)
+            startActivity(intent)
         }
     }
 
     fun addVisit(patientUuid : String, title : String, lastName : String, firstName : String, age : String, disease: String){
         SpecificPatientAddVisitButton.setOnClickListener {
-            Log.d("AddVisit", "uuid = " + patientUuid)
             val intent = Intent(this@SpecificPatientActivity, AddVisitActivity::class.java)
             intent.putExtra("patientUuid", patientUuid)
             intent.putExtra("patientTitle", title)
@@ -90,22 +119,25 @@ class SpecificPatientActivity : AppCompatActivity(), VisitAdapter.OnItemClickLis
             intent.putExtra("patientFirstname", firstName)
             intent.putExtra("patientAge", age)
             intent.putExtra("patientDisease", disease)
+            intent.putExtra("uuid", "")
+            intent.putExtra("dateOfVisit", "")
+            intent.putExtra("temperature", "")
+            intent.putExtra("treatment", "")
+            intent.putExtra("patientState", "")
             startActivity(intent)
         }
     }
 
     override fun onItemClick(visit: Visit) {
-        /*val intent = Intent(this@PatientsInfoActivity, SpecificPatientActivity::class.java)
-        Log.d("PatientsInfoActivity", "uuid = " + patient.uuid)
-        intent.putExtra("uuid", patient.uuid)
-        intent.putExtra("title", patient.name.title)
-        intent.putExtra("first_name", patient.name.firstName)
-        intent.putExtra("last_name", patient.name.name)
-        intent.putExtra("age", patient.age.toString())
-        intent.putExtra("disease", patient.disease)
-        startActivity(intent)*/
-        Toast.makeText(this@SpecificPatientActivity, "item clicked", Toast.LENGTH_LONG).show()
+        val intent = Intent(this@SpecificPatientActivity, SpecificVisitActivity::class.java)
+        intent.putExtra("uuid", visit.uuid)
+        intent.putExtra("patientId", visit.patientId)
+        intent.putExtra("temperature", visit.temperature)
+        intent.putExtra("treatment", visit.treatment)
+        intent.putExtra("patientState", visit.patientState)
+        intent.putExtra("dateOfVisit", visit.dateOfVisit)
 
+        startActivity(intent)
     }
 
 }

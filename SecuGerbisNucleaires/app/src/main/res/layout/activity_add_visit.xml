@@ -128,11 +128,11 @@
 
     <Button
         android:id="@+id/addVisitButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="110dp"
+        android:layout_height="48dp"
         android:layout_marginEnd="32dp"
-        android:text="@string/add_visit"
         android:background="@color/colorBlack"
+        android:text="@string/add_visit"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/addVisitCancelButton"

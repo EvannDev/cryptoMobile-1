@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SpecificVisitActivity">
+
+    <TextView
+        android:id="@+id/specificVisitTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:textColor="@color/colorBlack"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/specificVisitDateName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="64dp"
+        android:text="@string/visit_date"
+        android:textColor="@color/colorBlack"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/specificVisitTitle" />
+
+    <TextView
+        android:id="@+id/specificVisitDateValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/date"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/specificVisitDateName"
+        app:layout_constraintStart_toEndOf="@+id/specificVisitDateName"
+        app:layout_constraintTop_toTopOf="@+id/specificVisitDateName" />
+
+    <TextView
+        android:id="@+id/specificVisitTemperatureName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="@string/temperature"
+        android:textColor="@color/colorBlack"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/specificVisitDateName"
+        app:layout_constraintTop_toBottomOf="@+id/specificVisitDateName" />
+
+    <TextView
+        android:id="@+id/specificVisitTemperatureValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/specificVisitTemperatureName"
+        app:layout_constraintStart_toEndOf="@+id/specificVisitTemperatureName"
+        app:layout_constraintTop_toTopOf="@+id/specificVisitTemperatureName" />
+
+    <TextView
+        android:id="@+id/specificVisitTreatmentName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="@string/treatment_given"
+        android:textColor="@color/colorBlack"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/specificVisitTemperatureName"
+        app:layout_constraintTop_toBottomOf="@+id/specificVisitTemperatureName" />
+
+    <TextView
+        android:id="@+id/specificVisitTreatmentValue"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="32dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/specificVisitTreatmentName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/specificVisitTreatmentName"
+        app:layout_constraintTop_toTopOf="@+id/specificVisitTreatmentName" />
+
+    <TextView
+        android:id="@+id/specificVisitPatientStateName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="@string/patient_state"
+        android:textColor="@color/colorBlack"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/specificVisitTreatmentName"
+        app:layout_constraintTop_toBottomOf="@+id/specificVisitTreatmentName" />
+
+    <TextView
+        android:id="@+id/specificVisitPatientStateValue"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="32dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/specificVisitPatientStateName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/specificVisitPatientStateName"
+        app:layout_constraintTop_toTopOf="@+id/specificVisitPatientStateName" />
+
+    <Button
+        android:id="@+id/specificVisitCancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:background="@color/colorRed"
+        android:text="@string/cancel"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/specificVisitPatientStateName"
+        app:layout_constraintTop_toBottomOf="@+id/specificVisitPatientStateName" />
+
+    <Button
+        android:id="@+id/specificVisitEditButton"
+        android:layout_width="123dp"
+        android:layout_height="47dp"
+        android:layout_marginEnd="64dp"
+        android:background="@color/colorBlack"
+        android:text="@string/edit_visit_info"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/specificVisitCancelButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/specificVisitCancelButton" />
+
+    <Button
+        android:id="@+id/specificVisitDeleteButton"
+        android:layout_width="114dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="32dp"
+        android:background="@color/colorRed"
+        android:text="@string/delete_visit"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/specificVisitEditButton"
+        app:layout_constraintStart_toEndOf="@+id/specificVisitCancelButton"
+        app:layout_constraintTop_toBottomOf="@+id/specificVisitCancelButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

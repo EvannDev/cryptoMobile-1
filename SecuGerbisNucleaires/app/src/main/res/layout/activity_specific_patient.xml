@@ -67,11 +67,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/visitRecycler"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="436dp"
+        android:layout_height="222dp"
         android:layout_marginTop="32dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/SpecificPatientEditButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SpecificPatientListOfVisits" />
@@ -80,14 +78,14 @@
         android:id="@+id/SpecificPatientEditButton"
         android:layout_width="172dp"
         android:layout_height="48dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="32dp"
         android:background="@color/colorBlack"
         android:text="@string/edit_patient_info"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/visitRecycler" />
 
     <TextView
         android:id="@+id/SpecificPatientListOfVisits"
@@ -127,6 +125,19 @@
         app:layout_constraintEnd_toStartOf="@+id/SpecificPatientEditButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/SpecificPatientEditButton" />
+
+    <Button
+        android:id="@+id/SpecificPatientCancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorRed"
+        android:text="@string/cancel"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/SpecificPatientEditButton"
+        app:layout_constraintStart_toEndOf="@+id/SpecificPatientAddVisitButton"
+        app:layout_constraintTop_toBottomOf="@+id/SpecificPatientEditButton" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
