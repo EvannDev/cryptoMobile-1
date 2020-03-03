@@ -20,9 +20,7 @@ class PersonalInfoActivity : AppCompatActivity() {
 
 
         buttonEdit.setOnClickListener {
-            val intent = Intent(this@PersonalInfoActivity, EditPersonalActivity ::class.java)
-            intent.putExtra("nurseId", "-M1RCaNxpoA9aTWzK2SR")
-            startActivity(intent)
+            newIntent(this, EditPersonalActivity::class.java)
         }
     }
 

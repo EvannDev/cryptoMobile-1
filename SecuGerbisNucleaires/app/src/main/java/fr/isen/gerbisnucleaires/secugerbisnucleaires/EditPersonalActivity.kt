@@ -14,43 +14,50 @@ class EditPersonalActivity : AppCompatActivity() {
     lateinit var lastNameText: EditText
     lateinit var phoneText: EditText
     lateinit var emailText: EditText
+    lateinit var passwordText: EditText
     lateinit var buttonSave: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_personal)
 
-        val nurseId = intent.getStringExtra("nurseId")
-
         firstNameText = findViewById(R.id.firstnameModify)
         lastNameText = findViewById(R.id.lastnameModify)
         phoneText = findViewById(R.id.phoneModify)
         emailText = findViewById(R.id.emailModify)
+        passwordText = findViewById(R.id.passwordModify)
         buttonSave = findViewById(R.id.buttonSaveChanges)
 
         buttonSave.setOnClickListener {
-            saveData(nurseId)
+            saveData()
         }
     }
 
-    private fun saveData(nurseId : String){
-        val firstname = firstNameText.text.toString().trim()
-        val lastname = lastNameText.text.toString().trim()
-        val phone = phoneText.text.toString().trim()
-        val email = emailText.text.toString().trim()
-        if(firstname.isEmpty() || lastname.isEmpty() || phone.isEmpty() || email.isEmpty()){
+    private fun saveData(){
+        val firstname = firstNameText.text.toString()
+        val lastname = lastNameText.text.toString()
+        val phone = phoneText.text.toString()
+        val email = emailText.text.toString()
+        val password = passwordText.text.toString()
+        if(firstname.isEmpty() || lastname.isEmpty() || phone.isEmpty() || email.isEmpty() || password.isEmpty()){
             firstNameText.error = "Please enter a firstname"
             lastNameText.error = "Please enter a lastname"
             phoneText.error = "Please enter a number"
             emailText.error = "Please enter an email"
+            passwordText.error = "Please enter a password"
             return
         }
 
-        val ref = FirebaseDatabase.getInstance().getReference("Nurses")
+        var map = mutableMapOf<String, Any>()
+        map["firstname"] = firstname
+        map["lastname"] = lastname
+        map["phone"] = phone
+        map["email"] = email
+        map["password"] = password
 
-        val nurse = Nurse(nurseId, firstname, lastname, phone, email)
+        val ref = FirebaseDatabase.getInstance().reference
 
-        ref.child(nurseId).setValue(nurse).addOnCompleteListener {
+        ref.child("Nurse").child("Mettre_Un_Nurse_Id_en_lien_avec_Evann_a_la_connexion").updateChildren(map).addOnCompleteListener {
             Toast.makeText(applicationContext, "Changes saved", Toast.LENGTH_LONG).show()
         }
     }
