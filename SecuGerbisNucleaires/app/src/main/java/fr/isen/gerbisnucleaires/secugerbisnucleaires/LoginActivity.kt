@@ -19,20 +19,20 @@ class LoginActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
 
-        buttonLogin.setOnClickListener{
+        buttonLogin.setOnClickListener {
             doLogin()
         }
 
-        buttonLogout.setOnClickListener{
+        buttonLogout.setOnClickListener {
             doLogout()
         }
 
-        textbuttonsignin.setOnClickListener{
+        textbuttonsignin.setOnClickListener {
             goToSignUp()
         }
     }
 
-    private fun doLogout(){
+    private fun doLogout() {
         mAuth.signOut()
         updateUI(null)
     }
@@ -41,14 +41,13 @@ class LoginActivity : AppCompatActivity() {
         val email = UserEdit.text.toString()
         val password = PasswordEdit.text.toString()
 
-        mAuth.signInWithEmailAndPassword(email,password)
-            .addOnCompleteListener(this){ task ->
-                if (task.isSuccessful){
+        mAuth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
                     val user = mAuth.currentUser
                     updateUI(user)
                     goToHome()
-                }
-                else{
+                } else {
                     Toast.makeText(this, "Authentication Failed", Toast.LENGTH_LONG).show()
                     updateUI(null)
                 }
@@ -63,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
         startActivity(homeIntent)
     }
 
-    private fun goToSignUp(){
+    private fun goToSignUp() {
         val signUpIntent = Intent(
             this,
             SignUpActivity::class.java
@@ -72,10 +71,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun updateUI(user: FirebaseUser?) {
-        if(user != null){
-            Toast.makeText(this,"You already have an account",Toast.LENGTH_LONG).show();
-        }else {
-            Toast.makeText(this,"You don't have account",Toast.LENGTH_LONG).show();
+        if (user != null) {
+            Toast.makeText(this, "You already have an account", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "You don't have account", Toast.LENGTH_LONG).show();
         }
     }
 }
