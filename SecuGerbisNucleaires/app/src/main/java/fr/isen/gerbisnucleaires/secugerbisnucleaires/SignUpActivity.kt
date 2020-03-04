@@ -95,7 +95,7 @@ class SignUpActivity : AppCompatActivity() {
                 if (it.isSuccessful) {
                     Toast.makeText(this, "Registered", Toast.LENGTH_LONG).show()
                     sendEmailVerification()
-                    fillRealTimeDatabase(firstname, lastname, email, phone)
+                    fillRealTimeDatabase(firstname, lastname, email, phone,password)
                     goToLogin()
                     finish()
                 } else {
@@ -106,11 +106,11 @@ class SignUpActivity : AppCompatActivity() {
     }
 
 
-    private fun fillRealTimeDatabase(firstname : String, lastname : String, email : String, phone : String){
+    private fun fillRealTimeDatabase(firstname : String, lastname : String, email : String, phone : String, password: String){
 
         val nurseId =  mAuth.currentUser?.uid.toString()
 
-        val nurse = Nurse(nurseId, firstname, lastname, phone, email)
+        val nurse = Nurse(nurseId, firstname, lastname, phone, email,password)
 
         FirebaseDatabase.getInstance().getReference("Nurse").child(nurseId).setValue(nurse).addOnCompleteListener {
             Toast.makeText(this, "Registered", Toast.LENGTH_LONG).show()
