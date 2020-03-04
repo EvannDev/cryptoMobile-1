@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Paint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -42,11 +43,17 @@ class LoginActivity : AppCompatActivity() {
             val email = UserEdit.text.toString()
             val password = PasswordEdit.text.toString()
 
+
             mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show()
-                        goToHome()
+                        if(mAuth.currentUser?.isEmailVerified!!){
+                            Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show()
+                            goToHome()
+                        }
+                        else {
+                            Toast.makeText(this, "Email must be verified", Toast.LENGTH_SHORT).show()
+                        }
                     } else {
                         Toast.makeText(this, "Authentication Failed", Toast.LENGTH_LONG).show()
                     }
