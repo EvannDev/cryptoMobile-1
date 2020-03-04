@@ -24,6 +24,10 @@ class SignUpActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
 
+        buttonCancel.setOnClickListener{
+            goToLogin()
+        }
+
         buttonsignup.setOnClickListener{
             registerUser()
         }
@@ -52,6 +56,7 @@ class SignUpActivity : AppCompatActivity() {
     private fun checkField(adminCodeKey : String) {
         val email = emailSignUpEdit.text.toString()
         val password = passwordSignUpEdit.text.toString()
+        val confirmPassword = confirmPasswordSignUpEdit.text.toString()
         val firstname = firstnameSignUpEdit.text.toString()
         val lastname = lastnameSignUpEdit.text.toString()
         val phone = phoneSignUpEdit.text.toString()
@@ -59,6 +64,7 @@ class SignUpActivity : AppCompatActivity() {
 
         if( email.isEmpty()     ||
             password.isEmpty()  ||
+            confirmPassword.isEmpty() ||
             firstname.isEmpty() ||
             lastname.isEmpty()  ||
             phone.isEmpty()     ||
@@ -74,7 +80,9 @@ class SignUpActivity : AppCompatActivity() {
         else if (!Patterns.PHONE.matcher(phone).matches()){
             Toast.makeText(this,"Invalid phone number ", Toast.LENGTH_LONG).show()
         }
-
+        else if (!password.equals(confirmPassword)){
+            Toast.makeText(this,"Password and Confirm Password fields must be equals ", Toast.LENGTH_LONG).show()
+        }
         else if (!adminCode.equals(adminCodeKey)){
             Toast.makeText(this,"Invalid Admin Code ", Toast.LENGTH_LONG).show()
         }
@@ -93,13 +101,13 @@ class SignUpActivity : AppCompatActivity() {
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) {
                 if (it.isSuccessful) {
-                    Toast.makeText(this, "Registered", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "$firstname $lastname has been added to Nurses list", Toast.LENGTH_LONG).show()
                     sendEmailVerification()
                     fillRealTimeDatabase(firstname, lastname, email, phone,password)
                     goToLogin()
                     finish()
                 } else {
-                    Toast.makeText(baseContext, "Authentication failed.",
+                    Toast.makeText(baseContext, "$firstname $lastname is already registered",
                         Toast.LENGTH_SHORT).show()
                 }
             }
