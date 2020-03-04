@@ -15,6 +15,8 @@ import kotlinx.android.synthetic.main.activity_personal_item.*
 
 class PersonalInfoActivity : AppCompatActivity() {
 
+    private lateinit var mAuth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_personal_item)
@@ -48,6 +50,12 @@ class PersonalInfoActivity : AppCompatActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        mAuth = FirebaseAuth.getInstance()
+        checkIfAuth(mAuth)
+    }
+
     private fun isConnect(activity: Context){
         //Detecting Connection State
         val connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected")
@@ -77,5 +85,15 @@ class PersonalInfoActivity : AppCompatActivity() {
             startActivity(intent)
             this.finish()
         }
+    }
+
+    private fun checkIfAuth(mAuth : FirebaseAuth){
+        if(mAuth.currentUser == null){
+            newIntent(this@PersonalInfoActivity, LoginActivity::class.java)
+        }
+    }
+    // Start new activity
+    private fun newIntent(context: Context, clazz: Class<*>) {
+        startActivity(Intent(context, clazz))
     }
 }

@@ -28,6 +28,8 @@ class EditPersonalActivity : AppCompatActivity() {
     lateinit var confirmedPass2: EditText
     lateinit var buttonSave: Button
 
+    private lateinit var mAuth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_personal)
@@ -56,8 +58,14 @@ class EditPersonalActivity : AppCompatActivity() {
         }
 
         returnButton.setOnClickListener {
-            goToPersonnal()
+            newIntent(this@EditPersonalActivity, PersonalInfoActivity::class.java)
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mAuth = FirebaseAuth.getInstance()
+        checkIfAuth(mAuth)
     }
 
     private fun saveData(){
@@ -140,7 +148,7 @@ class EditPersonalActivity : AppCompatActivity() {
                             .addOnCompleteListener {
                                 Toast.makeText(applicationContext, "Changes saved", Toast.LENGTH_LONG).show()
                             }
-                        goToPersonnal()
+                            newIntent(this@EditPersonalActivity, PersonalInfoActivity::class.java)
                     } else {
                         Toast.makeText(this, "Last password is wrong", Toast.LENGTH_LONG).show()
                     }
@@ -149,11 +157,13 @@ class EditPersonalActivity : AppCompatActivity() {
 
     }
 
-    private fun goToPersonnal() {
-        val personnalIntent = Intent(
-            this,
-            PersonalInfoActivity::class.java
-        )
-        startActivity(personnalIntent)
+    private fun checkIfAuth(mAuth : FirebaseAuth){
+        if(mAuth.currentUser == null){
+            newIntent(this@EditPersonalActivity, LoginActivity::class.java)
+        }
+    }
+    // Start new activity
+    private fun newIntent(context: Context, clazz: Class<*>) {
+        startActivity(Intent(context, clazz))
     }
 }

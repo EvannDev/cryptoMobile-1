@@ -1,11 +1,13 @@
 package fr.isen.gerbisnucleaires.secugerbisnucleaires
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -28,6 +30,7 @@ class PatientsInfoActivity : AppCompatActivity(), PatientAdapter.OnItemClickList
     }
 
     val patients: ArrayList<Patient> = arrayListOf()
+    private lateinit var mAuth: FirebaseAuth
 
     @SuppressLint("WrongConstant")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +62,12 @@ class PatientsInfoActivity : AppCompatActivity(), PatientAdapter.OnItemClickList
         returnButton()
     }
 
+    override fun onStart() {
+        super.onStart()
+        mAuth = FirebaseAuth.getInstance()
+        checkIfAuth(mAuth)
+    }
+
     fun addPatientButtonClick() {
         addPatientButton.setOnClickListener {
             val intent = Intent(this@PatientsInfoActivity, AddPatientActivity::class.java)
@@ -71,10 +80,21 @@ class PatientsInfoActivity : AppCompatActivity(), PatientAdapter.OnItemClickList
             startActivity(intent)
         }
     }
+
     fun returnButton() {
         addPatientReturnButton.setOnClickListener {
             val intent = Intent(this@PatientsInfoActivity, HomeActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun checkIfAuth(mAuth : FirebaseAuth){
+        if(mAuth.currentUser == null){
+            newIntent(this@PatientsInfoActivity, LoginActivity::class.java)
+        }
+    }
+    // Start new activity
+    private fun newIntent(context: Context, clazz: Class<*>) {
+        startActivity(Intent(context, clazz))
     }
 }

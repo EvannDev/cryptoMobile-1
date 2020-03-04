@@ -1,10 +1,12 @@
 package fr.isen.gerbisnucleaires.secugerbisnucleaires
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.recyclerview.patient.Name
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.recyclerview.patient.Patient
@@ -13,6 +15,8 @@ import kotlinx.android.synthetic.main.activity_add_patient.*
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class AddPatientActivity : AppCompatActivity() {
+
+    private lateinit var mAuth: FirebaseAuth
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +38,12 @@ class AddPatientActivity : AppCompatActivity() {
             updatePatientInfo(uuid, title, lastName, firstName, age, disease)
         }
         cancelClickButton()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mAuth = FirebaseAuth.getInstance()
+        checkIfAuth(mAuth)
     }
 
     fun cancelClickButton() {
@@ -132,5 +142,15 @@ class AddPatientActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun checkIfAuth(mAuth : FirebaseAuth){
+        if(mAuth.currentUser == null){
+            newIntent(this@AddPatientActivity, LoginActivity::class.java)
+        }
+    }
+    // Start new activity
+    private fun newIntent(context: Context, clazz: Class<*>) {
+        startActivity(Intent(context, clazz))
     }
 }

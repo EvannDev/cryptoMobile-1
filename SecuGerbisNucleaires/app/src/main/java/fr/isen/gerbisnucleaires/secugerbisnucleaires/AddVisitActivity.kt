@@ -2,12 +2,14 @@ package fr.isen.gerbisnucleaires.secugerbisnucleaires
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.DatePicker
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.recyclerview.Visit
 import kotlinx.android.synthetic.main.activity_add_visit.*
@@ -18,6 +20,7 @@ import java.util.*
 class AddVisitActivity : AppCompatActivity() {
 
     var cal = Calendar.getInstance()
+    private lateinit var mAuth: FirebaseAuth
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +58,13 @@ class AddVisitActivity : AppCompatActivity() {
         cancelButtonClick(patientUuid, patientTitle, patientLastname, patientFirstname, patientAge, patientDisease)
 
     }
+
+    override fun onStart() {
+        super.onStart()
+        mAuth = FirebaseAuth.getInstance()
+        checkIfAuth(mAuth)
+    }
+
     fun cancelButtonClick(patientUuid : String, patientTitle : String, patientLastname: String, patientFirstname : String, patientAge : String, patientDisease : String) {
         addVisitCancelButton.setOnClickListener {
             val intent = Intent(this@AddVisitActivity, SpecificPatientActivity::class.java)
@@ -181,5 +191,15 @@ class AddVisitActivity : AppCompatActivity() {
         val myFormat = "dd/MM/yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         addVisitDateValue?.text = sdf.format(cal.getTime())
+    }
+
+    private fun checkIfAuth(mAuth : FirebaseAuth){
+        if(mAuth.currentUser == null){
+            newIntent(this@AddVisitActivity, LoginActivity::class.java)
+        }
+    }
+    // Start new activity
+    private fun newIntent(context: Context, clazz: Class<*>) {
+        startActivity(Intent(context, clazz))
     }
 }
