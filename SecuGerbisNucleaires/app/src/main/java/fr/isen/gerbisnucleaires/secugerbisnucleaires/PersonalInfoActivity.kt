@@ -6,7 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.activity_edit_personal.*
 import kotlinx.android.synthetic.main.activity_personal_item.*
 
 class PersonalInfoActivity : AppCompatActivity() {
@@ -15,15 +19,14 @@ class PersonalInfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_personal_item)
 
-        val ref = FirebaseDatabase.getInstance()
+        isConnect(this)
+
         val user = FirebaseAuth.getInstance().currentUser
 
-
-
-        ref.reference
+        FirebaseDatabase.getInstance().reference
             .child("Nurse")
             .child(user!!.uid)
-            .addListenerForSingleValueEvent(object : ValueEventListener{
+            .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
                     Toast.makeText(applicationContext, "Can not read data from database", Toast.LENGTH_LONG).show()
                 }
@@ -37,23 +40,13 @@ class PersonalInfoActivity : AppCompatActivity() {
                 }
             })
 
-        buttonReturn.setOnClickListener{
-            newIntent(this, HomeActivity::class.java)
+        homeButton.setOnClickListener {
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
         }
-
-        buttonEdit.setOnClickListener {
-            newIntent(this, EditPersonalActivity::class.java)
-        }
-    }
-
-    private fun newIntent(context: Context, clazz: Class<*>) {
-        startActivity(Intent(context, clazz))
     }
 
     private fun isConnect(activity: Context){
-        val dataOfflineRef = FirebaseDatabase.getInstance().getReference("Nurse/")
-        dataOfflineRef.keepSynced(true)
-
         //Detecting Connection State
         val connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected")
         connectedRef.addValueEventListener(object : ValueEventListener{
@@ -70,5 +63,17 @@ class PersonalInfoActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    fun editButtonClick(firstname: String, lastname: String, phone: String, email: String) {
+        buttonEdit.setOnClickListener {
+            val intent = Intent(this, EditPersonalActivity::class.java)
+            intent.putExtra("firstname", firstname)
+            intent.putExtra("lastname", lastname)
+            intent.putExtra("phone", phone)
+            intent.putExtra("email", email)
+            startActivity(intent)
+            this.finish()
+        }
     }
 }

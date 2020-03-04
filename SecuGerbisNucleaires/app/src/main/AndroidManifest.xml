@@ -27,6 +27,14 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".PersonalInfoActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".SpecificVisitActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AddVisitActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AddPatientActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SpecificPatientActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".LoginActivity"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -35,6 +43,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MessengerActivity" />
     </application>
 
 </manifest>

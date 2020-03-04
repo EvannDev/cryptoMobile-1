@@ -55,6 +55,7 @@ class SignUpActivity : AppCompatActivity() {
         val lastname = lastnameSignUpEdit.text.toString()
         val phone = phoneSignUpEdit.text.toString()
         val adminCode = codeAdminEdit.text.toString()
+
         if( email.isEmpty()     ||
             password.isEmpty()  ||
             firstname.isEmpty() ||
@@ -81,7 +82,6 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-
     private fun createAccount() {
         val email = emailSignUpEdit.text.toString()
         val password = passwordSignUpEdit.text.toString()
@@ -94,7 +94,7 @@ class SignUpActivity : AppCompatActivity() {
                 if (it.isSuccessful) {
                     Toast.makeText(this, "Registered", Toast.LENGTH_LONG).show()
                     sendEmailVerification()
-                    fillRealTimeDatabase(firstname, lastname, email, phone, password)
+                    fillRealTimeDatabase(firstname, lastname, email, phone,password)
                     goToLogin()
                     finish()
                 } else {
@@ -104,11 +104,11 @@ class SignUpActivity : AppCompatActivity() {
             }
     }
 
-    private fun fillRealTimeDatabase(firstname : String, lastname : String, email : String, phone : String, password:String){
+    private fun fillRealTimeDatabase(firstname : String, lastname : String, email : String, phone : String, password: String){
 
         val nurseId =  mAuth.currentUser?.uid.toString()
 
-        val nurse = Nurse(nurseId, firstname, lastname, phone, email, password)
+        val nurse = Nurse(nurseId, firstname, lastname, phone, email,password)
 
         FirebaseDatabase.getInstance().getReference("Nurse").child(nurseId).setValue(nurse).addOnCompleteListener {
             Toast.makeText(this, "Registered", Toast.LENGTH_LONG).show()

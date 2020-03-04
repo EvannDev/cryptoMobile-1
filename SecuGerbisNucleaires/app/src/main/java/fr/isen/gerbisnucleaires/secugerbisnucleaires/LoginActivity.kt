@@ -36,10 +36,11 @@ class LoginActivity : AppCompatActivity() {
 
     private fun doLogout() {
         mAuth.signOut()
-        Toast.makeText(this,"Logout successfull", Toast.LENGTH_SHORT)
+        Toast.makeText(this, "Deconnected", Toast.LENGTH_LONG).show()
     }
 
     private fun doLogin() {
+
         if (UserEdit.text.toString().isEmpty() || PasswordEdit.text.toString().isEmpty()) {
             Toast.makeText(this, "You should fill everything", Toast.LENGTH_SHORT).show()
         }
