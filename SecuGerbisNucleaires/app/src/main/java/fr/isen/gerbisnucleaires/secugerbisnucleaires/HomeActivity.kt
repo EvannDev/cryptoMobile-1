@@ -16,6 +16,7 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         mAuth = FirebaseAuth.getInstance()
+
         // Click on book icon
         personnalInfoButton.setOnClickListener {
             newIntent(this, PersonalInfoActivity::class.java)

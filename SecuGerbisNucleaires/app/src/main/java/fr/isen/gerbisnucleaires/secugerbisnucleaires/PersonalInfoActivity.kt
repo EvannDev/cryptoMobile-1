@@ -18,26 +18,6 @@ class PersonalInfoActivity : AppCompatActivity() {
         val ref = FirebaseDatabase.getInstance()
         val user = FirebaseAuth.getInstance().currentUser
 
-        val dataOfflineRef = FirebaseDatabase.getInstance().getReference("Nurse/")
-        dataOfflineRef.keepSynced(true)
-
-        //Detecting Connection State
-        val connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected")
-        connectedRef.addValueEventListener(object : ValueEventListener{
-            override fun onCancelled(p0: DatabaseError) {
-                Toast.makeText(this@PersonalInfoActivity,"onCancelled",Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-               val connected = p0.getValue(Boolean::class.java) ?: false
-                if(connected){
-                    Toast.makeText(this@PersonalInfoActivity,"Online",Toast.LENGTH_LONG).show()
-                }
-                else{
-                    Toast.makeText(this@PersonalInfoActivity,"Offline",Toast.LENGTH_LONG).show()
-                }
-            }
-        })
 
 
         ref.reference
@@ -57,7 +37,7 @@ class PersonalInfoActivity : AppCompatActivity() {
                 }
             })
 
-        homeButton.setOnClickListener{
+        buttonReturn.setOnClickListener{
             newIntent(this, HomeActivity::class.java)
         }
 
@@ -68,5 +48,27 @@ class PersonalInfoActivity : AppCompatActivity() {
 
     private fun newIntent(context: Context, clazz: Class<*>) {
         startActivity(Intent(context, clazz))
+    }
+
+    private fun isConnect(activity: Context){
+        val dataOfflineRef = FirebaseDatabase.getInstance().getReference("Nurse/")
+        dataOfflineRef.keepSynced(true)
+
+        //Detecting Connection State
+        val connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected")
+        connectedRef.addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+                Toast.makeText(activity,"onCancelled",Toast.LENGTH_SHORT).show()
+            }
+            override fun onDataChange(p0: DataSnapshot) {
+                val connected = p0.getValue(Boolean::class.java) ?: false
+                if(connected){
+                    Toast.makeText(activity,"Online",Toast.LENGTH_LONG).show()
+                }
+                else{
+                    Toast.makeText(activity,"Offline",Toast.LENGTH_LONG).show()
+                }
+            }
+        })
     }
 }

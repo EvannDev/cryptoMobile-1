@@ -5,6 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.FirebaseDatabase
+import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.Nurse
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
@@ -17,26 +21,25 @@ class LoginActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
 
-        buttonLogin.setOnClickListener{
+        buttonLogin.setOnClickListener {
             doLogin()
         }
 
-        buttonLogout.setOnClickListener{
+        buttonLogout.setOnClickListener {
             doLogout()
         }
 
-        textbuttonsignin.setOnClickListener{
+        textbuttonsignin.setOnClickListener {
             goToSignUp()
         }
     }
 
-    private fun doLogout(){
+    private fun doLogout() {
         mAuth.signOut()
         Toast.makeText(this,"Logout successfull", Toast.LENGTH_SHORT)
     }
 
     private fun doLogin() {
-
         if (UserEdit.text.toString().isEmpty() || PasswordEdit.text.toString().isEmpty()) {
             Toast.makeText(this, "You should fill everything", Toast.LENGTH_SHORT).show()
         }
@@ -52,6 +55,7 @@ class LoginActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(this, "Authentication Failed", Toast.LENGTH_LONG).show()
                     }
+
                 }
         }
     }
@@ -64,7 +68,7 @@ class LoginActivity : AppCompatActivity() {
         startActivity(homeIntent)
     }
 
-    private fun goToSignUp(){
+    private fun goToSignUp() {
         val signUpIntent = Intent(
             this,
             SignUpActivity::class.java

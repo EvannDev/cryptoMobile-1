@@ -31,7 +31,7 @@ class EditPersonalActivity : AppCompatActivity() {
         lastNameText = findViewById(R.id.lastnameModify)
         phoneText = findViewById(R.id.phoneModify)
         emailText = findViewById(R.id.emailModify)
-        passwordText = findViewById(R.id.passwordModify)
+        passwordText = findViewById(R.id.passwordModifyLast)
         buttonSave = findViewById(R.id.buttonSaveChanges)
 
         buttonSave.setOnClickListener {
@@ -52,11 +52,6 @@ class EditPersonalActivity : AppCompatActivity() {
             phoneText.error = "Please enter a number"
             emailText.error = "Please enter an email"
             passwordText.error = "Please enter a password"
-            return
-        }
-
-        if(password.length < 12){
-            passwordText.error = "Should be longer than 12 caracters"
             return
         }
 
