@@ -136,7 +136,7 @@ class EditPersonalActivity : AppCompatActivity() {
                             .addOnCompleteListener {
                                 Toast.makeText(applicationContext, "Changes saved", Toast.LENGTH_LONG).show()
                             }
-                        newIntent(this, PersonalInfoActivity::class.java)
+                        goToPersonnal()
                     } else {
                         Toast.makeText(this, "Last password is wrong", Toast.LENGTH_LONG).show()
                     }
