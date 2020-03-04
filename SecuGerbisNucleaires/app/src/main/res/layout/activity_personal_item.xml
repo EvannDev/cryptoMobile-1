@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -11,7 +10,7 @@
         android:id="@+id/lastnameNurse"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="#000000"
+        android:textColor="@color/colorBlack"
         app:layout_constraintEnd_toEndOf="@+id/firstnameNurse"
         app:layout_constraintStart_toStartOf="@+id/firstnameNurse"
         app:layout_constraintTop_toTopOf="@+id/textLastname" />
@@ -20,7 +19,7 @@
         android:id="@+id/phoneNurse"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="#000000"
+        android:textColor="@color/colorBlack"
         app:layout_constraintEnd_toEndOf="@+id/lastnameNurse"
         app:layout_constraintStart_toStartOf="@+id/lastnameNurse"
         app:layout_constraintTop_toTopOf="@+id/textPhone" />
@@ -29,7 +28,7 @@
         android:id="@+id/emailNurse"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="#000000"
+        android:textColor="@color/colorBlack"
         app:layout_constraintEnd_toEndOf="@+id/phoneNurse"
         app:layout_constraintStart_toStartOf="@+id/phoneNurse"
         app:layout_constraintTop_toTopOf="@+id/textEmail" />
@@ -39,8 +38,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="90dp"
-        android:text="Personal informations"
-        android:textColor="#000000"
+        android:text="@string/personal_informations"
+        android:textColor="@color/colorBlack"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,17 +49,19 @@
         android:id="@+id/textFirstname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="110dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="70dp"
-        android:text="Firstname"
+        android:text="@string/firstname"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInfo" />
 
     <TextView
         android:id="@+id/firstnameNurse"
-        android:layout_width="175dp"
+        android:layout_width="0dp"
         android:layout_height="21dp"
-        android:textColor="#000000"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:textColor="@color/colorBlack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textFirstname"
         app:layout_constraintTop_toTopOf="@+id/textFirstname" />
@@ -70,8 +71,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="Lastname"
+        android:text="@string/lastname"
         app:layout_constraintEnd_toEndOf="@+id/textFirstname"
+        app:layout_constraintStart_toStartOf="@+id/textFirstname"
         app:layout_constraintTop_toBottomOf="@+id/textFirstname" />
 
     <TextView
@@ -79,8 +81,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="Phone number"
-        app:layout_constraintEnd_toEndOf="@+id/textLastname"
+        android:text="@string/phone_number"
+        app:layout_constraintStart_toStartOf="@+id/textLastname"
         app:layout_constraintTop_toBottomOf="@+id/textLastname" />
 
     <TextView
@@ -88,34 +90,35 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="Email"
-        app:layout_constraintEnd_toEndOf="@+id/textPhone"
+        android:text="@string/email"
+        app:layout_constraintStart_toStartOf="@+id/textPhone"
         app:layout_constraintTop_toBottomOf="@+id/textPhone" />
 
     <Button
         android:id="@+id/buttonEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:background="#000000"
-        android:text="Modify"
-        android:textColor="#FFFFFF"
+        android:background="@color/colorBlack"
+        android:text="@string/modify"
+        android:textColor="@color/colorWhite"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailNurse" />
+        app:layout_constraintBottom_toBottomOf="@+id/homeButton"
+        app:layout_constraintEnd_toEndOf="@+id/emailNurse"
+        app:layout_constraintStart_toEndOf="@+id/homeButton"
+        app:layout_constraintTop_toTopOf="@+id/homeButton" />
 
     <Button
         android:id="@+id/homeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:background="#000000"
-        android:textColor="#FFFFFF"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="81dp"
+        android:background="@color/colorRed"
+        android:text="@string/return_button"
+        android:textColor="@color/colorWhite"
         android:textStyle="bold"
-        android:text="Home"
-        app:layout_constraintEnd_toEndOf="@+id/buttonEdit"
-        app:layout_constraintStart_toStartOf="@+id/buttonEdit"
-        app:layout_constraintTop_toBottomOf="@+id/buttonEdit" />
+        app:layout_constraintEnd_toStartOf="@+id/buttonEdit"
+        app:layout_constraintStart_toStartOf="@+id/textEmail"
+        app:layout_constraintTop_toBottomOf="@+id/emailNurse" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

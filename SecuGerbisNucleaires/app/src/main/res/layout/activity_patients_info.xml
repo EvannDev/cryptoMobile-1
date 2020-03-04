@@ -35,12 +35,26 @@
         android:id="@+id/addPatientButton"
         android:layout_width="106dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="109dp"
         android:background="@color/colorBlack"
         android:text="@string/add_patient"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/addPatientReturnButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/addPatientReturnButton"
+        app:layout_constraintTop_toTopOf="@+id/addPatientReturnButton" />
+
+    <Button
+        android:id="@+id/addPatientReturnButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/return_button"
+        android:background="@color/colorRed"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/addPatientButton"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

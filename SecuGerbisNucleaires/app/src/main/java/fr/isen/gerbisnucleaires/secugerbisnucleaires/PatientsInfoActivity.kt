@@ -56,6 +56,7 @@ class PatientsInfoActivity : AppCompatActivity(), PatientAdapter.OnItemClickList
         myRef.addValueEventListener(postListener)
 
         addPatientButtonClick()
+        returnButton()
     }
 
     fun addPatientButtonClick() {
@@ -70,8 +71,10 @@ class PatientsInfoActivity : AppCompatActivity(), PatientAdapter.OnItemClickList
             startActivity(intent)
         }
     }
-    override fun onBackPressed() {
-        val intent = Intent(this@PatientsInfoActivity, HomeActivity::class.java)
-        startActivity(intent)
+    fun returnButton() {
+        addPatientReturnButton.setOnClickListener {
+            val intent = Intent(this@PatientsInfoActivity, HomeActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

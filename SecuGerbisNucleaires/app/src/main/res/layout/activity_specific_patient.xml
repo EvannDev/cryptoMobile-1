@@ -67,7 +67,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/visitRecycler"
-        android:layout_width="436dp"
+        android:layout_width="0dp"
         android:layout_height="222dp"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -76,15 +76,16 @@
 
     <Button
         android:id="@+id/SpecificPatientEditButton"
-        android:layout_width="172dp"
-        android:layout_height="48dp"
+        android:layout_width="144dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="75dp"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
         android:background="@color/colorBlack"
         android:text="@string/edit_patient_info"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/visitRecycler"
+        app:layout_constraintStart_toEndOf="@+id/SpecificPatientAddVisitButton"
         app:layout_constraintTop_toBottomOf="@+id/visitRecycler" />
 
     <TextView
@@ -115,15 +116,15 @@
 
     <Button
         android:id="@+id/SpecificPatientAddVisitButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_visit"
+        android:layout_width="99dp"
+        android:layout_height="44dp"
         android:background="@color/colorBlack"
+        android:text="@string/add_visit"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/SpecificPatientEditButton"
         app:layout_constraintEnd_toStartOf="@+id/SpecificPatientEditButton"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/visitRecycler"
         app:layout_constraintTop_toTopOf="@+id/SpecificPatientEditButton" />
 
     <Button
@@ -132,7 +133,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@color/colorRed"
-        android:text="@string/cancel"
+        android:text="@string/return_button"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/SpecificPatientEditButton"

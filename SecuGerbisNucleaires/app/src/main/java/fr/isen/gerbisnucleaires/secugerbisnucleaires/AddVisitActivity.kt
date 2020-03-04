@@ -51,21 +51,19 @@ class AddVisitActivity : AppCompatActivity() {
             editVisitButtonClick(patientUuid, patientTitle, patientLastname, patientFirstname, patientAge, patientDisease, uuid)
         }
 
-
         dateButtonClick()
-        cancelButtonClick(uuid, patientUuid, dateOfVisit, temperature, treatment, patientState)
-
+        cancelButtonClick(patientUuid, patientTitle, patientLastname, patientFirstname, patientAge, patientDisease)
 
     }
-    fun cancelButtonClick(uuid : String, patientUuid : String, dateOfVisit : String, temperature: String, treatment : String, patientState : String) {
+    fun cancelButtonClick(patientUuid : String, patientTitle : String, patientLastname: String, patientFirstname : String, patientAge : String, patientDisease : String) {
         addVisitCancelButton.setOnClickListener {
-            val intent = Intent(this@AddVisitActivity, SpecificVisitActivity::class.java)
-            intent.putExtra("uuid", uuid)
-            intent.putExtra("patientId", patientUuid)
-            intent.putExtra("temperature", temperature)
-            intent.putExtra("treatment", treatment)
-            intent.putExtra("patientState", patientState)
-            intent.putExtra("dateOfVisit", dateOfVisit)
+            val intent = Intent(this@AddVisitActivity, SpecificPatientActivity::class.java)
+            intent.putExtra("uuid", patientUuid)
+            intent.putExtra("title", patientTitle)
+            intent.putExtra("first_name", patientFirstname)
+            intent.putExtra("last_name", patientLastname)
+            intent.putExtra("age", patientAge)
+            intent.putExtra("disease", patientDisease)
 
             startActivity(intent)
             this.finish()

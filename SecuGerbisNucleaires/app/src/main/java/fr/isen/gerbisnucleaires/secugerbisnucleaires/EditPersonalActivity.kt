@@ -54,6 +54,10 @@ class EditPersonalActivity : AppCompatActivity() {
         buttonSave.setOnClickListener {
             saveData()
         }
+
+        returnButton.setOnClickListener {
+            goToPersonnal()
+        }
     }
 
     private fun saveData(){
