@@ -29,8 +29,13 @@
     <string name="edit_visit_info">Edit Visit Info</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="sign_up">Sign Up</string>
-    <string name="admin_code">Admin Code</string>
+    <string name="admin_code">Enter The Admin Code</string>
     <string name="password">Password</string>
     <string name="email">Email</string>
     <string name="phone">Phone</string>
+    <string name="login">Login</string>
+    <string name="connexion">Connexion</string>
+    <string name="don_t_have_an_account">Don\'t have an account ?</string>
+    <string name="sign_up_login_page"><u>Sign Up !</u></string>
+    <string name="medecine_logo">Medecine Logo</string>
 </resources>

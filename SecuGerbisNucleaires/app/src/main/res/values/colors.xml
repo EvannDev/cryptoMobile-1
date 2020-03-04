@@ -7,4 +7,5 @@
     <color name="colorWhite">#ffffff</color>
     <color name="colorRed">#C50B0B</color>
     <color name="colorDivider">#686868</color>
+    <color name="colorLink">#0064bd</color>
 </resources>

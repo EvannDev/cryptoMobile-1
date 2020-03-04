@@ -46,10 +46,10 @@ class EditPersonalActivity : AppCompatActivity() {
         confirmedPass2 = findViewById(R.id.confirmedPass2)
         buttonSave = findViewById(R.id.buttonSaveChanges)
 
-        firstNameText.setText(firstname.toString())
-        lastNameText.setText(lastname.toString())
-        phoneText.setText(phone.toString())
-        emailText.setText(email.toString())
+        firstNameText.setText(firstname?.toString())
+        lastNameText.setText(lastname?.toString())
+        phoneText.setText(phone?.toString())
+        emailText.setText(email?.toString())
 
         buttonSave.setOnClickListener {
             saveData()
@@ -105,7 +105,7 @@ class EditPersonalActivity : AppCompatActivity() {
                 return
             }
 
-            var map = mutableMapOf<String, Any>()
+            val map = mutableMapOf<String, Any>()
             map["firstname"] = firstname
             map["lastname"] = lastname
             map["phone"] = phone

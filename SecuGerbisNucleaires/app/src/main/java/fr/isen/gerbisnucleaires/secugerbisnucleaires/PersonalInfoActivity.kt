@@ -32,7 +32,7 @@ class PersonalInfoActivity : AppCompatActivity() {
                 }
 
                 override fun onDataChange(p0: DataSnapshot) {
-                    val map = p0.value as Map<String, Any>
+                    val map = p0.value as Map<*, *>
                     firstnameNurse.text = map["firstname"].toString()
                     lastnameNurse.text = map["lastname"].toString()
                     phoneNurse.text = map["phone"].toString()

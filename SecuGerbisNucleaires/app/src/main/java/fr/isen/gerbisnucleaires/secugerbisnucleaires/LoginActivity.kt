@@ -1,6 +1,7 @@
 package fr.isen.gerbisnucleaires.secugerbisnucleaires
 
 import android.content.Intent
+import android.graphics.Paint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -20,22 +21,16 @@ class LoginActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
 
+
+        textbuttonsignin.setPaintFlags(textbuttonsignin.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
+
         buttonLogin.setOnClickListener {
             doLogin()
-        }
-
-        buttonLogout.setOnClickListener {
-            doLogout()
         }
 
         textbuttonsignin.setOnClickListener {
             goToSignUp()
         }
-    }
-
-    private fun doLogout() {
-        mAuth.signOut()
-        Toast.makeText(this, "Deconnected", Toast.LENGTH_LONG).show()
     }
 
     private fun doLogin() {
@@ -77,9 +72,9 @@ class LoginActivity : AppCompatActivity() {
 
     private fun updateUI(user: FirebaseUser?) {
         if (user != null) {
-            Toast.makeText(this, "Connected", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Connected", Toast.LENGTH_LONG).show()
         } else {
-            Toast.makeText(this, "Wrong password", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Wrong password", Toast.LENGTH_LONG).show()
         }
     }
 }
