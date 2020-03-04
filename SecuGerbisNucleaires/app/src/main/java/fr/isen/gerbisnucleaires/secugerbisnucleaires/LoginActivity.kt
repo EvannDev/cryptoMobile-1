@@ -9,7 +9,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.Nurse
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_sign_up.*
 
 class LoginActivity : AppCompatActivity() {
 
@@ -40,20 +39,24 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun doLogin() {
-        val email = UserEdit.text.toString()
-        val password = PasswordEdit.text.toString()
 
-        mAuth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    val user = mAuth.currentUser
-                    updateUI(user)
-                    goToHome()
-                } else {
-                    Toast.makeText(this, "Authentication Failed", Toast.LENGTH_LONG).show()
-                    updateUI(null)
+        if (UserEdit.text.toString().isEmpty() || PasswordEdit.text.toString().isEmpty()) {
+            Toast.makeText(this, "You should fill everything", Toast.LENGTH_SHORT).show()
+        }
+        else {
+            val email = UserEdit.text.toString()
+            val password = PasswordEdit.text.toString()
+
+            mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show()
+                        goToHome()
+                    } else {
+                        Toast.makeText(this, "Authentication Failed", Toast.LENGTH_LONG).show()
+                    }
                 }
-            }
+        }
     }
 
     private fun goToHome() {

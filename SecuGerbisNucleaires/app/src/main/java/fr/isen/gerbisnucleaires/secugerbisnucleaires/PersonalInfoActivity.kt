@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_edit_personal.*
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_personal_item.*
 
 class PersonalInfoActivity : AppCompatActivity() {
@@ -25,8 +26,38 @@ class PersonalInfoActivity : AppCompatActivity() {
             .child("Nurse")
             .child(user!!.uid)
             .addListenerForSingleValueEvent(object : ValueEventListener {
+        val ref = FirebaseDatabase.getInstance()
+        val user = FirebaseAuth.getInstance().currentUser
+
+        val dataOfflineRef = FirebaseDatabase.getInstance().getReference("Nurse/")
+        dataOfflineRef.keepSynced(true)
+
+        //Detecting Connection State
+        val connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected")
+        connectedRef.addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+                Toast.makeText(this@PersonalInfoActivity,"onCancelled",Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+               val connected = p0.getValue(Boolean::class.java) ?: false
+                if(connected){
+                    Toast.makeText(this@PersonalInfoActivity,"Online",Toast.LENGTH_LONG).show()
+                }
+                else{
+                    Toast.makeText(this@PersonalInfoActivity,"Offline",Toast.LENGTH_LONG).show()
+                }
+            }
+        })
+
+
+        ref.reference
+            .child("Nurse")
+
+            .child(user!!.uid)
+            .addListenerForSingleValueEvent(object : ValueEventListener{
                 override fun onCancelled(p0: DatabaseError) {
-                    Toast.makeText(applicationContext, "Can not read data from database", Toast.LENGTH_LONG).show()
+                    Toast.makeText(applicationContext, "Can't read data from database", Toast.LENGTH_LONG).show()
                 }
 
                 override fun onDataChange(p0: DataSnapshot) {
@@ -39,10 +70,9 @@ class PersonalInfoActivity : AppCompatActivity() {
                 }
             })
 
-
-        buttonReturn.setOnClickListener {
-            val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)
+        homeButton.setOnClickListener{
+            newIntent(this, HomeActivity::class.java)
+            this.finish()
         }
     }
 

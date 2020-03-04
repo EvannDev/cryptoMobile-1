@@ -105,6 +105,7 @@ class SignUpActivity : AppCompatActivity() {
             }
     }
 
+
     private fun fillRealTimeDatabase(firstname : String, lastname : String, email : String, phone : String){
 
         val nurseId =  mAuth.currentUser?.uid.toString()

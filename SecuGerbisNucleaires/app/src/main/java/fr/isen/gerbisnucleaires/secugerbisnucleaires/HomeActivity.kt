@@ -16,7 +16,6 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         mAuth = FirebaseAuth.getInstance()
-
         // Click on book icon
         personnalInfoButton.setOnClickListener {
             newIntent(this, PersonalInfoActivity::class.java)
@@ -33,6 +32,11 @@ class HomeActivity : AppCompatActivity() {
 
         textInfirmiers.setOnClickListener {
             newIntent(this, PersonalInfoActivity::class.java)
+        }
+
+        logoutHomeButton.setOnClickListener{
+            mAuth.signOut()
+            newIntent(this,LoginActivity::class.java)
         }
     }
 

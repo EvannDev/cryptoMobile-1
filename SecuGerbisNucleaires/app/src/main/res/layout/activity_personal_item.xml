@@ -106,16 +106,16 @@
         app:layout_constraintTop_toBottomOf="@+id/emailNurse" />
 
     <Button
-        android:id="@+id/buttonReturn"
+        android:id="@+id/homeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="24dp"
         android:background="#000000"
-        android:text="Return"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="Home"
+        app:layout_constraintEnd_toEndOf="@+id/buttonEdit"
+        app:layout_constraintStart_toStartOf="@+id/buttonEdit"
         app:layout_constraintTop_toBottomOf="@+id/buttonEdit" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
