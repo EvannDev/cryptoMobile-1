@@ -145,6 +145,10 @@ class EditPersonalActivity : AppCompatActivity() {
 
     }
 
+    private fun newIntent(context: Context, clazz: Class<*>) {
+        startActivity(Intent(context, clazz))
+    }
+
     private fun goToPersonnal() {
         val personnalIntent = Intent(
             this,

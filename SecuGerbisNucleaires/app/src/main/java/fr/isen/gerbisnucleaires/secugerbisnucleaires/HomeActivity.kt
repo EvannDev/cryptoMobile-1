@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_home.*
 
@@ -36,6 +37,7 @@ class HomeActivity : AppCompatActivity() {
 
         logoutHomeButton.setOnClickListener{
             mAuth.signOut()
+            Toast.makeText(this, "Deconnected", Toast.LENGTH_LONG).show()
             newIntent(this,LoginActivity::class.java)
         }
     }
