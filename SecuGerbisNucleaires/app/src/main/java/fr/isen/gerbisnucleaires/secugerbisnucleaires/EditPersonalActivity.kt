@@ -91,27 +91,18 @@ class EditPersonalActivity : AppCompatActivity() {
             return
         }
 
-        else if (confirm1.isEmpty()){
-            confirmedPass1.error = "Please enter your new password"
-            return
-        }
-
-        else if (confirm2.isEmpty()){
-            confirmedPass2.error = "Please confirm your new password"
-            return
-        }
-
-        else if (confirm1.length < 12){
-            Toast.makeText(this,"Password should be longer than 12 characters ", Toast.LENGTH_LONG).show()
-        }
-
-        else if(!confirm1.equals(confirm2)){
-            confirmedPass1.error = "Enter the same password"
-            confirmedPass2.error = "Enter the same password"
-            return
-        }
-
         else{
+
+            if (!confirm1.isEmpty() && confirm1.length < 12){
+                Toast.makeText(this,"Password should be longer than 12 characters ", Toast.LENGTH_LONG).show()
+            }
+
+            if(!confirm1.equals(confirm2)){
+                confirmedPass1.error = "Enter the same password"
+                confirmedPass2.error = "Enter the same password"
+                return
+            }
+
             var map = mutableMapOf<String, Any>()
             map["firstname"] = firstname
             map["lastname"] = lastname
@@ -126,8 +117,14 @@ class EditPersonalActivity : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         val user = mAuth.currentUser
-
-                        user?.updatePassword(confirm1)
+                        if(!confirm1.isEmpty()){
+                            user?.updatePassword(confirm1)
+                            map["password"] = confirm1
+                        }
+                        else{
+                            user?.updatePassword(password)
+                            map["password"] = password
+                        }
 
                         val ref = FirebaseDatabase.getInstance().reference
 
@@ -139,7 +136,7 @@ class EditPersonalActivity : AppCompatActivity() {
                             }
                         newIntent(this, PersonalInfoActivity::class.java)
                     } else {
-                        Toast.makeText(this, "Last Password is wrong", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "Last password is wrong", Toast.LENGTH_LONG).show()
                     }
                 }
 

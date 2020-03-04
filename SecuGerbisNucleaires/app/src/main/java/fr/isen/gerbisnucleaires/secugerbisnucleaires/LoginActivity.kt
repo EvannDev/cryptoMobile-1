@@ -36,7 +36,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun doLogout() {
         mAuth.signOut()
-        updateUI(null)
+        Toast.makeText(this, "Deconnected", Toast.LENGTH_LONG).show()
     }
 
     private fun doLogin() {
@@ -74,9 +74,9 @@ class LoginActivity : AppCompatActivity() {
 
     private fun updateUI(user: FirebaseUser?) {
         if (user != null) {
-            Toast.makeText(this, "You already have an account", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Connected", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(this, "You don't have account", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Wrong password", Toast.LENGTH_LONG).show();
         }
     }
 }
