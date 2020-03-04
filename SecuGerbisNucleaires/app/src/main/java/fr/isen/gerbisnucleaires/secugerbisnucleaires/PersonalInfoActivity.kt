@@ -10,6 +10,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.activity_edit_personal.*
 import kotlinx.android.synthetic.main.activity_personal_item.*
 
 class PersonalInfoActivity : AppCompatActivity() {
@@ -45,7 +46,7 @@ class PersonalInfoActivity : AppCompatActivity() {
         }
     }
 
-    fun editButtonClick(firstname: String, lastname: String, phone: String, email: String){
+    fun editButtonClick(firstname: String, lastname: String, phone: String, email: String) {
         buttonEdit.setOnClickListener {
             val intent = Intent(this, EditPersonalActivity::class.java)
             intent.putExtra("firstname", firstname)
