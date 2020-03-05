@@ -48,5 +48,6 @@ dependencies {
 //    implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'androidx.biometric:biometric:1.0.1'
     implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.github.scottyab:rootbeer:0.0.8'
 
 }

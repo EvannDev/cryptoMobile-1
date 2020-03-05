@@ -11,6 +11,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.scottyab.rootbeer.RootBeer
 import kotlinx.android.synthetic.main.activity_login.*
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -92,24 +93,12 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkRootMethod(): Boolean {
-        var process: Process? = null
-        return try {
-            process = Runtime.getRuntime().exec(arrayOf("/system/xbin/which", "su"))
-            val bF = BufferedReader(InputStreamReader(process.inputStream))
-            if (bF.readLine() != null) {
-                Log.d("TAG", "true")
-                Toast.makeText(this, "True", Toast.LENGTH_LONG).show()
-                true
-            } else {
-                Log.d("TAG", "false")
-                Toast.makeText(this, "false", Toast.LENGTH_LONG).show()
-                false
-            }
-        } catch (t: Throwable) {
-            false
-        } finally {
-            process?.destroy()
+    private fun checkRootMethod() {
+        val rootBeer = RootBeer(applicationContext)
+        if(rootBeer.isRooted()) {
+            Log.d("ROOT", "Le device est root")
+        } else {
+            Log.d("ROOT", "Le device n'est pas root")
         }
     }
 
