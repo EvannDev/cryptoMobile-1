@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.SecuGerbis
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.recyclerview.Visit
 import kotlinx.android.synthetic.main.activity_add_visit.*
 import java.text.SimpleDateFormat
@@ -26,16 +27,16 @@ class AddVisitActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_visit)
 
         val patientUuid = intent.getStringExtra("patientUuid")
-        val patientTitle = intent.getStringExtra("patientTitle")
-        val patientLastName = intent.getStringExtra("patientLastname")
-        val patientFirstName = intent.getStringExtra("patientFirstname")
-        val patientAge = intent.getStringExtra("patientAge")
-        val patientDisease = intent.getStringExtra("patientDisease")
+        val patientTitle = SecuGerbis(intent.getStringExtra("patientTitle")).decrypt()
+        val patientLastName = SecuGerbis(intent.getStringExtra("patientLastname")).decrypt()
+        val patientFirstName = SecuGerbis(intent.getStringExtra("patientFirstname")).decrypt()
+        val patientAge = SecuGerbis(intent.getStringExtra("patientAge")).decrypt()
+        val patientDisease = SecuGerbis(intent.getStringExtra("patientDisease")).decrypt()
         val uuid = intent.getStringExtra("uuid")
-        val dateOfVisit = intent.getStringExtra("dateOfVisit")
-        val temperature = intent.getStringExtra("temperature")
-        val treatment = intent.getStringExtra("treatment")
-        val patientState = intent.getStringExtra("patientState")
+        val dateOfVisit = SecuGerbis(intent.getStringExtra("dateOfVisit")).decrypt()
+        val temperature = SecuGerbis(intent.getStringExtra("temperature")).decrypt()
+        val treatment = SecuGerbis(intent.getStringExtra("treatment")).decrypt()
+        val patientState = SecuGerbis(intent.getStringExtra("patientState")).decrypt()
 
         if (uuid == "" && dateOfVisit == "" && temperature == "" && treatment == "" && patientState == "") {
             addVisitTitle.text = "Add a Visit for $patientTitle $patientLastName $patientFirstName"
@@ -73,11 +74,11 @@ class AddVisitActivity : AppCompatActivity() {
         addVisitCancelButton.setOnClickListener {
             val intent = Intent(this@AddVisitActivity, SpecificPatientActivity::class.java)
             intent.putExtra("uuid", patientUuid)
-            intent.putExtra("title", patientTitle)
-            intent.putExtra("first_name", patientFirstName)
-            intent.putExtra("last_name", patientLastName)
-            intent.putExtra("age", patientAge)
-            intent.putExtra("disease", patientDisease)
+            intent.putExtra("title", SecuGerbis(patientTitle).encrypt())
+            intent.putExtra("first_name", SecuGerbis(patientFirstName).encrypt())
+            intent.putExtra("last_name", SecuGerbis(patientLastName).encrypt())
+            intent.putExtra("age", SecuGerbis(patientAge).encrypt())
+            intent.putExtra("disease", SecuGerbis(patientDisease).encrypt())
 
             startActivity(intent)
             this.finish()
@@ -103,18 +104,21 @@ class AddVisitActivity : AppCompatActivity() {
 
             val visitId = ref.child("Visits").push().key.toString()
 
-            val newVisit = Visit(visitId, patientUuid, temperature, treatmentGiven, patientState, dateOfVisit)
+            val newVisit = Visit(visitId, patientUuid, SecuGerbis(temperature).encrypt(),
+                SecuGerbis(treatmentGiven).encrypt(),
+                SecuGerbis(patientState).encrypt(),
+                SecuGerbis(dateOfVisit).encrypt())
 
             if (dateOfVisit != "--/--/----" && treatmentGiven != "" && patientState != "" && temperature != "" && (temperature.toDouble() in 30.0..50.0)) {
                 ref.child("Visits").child(visitId).setValue(newVisit)
 
                 val intent = Intent(this@AddVisitActivity, SpecificPatientActivity::class.java)
                 intent.putExtra("uuid", patientUuid)
-                intent.putExtra("title", patientTitle)
-                intent.putExtra("first_name", patientFirstName)
-                intent.putExtra("last_name", patientLastName)
-                intent.putExtra("age", patientAge)
-                intent.putExtra("disease", patientDisease)
+                intent.putExtra("title", SecuGerbis(patientTitle).encrypt())
+                intent.putExtra("first_name", SecuGerbis(patientFirstName).encrypt())
+                intent.putExtra("last_name", SecuGerbis(patientLastName).encrypt())
+                intent.putExtra("age", SecuGerbis(patientAge).encrypt())
+                intent.putExtra("disease", SecuGerbis(patientDisease).encrypt())
                 startActivity(intent)
 
                 Toast.makeText(
@@ -152,18 +156,22 @@ class AddVisitActivity : AppCompatActivity() {
             val firebase = FirebaseDatabase.getInstance()
             val ref = firebase.reference
 
-            val newVisit = Visit(visitId, patientUuid, temperature, treatmentGiven, patientState, dateOfVisit)
+            val newVisit = Visit(visitId, patientUuid,
+                SecuGerbis(temperature).encrypt(),
+                SecuGerbis(treatmentGiven).encrypt(),
+                SecuGerbis(patientState).encrypt(),
+                SecuGerbis(dateOfVisit).encrypt())
 
             if (dateOfVisit != "--/--/----" && treatmentGiven != "" && patientState != "" && temperature != "" && (temperature.toDouble() in 30.0..50.0)) {
                 ref.child("Visits").child(visitId).setValue(newVisit)
 
                 val intent = Intent(this@AddVisitActivity, SpecificPatientActivity::class.java)
                 intent.putExtra("uuid", patientUuid)
-                intent.putExtra("title", patientTitle)
-                intent.putExtra("first_name", patientFirstName)
-                intent.putExtra("last_name", patientLastName)
-                intent.putExtra("age", patientAge)
-                intent.putExtra("disease", patientDisease)
+                intent.putExtra("title", SecuGerbis(patientTitle).encrypt())
+                intent.putExtra("first_name", SecuGerbis(patientFirstName).encrypt())
+                intent.putExtra("last_name", SecuGerbis(patientLastName).encrypt())
+                intent.putExtra("age", SecuGerbis(patientAge).encrypt())
+                intent.putExtra("disease", SecuGerbis(patientDisease).encrypt())
                 startActivity(intent)
 
                 Toast.makeText(
@@ -183,22 +191,20 @@ class AddVisitActivity : AppCompatActivity() {
         }
     }
 
-    private fun dateButtonClick() {
-        val textViewDate = this.addVisitDateValue
+    fun dateButtonClick() {
+        val textview_date = this.addVisitDateValue
 
-        textViewDate?.setOnClickListener {
-            DatePickerDialog(
-                applicationContext,
+        textview_date?.setOnClickListener {
+            DatePickerDialog(this@AddVisitActivity,
                 setCalendar(),
                 cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH)
-            ).show()
+                cal.get(Calendar.DAY_OF_MONTH)).show()
         }
     }
 
-    private fun setCalendar(): DatePickerDialog.OnDateSetListener {
-        return DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+    fun setCalendar () :  DatePickerDialog.OnDateSetListener {
+        return DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
             cal.set(Calendar.YEAR, year)
             cal.set(Calendar.MONTH, monthOfYear)
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -206,7 +212,7 @@ class AddVisitActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateDateInView() {
+    fun updateDateInView() {
         val myFormat = "dd/MM/yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         addVisitDateValue?.text = sdf.format(cal.time)

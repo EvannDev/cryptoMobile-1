@@ -4,10 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.SecuGerbis
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.recyclerview.patient.Name
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.recyclerview.patient.Patient
 import kotlinx.android.synthetic.main.activity_add_patient.*
@@ -24,11 +26,11 @@ class AddPatientActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_patient)
 
         val uuid = intent.getStringExtra("uuid")
-        val title = intent.getStringExtra("title")
-        val firstName = intent.getStringExtra("first_name")
-        val lastName = intent.getStringExtra("last_name")
-        val age = intent.getStringExtra("age")
-        val disease = intent.getStringExtra("disease")
+        val title = SecuGerbis(intent.getStringExtra("title")).decrypt()
+        val firstName = SecuGerbis(intent.getStringExtra("first_name")).decrypt()
+        val lastName = SecuGerbis(intent.getStringExtra("last_name")).decrypt()
+        val age = SecuGerbis(intent.getStringExtra("age")).decrypt()
+        val disease = SecuGerbis(intent.getStringExtra("disease")).decrypt()
 
         if (uuid == "" && firstName == "" && lastName == "" && age == "0" && disease == "") {
             addPatient()
@@ -62,11 +64,15 @@ class AddPatientActivity : AppCompatActivity() {
             val patientFirstName = addPatientFirstnameFieldInput.text.toString()
             val patientTitle = addPatientTitleSpinner.selectedItem.toString()
             val patientDisease = addPatientDiseaseValue.text.toString()
-            val patientAge = addPatientAgeValue.text.toString().toInt()
+            val patientAge = addPatientAgeValue.text.toString()
 
-            val patient = Patient(patientId, Name(patientName, patientFirstName, patientTitle), patientDisease, patientAge)
+            val patient = Patient(patientId, Name(SecuGerbis(patientName).encrypt(),
+                SecuGerbis(patientFirstName).encrypt(),
+                SecuGerbis(patientTitle).encrypt()),
+                SecuGerbis(patientDisease).encrypt(),
+                SecuGerbis(patientAge).encrypt())
 
-            if (patientName != "" && patientFirstName != "" && patientDisease != "" && (patientAge in 1..110)) {
+            if (patientName != "" && patientFirstName != "" && patientDisease != "" && (patientAge.toInt() in 1..110)) {
                 ref.child("Patients").child(patientId).setValue(patient)
 
                 val goToPatientsInfoActivity = Intent(this@AddPatientActivity, PatientsInfoActivity::class.java)
@@ -111,12 +117,16 @@ class AddPatientActivity : AppCompatActivity() {
             val patientFirstName = addPatientFirstnameFieldInput.text.toString()
             val patientTitle = addPatientTitleSpinner.selectedItem.toString()
             val patientDisease = addPatientDiseaseValue.text.toString()
-            val patientAge = addPatientAgeValue.text.toString().toInt()
+            val patientAge = addPatientAgeValue.text.toString()
 
 
 
-            if (patientName != "" && patientFirstName != "" && patientDisease != "" && (patientAge in 1..110)) {
-                val patient = Patient(uuid, Name(patientName, patientFirstName, patientTitle), patientDisease, patientAge)
+            if (patientName != "" && patientFirstName != "" && patientDisease != "" && (patientAge.toInt() in 1..110)) {
+                val patient = Patient(uuid, Name(SecuGerbis(patientName).encrypt(),
+                    SecuGerbis(patientFirstName).encrypt(),
+                    SecuGerbis(patientTitle).encrypt()),
+                    SecuGerbis(patientDisease).encrypt(),
+                    SecuGerbis(patientAge).encrypt())
 
                 ref.child(uuid).setValue(patient).addOnCompleteListener {
                     Toast.makeText(applicationContext, "Changes saved", Toast.LENGTH_LONG).show()

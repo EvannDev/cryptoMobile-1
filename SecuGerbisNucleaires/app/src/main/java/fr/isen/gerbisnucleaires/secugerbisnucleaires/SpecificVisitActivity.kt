@@ -12,6 +12,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.SecuGerbis
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.recyclerview.patient.Patient
 import kotlinx.android.synthetic.main.activity_specific_visit.*
 
@@ -27,10 +28,10 @@ class SpecificVisitActivity : AppCompatActivity() {
 
         val uuid = intent.getStringExtra("uuid")
         val patientId = intent.getStringExtra("patientId")
-        val temperature = intent.getStringExtra("temperature")
-        val treatment = intent.getStringExtra("treatment")
-        val patientState = intent.getStringExtra("patientState")
-        val dateOfVisit = intent.getStringExtra("dateOfVisit")
+        val temperature = SecuGerbis(intent.getStringExtra("temperature")).decrypt()
+        val treatment = SecuGerbis(intent.getStringExtra("treatment")).decrypt()
+        val patientState = SecuGerbis(intent.getStringExtra("patientState")).decrypt()
+        val dateOfVisit = SecuGerbis(intent.getStringExtra("dateOfVisit")).decrypt()
 
         var patientTitle: String
         var patientFirstName: String
@@ -48,12 +49,12 @@ class SpecificVisitActivity : AppCompatActivity() {
                 for (childSnapshot in dataSnapshot.children) {
                     val patient = childSnapshot.getValue(Patient::class.java)!!
                     if (patient.uuid == patientId) {
-                        specificVisitTitle.text = "Visit of ${patient.name.title} ${patient.name.firstName} ${patient.name.name}"
-                        patientTitle = patient.name.title
-                        patientFirstName = patient.name.firstName
-                        patientLastName = patient.name.name
-                        patientAge = patient.age.toString()
-                        patientDisease = patient.disease
+                        specificVisitTitle.text = "Visit of ${SecuGerbis(patient.name.title).decrypt()} ${SecuGerbis(patient.name.firstName).decrypt()} ${SecuGerbis(patient.name.name).decrypt()}"
+                        patientTitle = SecuGerbis(patient.name.title).decrypt()
+                        patientFirstName = SecuGerbis(patient.name.firstName).decrypt()
+                        patientLastName = SecuGerbis(patient.name.name).decrypt()
+                        patientAge = SecuGerbis(patient.age).decrypt()
+                        patientDisease = SecuGerbis(patient.disease).decrypt()
 
                         cancelButton(patientId, patientTitle, patientFirstName, patientLastName, patientAge, patientDisease)
                         editVisitButton(
@@ -105,11 +106,11 @@ class SpecificVisitActivity : AppCompatActivity() {
         specificVisitCancelButton.setOnClickListener {
             val intent = Intent(this@SpecificVisitActivity, SpecificPatientActivity::class.java)
             intent.putExtra("uuid", patientId)
-            intent.putExtra("title", patientTitle)
-            intent.putExtra("first_name", patientFirstName)
-            intent.putExtra("last_name", patientLastName)
-            intent.putExtra("age", patientAge)
-            intent.putExtra("disease", patientDisease)
+            intent.putExtra("title", SecuGerbis(patientTitle).encrypt())
+            intent.putExtra("first_name", SecuGerbis(patientFirstName).encrypt())
+            intent.putExtra("last_name", SecuGerbis(patientLastName).encrypt())
+            intent.putExtra("age", SecuGerbis(patientAge).encrypt())
+            intent.putExtra("disease", SecuGerbis(patientDisease).encrypt())
             startActivity(intent)
         }
     }
@@ -127,11 +128,11 @@ class SpecificVisitActivity : AppCompatActivity() {
             FirebaseDatabase.getInstance().getReference("Visits").child(uuid).removeValue()
             val intent = Intent(this@SpecificVisitActivity, SpecificPatientActivity::class.java)
             intent.putExtra("uuid", patientId)
-            intent.putExtra("title", patientTitle)
-            intent.putExtra("first_name", patientFirstName)
-            intent.putExtra("last_name", patientLastName)
-            intent.putExtra("age", patientAge)
-            intent.putExtra("disease", patientDisease)
+            intent.putExtra("title", SecuGerbis(patientTitle).encrypt())
+            intent.putExtra("first_name", SecuGerbis(patientFirstName).encrypt())
+            intent.putExtra("last_name", SecuGerbis(patientLastName).encrypt())
+            intent.putExtra("age", SecuGerbis(patientAge).encrypt())
+            intent.putExtra("disease", SecuGerbis(patientDisease).encrypt())
             startActivity(intent)
         }
     }
@@ -152,16 +153,16 @@ class SpecificVisitActivity : AppCompatActivity() {
         specificVisitEditButton.setOnClickListener {
             val intent = Intent(this@SpecificVisitActivity, AddVisitActivity::class.java)
             intent.putExtra("patientUuid", patientId)
-            intent.putExtra("patientTitle", patientTitle)
-            intent.putExtra("patientLastname", patientFirstName)
-            intent.putExtra("patientFirstname", patientLastName)
-            intent.putExtra("patientAge", patientAge)
-            intent.putExtra("patientDisease", patientDisease)
+            intent.putExtra("patientTitle", SecuGerbis(patientTitle).encrypt())
+            intent.putExtra("patientLastname", SecuGerbis(patientFirstName).encrypt())
+            intent.putExtra("patientFirstname", SecuGerbis(patientLastName).encrypt())
+            intent.putExtra("patientAge", SecuGerbis(patientAge).encrypt())
+            intent.putExtra("patientDisease", SecuGerbis(patientDisease).encrypt())
             intent.putExtra("uuid", uuid)
-            intent.putExtra("dateOfVisit", dateOfVisit)
-            intent.putExtra("temperature", temperature)
-            intent.putExtra("treatment", treatment)
-            intent.putExtra("patientState", patientState)
+            intent.putExtra("dateOfVisit", SecuGerbis(dateOfVisit).encrypt())
+            intent.putExtra("temperature", SecuGerbis(temperature).encrypt())
+            intent.putExtra("treatment", SecuGerbis(treatment).encrypt())
+            intent.putExtra("patientState", SecuGerbis(patientState).encrypt())
             startActivity(intent)
         }
     }
