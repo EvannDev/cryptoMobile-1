@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
+import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -15,9 +16,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.Nurse
+import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.SecuGerbis
 import kotlinx.android.synthetic.main.activity_sign_up.*
-import java.nio.charset.Charset
-import java.security.Key
 import java.security.KeyStore
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
@@ -34,55 +34,11 @@ class SignUpActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
 
-        val keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES,"AndroidKeyStore")
-        val kenGenParameterSpec = KeyGenParameterSpec.Builder("SecureGerbisKey",
-            KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
-            .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
-            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-            .build()
-
-        keyGenerator.init(kenGenParameterSpec)
-        keyGenerator.generateKey()
-
-        val pair = chiffrement("ChiffreMoi!")
-        val dechiffre = dechiffrement(pair.first,pair.second)
-        Toast.makeText(this,dechiffre,Toast.LENGTH_LONG).show()
-
         mAuth = FirebaseAuth.getInstance()
 
         buttonsignup.setOnClickListener{
             registerUser()
         }
-    }
-
-    fun getKey() :SecretKey{
-        val keystore = KeyStore.getInstance("AndroidKeyStore")
-        keystore.load(null)
-
-        val secretKeyEntry = keystore.getEntry("SecureGerbisKey", null) as KeyStore.SecretKeyEntry
-        return secretKeyEntry.secretKey
-    }
-
-    fun chiffrement(data: String): Pair<ByteArray,ByteArray>{
-        val cipher = Cipher.getInstance("AES/CBC/NoPadding")
-        cipher.init(Cipher.ENCRYPT_MODE, getKey())
-        val ivBytes = cipher.iv
-
-        var tmp = data
-        while(tmp.toByteArray().size % 16 != 0)
-            tmp +="\u0020"
-
-        val encryptedBytes = cipher.doFinal(tmp.toByteArray(Charsets.UTF_8))
-
-        return Pair(ivBytes,encryptedBytes)
-    }
-    fun dechiffrement(ivBytes: ByteArray, data:ByteArray):String{
-        val cipher = Cipher.getInstance("AES/CBC/NoPadding")
-        val spec = IvParameterSpec(ivBytes)
-
-        cipher.init(Cipher.DECRYPT_MODE, getKey())
-
-        return cipher.doFinal(data).toString(Charsets.UTF_8).trim()
     }
 
     private fun registerUser() {
@@ -141,13 +97,18 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun createAccount() {
-        val email = emailSignUpEdit.text.toString()
-        val password = passwordSignUpEdit.text.toString()
-        val firstname = firstnameSignUpEdit.text.toString()
-        val lastname = lastnameSignUpEdit.text.toString()
-        val phone = phoneSignUpEdit.text.toString()
 
-        mAuth.createUserWithEmailAndPassword(email, password)
+        val realEmail = emailSignUpEdit.text.toString()
+        val realPassword = passwordSignUpEdit.text.toString()
+
+        val email = SecuGerbis(emailSignUpEdit.text.toString()).chiffrement()
+        val password = SecuGerbis(passwordSignUpEdit.text.toString()).chiffrement()
+        val firstname = SecuGerbis(firstnameSignUpEdit.text.toString()).chiffrement()
+        val lastname = SecuGerbis(lastnameSignUpEdit.text.toString()).chiffrement()
+        val phone = SecuGerbis(phoneSignUpEdit.text.toString()).chiffrement()
+
+
+        mAuth.createUserWithEmailAndPassword(realEmail, realPassword)
             .addOnCompleteListener(this) {
                 if (it.isSuccessful) {
                     Toast.makeText(this, "Registered", Toast.LENGTH_LONG).show()
@@ -164,13 +125,14 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun fillRealTimeDatabase(firstname : String, lastname : String, email : String, phone : String, password: String){
 
-        val nurseId =  mAuth.currentUser?.uid.toString()
+        val nurseId =mAuth.currentUser?.uid.toString()
 
         val nurse = Nurse(nurseId, firstname, lastname, phone, email,password)
 
         FirebaseDatabase.getInstance().getReference("Nurse").child(nurseId).setValue(nurse).addOnCompleteListener {
             Toast.makeText(this, "Registered", Toast.LENGTH_LONG).show()
         }
+
     }
 
     private fun sendEmailVerification(){
@@ -197,7 +159,4 @@ class SignUpActivity : AppCompatActivity() {
         )
         startActivity(homeIntent)
     }
-
-
-
 }

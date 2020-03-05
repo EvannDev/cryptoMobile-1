@@ -1,20 +1,14 @@
 package fr.isen.gerbisnucleaires.secugerbisnucleaires
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.auth.PhoneAuthCredential
-import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.FirebaseDatabase
-import fr.isen.gerbisnucleaires.secugerbisnucleaires.R
+import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.SecuGerbis
 import kotlinx.android.synthetic.main.activity_edit_personal.*
 
 class EditPersonalActivity : AppCompatActivity() {
@@ -50,6 +44,7 @@ class EditPersonalActivity : AppCompatActivity() {
         val password = passwordText.text.toString()
         val confirm1 = confirmedPass1.text.toString()
         val confirm2 = confirmedPass2.text.toString()
+
         if(firstname.isEmpty() && lastname.isEmpty() && phone.isEmpty() && email.isEmpty() && password.isEmpty() && confirm1.isEmpty() && confirm2.isEmpty()){
             firstNameText.error = "Please enter your firstname"
             lastNameText.error = "Please enter your lastname"
@@ -92,11 +87,11 @@ class EditPersonalActivity : AppCompatActivity() {
             }
 
             var map = mutableMapOf<String, Any>()
-            map["firstname"] = firstname
-            map["lastname"] = lastname
-            map["phone"] = phone
-            map["email"] = email
-            map["password"] = confirm1
+            map["firstname"] = SecuGerbis(firstname).chiffrement()
+            map["lastname"] = SecuGerbis(lastname).chiffrement()
+            map["phone"] = SecuGerbis(phone).chiffrement()
+            map["email"] = SecuGerbis(email).chiffrement()
+            map["password"] = SecuGerbis(confirm1).chiffrement()
 
 
             val mAuth = FirebaseAuth.getInstance()
@@ -107,7 +102,7 @@ class EditPersonalActivity : AppCompatActivity() {
                         val user = mAuth.currentUser
                         if(!confirm1.isEmpty()){
                             user?.updatePassword(confirm1)
-                            map["password"] = confirm1
+                            map["password"] = SecuGerbis(confirm1).chiffrement()
                         }
                         else{
                             user?.updatePassword(password)
@@ -128,7 +123,6 @@ class EditPersonalActivity : AppCompatActivity() {
                     }
                 }
         }
-
     }
 
     private fun goToPersonnal() {
