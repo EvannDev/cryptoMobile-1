@@ -9,22 +9,4 @@
     <string name="years_old">years old</string>
     <string name="list_of_patient_visits">List Of Visits : </string>
     <string name="edit_patient_info">Edit Patient Info</string>
-    <string name="lastname">Lastname</string>
-    <string name="age">Age :</string>
-    <string name="firstname">Firstname</string>
-    <string name="disease_explanation">Disease Explanation :</string>
-    <string name="add_a_patient">Add a Patient</string>
-    <string name="cancel">Cancel</string>
-    <string name="_0">0</string>
-    <string name="temperature">Temperature</string>
-    <string name="treatment">Treatment :</string>
-    <string name="patient_state">Patient State :</string>
-    <string name="add_visit">Add Visit</string>
-    <string name="date">--/--/----</string>
-    <string name="dateName">Date :</string>
-    <string name="treatment_given">Treatment Given :</string>
-    <string name="delete_patient">Delete Patient</string>
-    <string name="visit_date">Visit Date :</string>
-    <string name="delete_visit">Delete Visit</string>
-    <string name="edit_visit_info">Edit Visit Info</string>
 </resources>
