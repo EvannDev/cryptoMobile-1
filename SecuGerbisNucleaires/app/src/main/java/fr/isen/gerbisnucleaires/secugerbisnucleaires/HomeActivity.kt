@@ -2,13 +2,13 @@ package fr.isen.gerbisnucleaires.secugerbisnucleaires
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Toast
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_home.*
 import java.util.concurrent.Executor
@@ -103,13 +103,26 @@ class HomeActivity : AppCompatActivity() {
             .build()
     }
 
+    override fun onStart() {
+        super.onStart()
+        mAuth = FirebaseAuth.getInstance()
+        checkIfAuth(mAuth)
+    }
+
+    private fun checkIfAuth(mAuth : FirebaseAuth){
+        if(mAuth.currentUser == null){
+            newIntent(this@HomeActivity, LoginActivity::class.java)
+        }
+    }
     // Start new activity
     private fun newIntent(context: Context, clazz: Class<*>) {
         startActivity(Intent(context, clazz))
+    }
+
+    override fun onBackPressed() {
     }
 
     companion object {
         private const val TAG = "SGN"
     }
 }
-

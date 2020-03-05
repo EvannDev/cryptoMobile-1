@@ -1,7 +1,8 @@
 package fr.isen.gerbisnucleaires.secugerbisnucleaires.recyclerview.patient
 
 data class Patient(
-    val name: Name,
-    val disease: String,
-    val age: Int
+    var uuid: String = "",
+    val name: Name =Name("","",""),
+    val disease: String = "",
+    val age: Int = 0
 )
