@@ -12,6 +12,9 @@
 #   public *;
 #}
 
+# Entry points
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.LoginActivity
+
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
 -keepattributes SourceFile,LineNumberTable
@@ -21,5 +24,9 @@
 -renamesourcefileattribute SourceFile
 
 #-renamesourcefileattribute SourceFile
--keep Name
+#-keep Name
+
+# You can specify any path and filename.
+# To output a full report of all the rules that R8 applies when building the project
+-printconfiguration ~/tmp/full-r8-config.txt
 
