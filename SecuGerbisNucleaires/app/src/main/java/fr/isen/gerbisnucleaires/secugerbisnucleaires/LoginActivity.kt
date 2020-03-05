@@ -1,14 +1,16 @@
 package fr.isen.gerbisnucleaires.secugerbisnucleaires
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.FirebaseDatabase
-import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.Nurse
 import kotlinx.android.synthetic.main.activity_login.*
+import java.io.BufferedReader
+import java.io.InputStreamReader
+
 
 class LoginActivity : AppCompatActivity() {
 
@@ -17,6 +19,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        checkRootMethod()
 
         mAuth = FirebaseAuth.getInstance()
 
@@ -80,6 +83,28 @@ class LoginActivity : AppCompatActivity() {
             Toast.makeText(this, "Connected", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(this, "Wrong password", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private fun checkRootMethod(): Boolean {
+        var process: Process? = null
+        return try {
+            process = Runtime.getRuntime().exec(arrayOf("/system/xbin/which", "su"))
+            val bF = BufferedReader(InputStreamReader(process.inputStream))
+            if(bF.readLine() != null){
+                Log.d("TAG", "true")
+                Toast.makeText(this, "True", Toast.LENGTH_LONG).show()
+                true
+            }
+            else{
+                Log.d("TAG", "false")
+                Toast.makeText(this, "false", Toast.LENGTH_LONG).show()
+                false
+            }
+        } catch (t: Throwable) {
+            false
+        } finally {
+            process?.destroy()
         }
     }
 }
