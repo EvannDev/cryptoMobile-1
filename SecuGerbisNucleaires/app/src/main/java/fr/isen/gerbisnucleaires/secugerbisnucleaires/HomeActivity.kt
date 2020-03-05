@@ -1,7 +1,6 @@
 package fr.isen.gerbisnucleaires.secugerbisnucleaires
 
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,9 +9,7 @@ import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import android.util.Log
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_login_dialog.*
@@ -104,21 +101,18 @@ class HomeActivity : AppCompatActivity(), LoginDialog.LoginDialogListener {
 
             BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
                 val str = "The phone does not support biometric auth"
-                Log.e(TAG, str)
                 Toast.makeText(applicationContext, str, Toast.LENGTH_SHORT).show()
                 passwordAuth(clazz)
             }
 
             BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
                 val str = "Biometric auth is not available"
-                Log.e(TAG, str)
                 Toast.makeText(applicationContext, str, Toast.LENGTH_SHORT).show()
                 passwordAuth(clazz)
             }
 
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
                 val str = "The user didn't set up biometric auth"
-                Log.e(TAG, str)
                 Toast.makeText(applicationContext, str, Toast.LENGTH_SHORT).show()
             }
         }
