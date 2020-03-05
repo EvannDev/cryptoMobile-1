@@ -1,30 +1,44 @@
 package fr.isen.gerbisnucleaires.secugerbisnucleaires
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.security.keystore.KeyGenParameterSpec
+import android.security.keystore.KeyProperties
+import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.*
-import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.Post
-import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.User
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.Nurse
+import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.SecuGerbis
 import kotlinx.android.synthetic.main.activity_sign_up.*
+import java.security.KeyStore
+import javax.crypto.Cipher
+import javax.crypto.KeyGenerator
+import javax.crypto.SecretKey
+import javax.crypto.spec.IvParameterSpec
 
 
 class SignUpActivity : AppCompatActivity() {
 
     private lateinit var mAuth: FirebaseAuth
-    private lateinit var userDatabase: DatabaseReference
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
 
         mAuth = FirebaseAuth.getInstance()
 
-        userDatabase = FirebaseDatabase.getInstance().reference
+        buttonCancel.setOnClickListener{
+            goToLogin()
+        }
 
         buttonsignup.setOnClickListener{
             registerUser()
@@ -32,35 +46,43 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun registerUser() {
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.getReference("Code_Admin")
+
+        val signUpListener = object : ValueEventListener {
+
+            @RequiresApi(Build.VERSION_CODES.FROYO)
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (childSnapshot in dataSnapshot.children) {
+                    checkField(childSnapshot.value.toString())
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+                Toast.makeText(this@SignUpActivity, "Can't read informations from Firebase", Toast.LENGTH_LONG).show()
+            }
+        }
+        myRef.addValueEventListener(signUpListener)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.FROYO)
+    private fun checkField(adminCodeKey : String) {
         val email = emailSignUpEdit.text.toString()
         val password = passwordSignUpEdit.text.toString()
+        val confirmPassword = confirmPasswordSignUpEdit.text.toString()
         val firstname = firstnameSignUpEdit.text.toString()
         val lastname = lastnameSignUpEdit.text.toString()
         val phone = phoneSignUpEdit.text.toString()
         val adminCode = codeAdminEdit.text.toString()
 
-        val database = FirebaseDatabase.getInstance()
-        var ref = database.getReference("Code_Admin")
-
-
-        ref.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val realAdminCodeDB = dataSnapshot.getValue()!!
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                println("The read failed: " + databaseError.code)
-            }
-        })
-
-
         if( email.isEmpty()     ||
             password.isEmpty()  ||
+            confirmPassword.isEmpty() ||
             firstname.isEmpty() ||
             lastname.isEmpty()  ||
             phone.isEmpty()     ||
             adminCode.isEmpty()){
-            Toast.makeText(this,"You should fill everything ! ", Toast.LENGTH_LONG).show()
+            Toast.makeText(this,"Every Field must be fill ! ", Toast.LENGTH_LONG).show()
         }
         else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             Toast.makeText(this,"Invalid Email ", Toast.LENGTH_LONG).show()
@@ -71,42 +93,60 @@ class SignUpActivity : AppCompatActivity() {
         else if (!Patterns.PHONE.matcher(phone).matches()){
             Toast.makeText(this,"Invalid phone number ", Toast.LENGTH_LONG).show()
         }
-
-        else if (!adminCode.equals("1234")){
+        else if (!password.equals(confirmPassword)){
+            Toast.makeText(this,"Password and Confirm Password fields must be equals ", Toast.LENGTH_LONG).show()
+        }
+        else if (!adminCode.equals(adminCodeKey)){
             Toast.makeText(this,"Invalid Admin Code ", Toast.LENGTH_LONG).show()
         }
         else{
-            createAccount(email,password)
+            createAccount()
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser = mAuth.currentUser
-        updateUI(currentUser)
-    }
+    private fun createAccount() {
+
+        val realEmail = emailSignUpEdit.text.toString()
+        val realPassword = passwordSignUpEdit.text.toString()
+
+        val email = SecuGerbis(emailSignUpEdit.text.toString()).chiffrement()
+        val password = SecuGerbis(passwordSignUpEdit.text.toString()).chiffrement()
+        val firstname = SecuGerbis(firstnameSignUpEdit.text.toString()).chiffrement()
+        val lastname = SecuGerbis(lastnameSignUpEdit.text.toString()).chiffrement()
+        val phone = SecuGerbis(phoneSignUpEdit.text.toString()).chiffrement()
 
 
-    private fun createAccount(email: String, password: String) {
-
-        mAuth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    val user = mAuth.currentUser
+        mAuth.createUserWithEmailAndPassword(realEmail, realPassword)
+            .addOnCompleteListener(this) {
+                if (it.isSuccessful) {
+                    Toast.makeText(this, "$firstname $lastname has been added to Nurses list", Toast.LENGTH_LONG).show()
                     sendEmailVerification()
-                    submitUser()
-                    updateUI(user)
+
+                    fillRealTimeDatabase(firstname, lastname, email, phone, password)
+
+                    goToLogin()
+                    finish()
                 } else {
-                    Toast.makeText(baseContext, "Authentication failed.",
+                    Toast.makeText(baseContext, "$firstname $lastname is already registered",
                         Toast.LENGTH_SHORT).show()
-                    updateUI(null)
                 }
             }
     }
 
-    private fun sendEmailVerification(){
+    private fun fillRealTimeDatabase(firstname : String, lastname : String, email : String, phone : String, password: String){
 
+        val nurseId =mAuth.currentUser?.uid.toString()
+
+        val nurse = Nurse(nurseId, firstname, lastname, phone, email, password)
+
+
+        FirebaseDatabase.getInstance().getReference("Nurse").child(nurseId).setValue(nurse).addOnCompleteListener {
+            Toast.makeText(this, "Registered", Toast.LENGTH_LONG).show()
+        }
+
+    }
+
+    private fun sendEmailVerification(){
         val user = mAuth.currentUser
         user?.sendEmailVerification()
             ?.addOnCompleteListener(this) { task ->
@@ -123,60 +163,6 @@ class SignUpActivity : AppCompatActivity() {
             }
     }
 
-    private fun submitUser(){
-
-        val userID = "123456"
-
-        userDatabase.child("user").child(userID).addListenerForSingleValueEvent(
-            object : ValueEventListener{
-                override fun onCancelled(p0: DatabaseError) {
-                }
-
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val user = dataSnapshot.getValue(User::class.java)
-
-                    writeNewPost(userID,
-                        user!!.firstname,
-                        user.lastname,
-                        user.email,
-                        user.phone)
-
-
-                    finish()
-
-                }
-            }
-        )
-    }
-
-    private fun writeNewPost(userID: String,
-                             firstname: String,
-                             lastname: String,
-                             email: String,
-                             phone: String){
-        val key = userDatabase.child("user").push().key
-
-        val post = Post(userID,firstname,lastname,email,phone)
-        val postValues = post.toMap()
-
-        val childUpdates = HashMap<String, Any>()
-
-        childUpdates["/user/$key"] = postValues
-
-        userDatabase.updateChildren(childUpdates)
-    }
-
-
-
-    private fun updateUI(user: FirebaseUser?) {
-        if(user != null){
-            Toast.makeText(this,"You already have an account",Toast.LENGTH_LONG).show();
-            goToLogin()
-        }else {
-            Toast.makeText(this,"You don't have account",Toast.LENGTH_LONG).show();
-        }
-    }
-
     private fun goToLogin() {
         val homeIntent = Intent(
             this,
@@ -184,7 +170,4 @@ class SignUpActivity : AppCompatActivity() {
         )
         startActivity(homeIntent)
     }
-
-
-
 }

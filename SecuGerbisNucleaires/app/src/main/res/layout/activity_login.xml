@@ -9,19 +9,21 @@
         android:id="@+id/buttonLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
-        android:text="Login"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.33"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginTop="32dp"
+        android:background="#000000"
+        android:text="@string/login"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/buttonLogout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/create" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Connexion"
+        android:text="@string/connexion"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,18 +35,23 @@
         android:id="@+id/create"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="Don't have an account  ?"
-        app:layout_constraintBottom_toTopOf="@+id/buttonLogin"
+        android:layout_marginTop="16dp"
+        android:text="@string/don_t_have_an_account"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.34"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
     <TextView
         android:id="@+id/textbuttonsignin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign Up !"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="1dp"
+        android:text="@string/sign_up_login_page"
+        android:textColor="@color/colorLink"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/create"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.03"
         app:layout_constraintStart_toEndOf="@+id/create"
@@ -54,22 +61,24 @@
         android:id="@+id/textInputLayout"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="364dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        app:layout_constraintTop_toBottomOf="@+id/imageView">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/UserEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email" />
+            android:hint="@string/email"
+            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout2"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
@@ -80,16 +89,19 @@
             android:id="@+id/PasswordEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password" />
+            android:inputType="textPassword"
+            android:hint="@string/password" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="386dp"
-        android:layout_height="397dp"
+        android:layout_width="0dp"
+        android:layout_height="254dp"
+        android:contentDescription="@string/medecine_logo"
         android:src="@mipmap/logologin_foreground"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -97,8 +109,12 @@
         android:id="@+id/buttonLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="LOGOUT"
+        android:background="@color/colorRed"
+        android:text="@string/logout"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonLogin"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/buttonLogin"
         app:layout_constraintTop_toTopOf="@+id/buttonLogin" />
 

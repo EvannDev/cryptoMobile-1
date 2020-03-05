@@ -10,8 +10,8 @@
         android:id="@+id/textModify"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:text="Modify your informations"
+        android:layout_marginTop="10dp"
+        android:text="@string/modify_your_informations"
         android:textColor="#000000"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,11 +20,13 @@
 
     <EditText
         android:id="@+id/firstnameModify"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="64dp"
         android:ems="10"
-        android:hint="Firstname"
+        android:hint="@string/firstname"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,59 +34,118 @@
 
     <EditText
         android:id="@+id/lastnameModify"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
-        android:hint="Lastname"
+        android:hint="@string/lastname"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/firstnameModify"
+        app:layout_constraintStart_toStartOf="@+id/firstnameModify"
         app:layout_constraintTop_toBottomOf="@+id/firstnameModify" />
 
     <EditText
         android:id="@+id/phoneModify"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
-        android:hint="Phone number"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:hint="@string/phone_number"
+        android:inputType="phone"
+        app:layout_constraintEnd_toEndOf="@+id/lastnameModify"
+        app:layout_constraintStart_toStartOf="@+id/lastnameModify"
         app:layout_constraintTop_toBottomOf="@+id/lastnameModify" />
 
     <EditText
         android:id="@+id/emailModify"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
-        android:hint="Email"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="@+id/phoneModify"
+        app:layout_constraintStart_toStartOf="@+id/phoneModify"
         app:layout_constraintTop_toBottomOf="@+id/phoneModify" />
 
-    <EditText
-        android:id="@+id/passwordModify"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailModify" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/passwordModifyLastName"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="20dp"
+
+        app:layout_constraintEnd_toEndOf="@+id/emailModify"
+        app:layout_constraintStart_toStartOf="@+id/emailModify"
+        app:layout_constraintTop_toBottomOf="@+id/emailModify"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/passwordModifyLast"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/current_password"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/buttonSaveChanges"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="Save"
+        android:background="@color/colorBlack"
+        android:text="@string/save"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/returnButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/returnButton"
+        app:layout_constraintTop_toTopOf="@+id/returnButton" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/confirmedPass1Name"
+        android:layout_width="0dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/passwordModifyLastName"
+        app:layout_constraintStart_toStartOf="@+id/passwordModifyLastName"
+        app:layout_constraintTop_toBottomOf="@+id/passwordModifyLastName"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/confirmedPass1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/new_password"
+            android:inputType="textPassword"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/confirmedPass2Name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/confirmedPass1Name"
+        app:layout_constraintStart_toStartOf="@+id/confirmedPass1Name"
+        app:layout_constraintTop_toBottomOf="@+id/confirmedPass1Name"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/confirmedPass2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/confirm_new_password"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/returnButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/return_button"
+        android:background="@color/colorRed"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonSaveChanges"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordModify" />
+        app:layout_constraintTop_toBottomOf="@+id/confirmedPass2Name" />
 </androidx.constraintlayout.widget.ConstraintLayout>
