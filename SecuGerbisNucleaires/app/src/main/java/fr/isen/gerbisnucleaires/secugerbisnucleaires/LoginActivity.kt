@@ -25,14 +25,14 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        /*val keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES,"AndroidKeyStore")
+        val keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES,"AndroidKeyStore")
         val kenGenParameterSpec = KeyGenParameterSpec.Builder("SecureGerbisKey",
             KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
             .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
-            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
             .build()
         keyGenerator.init(kenGenParameterSpec)
-        keyGenerator.generateKey()*/
+        keyGenerator.generateKey()
 
         mAuth = FirebaseAuth.getInstance()
 
