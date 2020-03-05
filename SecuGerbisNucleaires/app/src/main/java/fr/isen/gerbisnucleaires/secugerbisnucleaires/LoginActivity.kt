@@ -24,8 +24,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
-        getKey()
+        
         checkRootMethod()
 
         mAuth = FirebaseAuth.getInstance()
@@ -115,23 +114,5 @@ class LoginActivity : AppCompatActivity() {
         } else {
             Log.d("ROOT", "Le device n'est pas root")
         }
-    }
-
-    private fun getKey() {
-        val ref = FirebaseDatabase.getInstance().getReference("KeyStore")
-        val postListener = object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                println("COUCOUCOUCOUCOUCOCUOCUCOUCOU")
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-                val key = p0.child("KeySymUser").value.toString()
-                println("OUIOUIUOIUOIEUJOIEUROIJFOIUF $key")
-
-            }
-        }
-
-        ref.addValueEventListener(postListener)
-
     }
 }
