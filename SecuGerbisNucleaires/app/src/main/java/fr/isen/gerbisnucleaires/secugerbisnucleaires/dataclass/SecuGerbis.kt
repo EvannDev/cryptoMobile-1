@@ -7,27 +7,27 @@ import javax.crypto.spec.SecretKeySpec
 
 data class SecuGerbis(val data: String) {
 
-    fun getKey():String{
+    private fun getKey(): String {
         return "a125fe14d825a58b"
     }
 
-    fun chiffrement(): String {
+    fun encrypt(): String {
         val key = getKey().toByteArray(Charsets.UTF_8)
         val ivs = getKey().toByteArray(Charsets.UTF_8)
         val cipher = Cipher.getInstance("AES/CBC/PKCS7Padding")
-        val secretKeySpec = SecretKeySpec(key,"AES")
-        cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec,IvParameterSpec(ivs))
-        val chiffrer = cipher.doFinal(data.toByteArray(Charsets.UTF_8))
+        val secretKeySpec = SecretKeySpec(key, "AES")
+        cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, IvParameterSpec(ivs))
+        val cipherContent = cipher.doFinal(data.toByteArray(Charsets.UTF_8))
 
-        return Base64.getEncoder().encodeToString(chiffrer)
+        return Base64.getEncoder().encodeToString(cipherContent)
     }
 
-    fun dechiffrement():String{
+    fun decrypt(): String {
         val key = getKey().toByteArray(Charsets.UTF_8)
         val ivs = getKey().toByteArray(Charsets.UTF_8)
         val cipher = Cipher.getInstance("AES/CBC/PKCS7Padding")
-        val secretKeySpec = SecretKeySpec(key,"AES")
-        cipher.init(Cipher.DECRYPT_MODE, secretKeySpec,IvParameterSpec(ivs))
+        val secretKeySpec = SecretKeySpec(key, "AES")
+        cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, IvParameterSpec(ivs))
 
         val decodeData = Base64.getDecoder().decode(data)
 

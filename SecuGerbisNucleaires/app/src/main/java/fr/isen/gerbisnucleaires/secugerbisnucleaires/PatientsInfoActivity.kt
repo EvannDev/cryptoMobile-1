@@ -3,19 +3,16 @@ package fr.isen.gerbisnucleaires.secugerbisnucleaires
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.recyclerview.PatientAdapter
-import fr.isen.gerbisnucleaires.secugerbisnucleaires.recyclerview.patient.Name
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.recyclerview.patient.Patient
 import kotlinx.android.synthetic.main.activity_patients_info.*
 
@@ -41,7 +38,7 @@ class PatientsInfoActivity : AppCompatActivity(), PatientAdapter.OnItemClickList
         setContentView(R.layout.activity_patients_info)
 
         val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("Patients" )
+        val myRef = database.getReference("Patients")
 
         val postListener = object : ValueEventListener {
 
@@ -50,13 +47,14 @@ class PatientsInfoActivity : AppCompatActivity(), PatientAdapter.OnItemClickList
                     val patient = childSnapshot.getValue(Patient::class.java)!!
                     patients.add(patient)
 
-                    patientsRecycler.layoutManager = LinearLayoutManager(this@PatientsInfoActivity)
-                    patientsRecycler.adapter = PatientAdapter(patients,this@PatientsInfoActivity)
+                    patientsRecycler.layoutManager = LinearLayoutManager(applicationContext)
+                    patientsRecycler.adapter = PatientAdapter(patients, this@PatientsInfoActivity)
                 }
             }
 
             override fun onCancelled(p0: DatabaseError) {
-                Toast.makeText(this@PatientsInfoActivity, "Can't read informations from Firebase", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Can't read informations from Firebase", Toast.LENGTH_LONG)
+                    .show()
             }
         }
         myRef.addValueEventListener(postListener)
@@ -71,31 +69,32 @@ class PatientsInfoActivity : AppCompatActivity(), PatientAdapter.OnItemClickList
         checkIfAuth(mAuth)
     }
 
-    fun addPatientButtonClick() {
+    private fun addPatientButtonClick() {
         addPatientButton.setOnClickListener {
-            val intent = Intent(this@PatientsInfoActivity, AddPatientActivity::class.java)
+            val intent = Intent(applicationContext, AddPatientActivity::class.java)
             intent.putExtra("uuid", "")
             intent.putExtra("title", "")
             intent.putExtra("first_name", "")
-            intent.putExtra("last_name","")
+            intent.putExtra("last_name", "")
             intent.putExtra("age", "0")
             intent.putExtra("disease", "")
             startActivity(intent)
         }
     }
 
-    fun returnButton() {
+    private fun returnButton() {
         addPatientReturnButton.setOnClickListener {
-            val intent = Intent(this@PatientsInfoActivity, HomeActivity::class.java)
+            val intent = Intent(applicationContext, HomeActivity::class.java)
             startActivity(intent)
         }
     }
 
-    private fun checkIfAuth(mAuth : FirebaseAuth){
-        if(mAuth.currentUser == null){
-            newIntent(this@PatientsInfoActivity, LoginActivity::class.java)
+    private fun checkIfAuth(mAuth: FirebaseAuth) {
+        if (mAuth.currentUser == null) {
+            newIntent(applicationContext, LoginActivity::class.java)
         }
     }
+
     // Start new activity
     private fun newIntent(context: Context, clazz: Class<*>) {
         startActivity(Intent(context, clazz))

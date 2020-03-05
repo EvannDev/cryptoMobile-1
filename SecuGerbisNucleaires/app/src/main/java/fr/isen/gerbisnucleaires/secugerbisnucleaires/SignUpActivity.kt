@@ -1,11 +1,9 @@
 package fr.isen.gerbisnucleaires.secugerbisnucleaires
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.security.keystore.KeyGenParameterSpec
-import android.security.keystore.KeyProperties
-import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -18,11 +16,6 @@ import com.google.firebase.database.ValueEventListener
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.Nurse
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.SecuGerbis
 import kotlinx.android.synthetic.main.activity_sign_up.*
-import java.security.KeyStore
-import javax.crypto.Cipher
-import javax.crypto.KeyGenerator
-import javax.crypto.SecretKey
-import javax.crypto.spec.IvParameterSpec
 
 
 class SignUpActivity : AppCompatActivity() {
@@ -36,11 +29,11 @@ class SignUpActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
 
-        buttonCancel.setOnClickListener{
-            goToLogin()
+        buttonCancel.setOnClickListener {
+            newIntent(applicationContext, LoginActivity::class.java)
         }
 
-        buttonsignup.setOnClickListener{
+        buttonsignup.setOnClickListener {
             registerUser()
         }
     }
@@ -59,115 +52,97 @@ class SignUpActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(p0: DatabaseError) {
-                Toast.makeText(this@SignUpActivity, "Can't read informations from Firebase", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Can't read information from Firebase", Toast.LENGTH_LONG).show()
             }
         }
+
         myRef.addValueEventListener(signUpListener)
     }
 
     @RequiresApi(Build.VERSION_CODES.FROYO)
-    private fun checkField(adminCodeKey : String) {
+    private fun checkField(adminCodeKey: String) {
         val email = emailSignUpEdit.text.toString()
         val password = passwordSignUpEdit.text.toString()
         val confirmPassword = confirmPasswordSignUpEdit.text.toString()
-        val firstname = firstnameSignUpEdit.text.toString()
-        val lastname = lastnameSignUpEdit.text.toString()
+        val firstName = firstnameSignUpEdit.text.toString()
+        val lastName = lastnameSignUpEdit.text.toString()
         val phone = phoneSignUpEdit.text.toString()
         val adminCode = codeAdminEdit.text.toString()
 
-        if( email.isEmpty()     ||
-            password.isEmpty()  ||
-            confirmPassword.isEmpty() ||
-            firstname.isEmpty() ||
-            lastname.isEmpty()  ||
-            phone.isEmpty()     ||
-            adminCode.isEmpty()){
-            Toast.makeText(this,"Every Field must be fill ! ", Toast.LENGTH_LONG).show()
-        }
-        else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            Toast.makeText(this,"Invalid Email ", Toast.LENGTH_LONG).show()
-        }
-        else if (password.length < 12){
-            Toast.makeText(this,"Password should be longer than 12 characters ", Toast.LENGTH_LONG).show()
-        }
-        else if (!Patterns.PHONE.matcher(phone).matches()){
-            Toast.makeText(this,"Invalid phone number ", Toast.LENGTH_LONG).show()
-        }
-        else if (!password.equals(confirmPassword)){
-            Toast.makeText(this,"Password and Confirm Password fields must be equals ", Toast.LENGTH_LONG).show()
-        }
-        else if (!adminCode.equals(adminCodeKey)){
-            Toast.makeText(this,"Invalid Admin Code ", Toast.LENGTH_LONG).show()
-        }
-        else{
+        if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || firstName.isEmpty()
+            || lastName.isEmpty() || phone.isEmpty() || adminCode.isEmpty()
+        ) {
+            Toast.makeText(applicationContext, "Every Field must be fill ! ", Toast.LENGTH_LONG).show()
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(applicationContext, "Invalid Email ", Toast.LENGTH_LONG).show()
+        } else if (password.length < 12) {
+            Toast.makeText(applicationContext, "Password should be longer than 12 characters ", Toast.LENGTH_LONG).show()
+        } else if (!Patterns.PHONE.matcher(phone).matches()) {
+            Toast.makeText(applicationContext, "Invalid phone number ", Toast.LENGTH_LONG).show()
+        } else if (password != confirmPassword) {
+            Toast.makeText(applicationContext, "Password and Confirm Password fields must be equals ", Toast.LENGTH_LONG).show()
+        } else if (adminCode != adminCodeKey) {
+            Toast.makeText(applicationContext, "Invalid Admin Code ", Toast.LENGTH_LONG).show()
+        } else {
             createAccount()
         }
     }
 
     private fun createAccount() {
-
         val realEmail = emailSignUpEdit.text.toString()
         val realPassword = passwordSignUpEdit.text.toString()
 
-        val email = SecuGerbis(emailSignUpEdit.text.toString()).chiffrement()
-        val password = SecuGerbis(passwordSignUpEdit.text.toString()).chiffrement()
-        val firstname = SecuGerbis(firstnameSignUpEdit.text.toString()).chiffrement()
-        val lastname = SecuGerbis(lastnameSignUpEdit.text.toString()).chiffrement()
-        val phone = SecuGerbis(phoneSignUpEdit.text.toString()).chiffrement()
+        val email = SecuGerbis(emailSignUpEdit.text.toString()).encrypt()
+        val password = SecuGerbis(passwordSignUpEdit.text.toString()).encrypt()
+        val firstName = SecuGerbis(firstnameSignUpEdit.text.toString()).encrypt()
+        val lastName = SecuGerbis(lastnameSignUpEdit.text.toString()).encrypt()
+        val phone = SecuGerbis(phoneSignUpEdit.text.toString()).encrypt()
 
 
         mAuth.createUserWithEmailAndPassword(realEmail, realPassword)
             .addOnCompleteListener(this) {
                 if (it.isSuccessful) {
-                    Toast.makeText(this, "$firstname $lastname has been added to Nurses list", Toast.LENGTH_LONG).show()
+                    Toast.makeText(applicationContext, "$firstName $lastName has been added to Nurses list", Toast.LENGTH_LONG).show()
                     sendEmailVerification()
 
-                    fillRealTimeDatabase(firstname, lastname, email, phone, password)
+                    fillRealTimeDatabase(firstName, lastName, email, phone, password)
 
-                    goToLogin()
+                    newIntent(applicationContext, LoginActivity::class.java)
                     finish()
                 } else {
-                    Toast.makeText(baseContext, "$firstname $lastname is already registered",
-                        Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        baseContext, "$firstName $lastName is already registered",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
     }
 
-    private fun fillRealTimeDatabase(firstname : String, lastname : String, email : String, phone : String, password: String){
-
-        val nurseId =mAuth.currentUser?.uid.toString()
-
-        val nurse = Nurse(nurseId, firstname, lastname, phone, email, password)
-
+    private fun fillRealTimeDatabase(firstName: String, lastName: String, email: String, phone: String, password: String) {
+        val nurseId = mAuth.currentUser?.uid.toString()
+        val nurse = Nurse(nurseId, firstName, lastName, phone, email, password)
 
         FirebaseDatabase.getInstance().getReference("Nurse").child(nurseId).setValue(nurse).addOnCompleteListener {
-            Toast.makeText(this, "Registered", Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext, "Registered", Toast.LENGTH_LONG).show()
         }
 
     }
 
-    private fun sendEmailVerification(){
+    private fun sendEmailVerification() {
         val user = mAuth.currentUser
         user?.sendEmailVerification()
             ?.addOnCompleteListener(this) { task ->
 
                 if (task.isSuccessful) {
-                    Toast.makeText(baseContext,
-                        "Verification email sent to ${user.email} ",
-                        Toast.LENGTH_SHORT).show()
+                    Toast.makeText(baseContext, "Verification email sent to ${user.email} ", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(baseContext,
-                        "Failed to send verification email.",
-                        Toast.LENGTH_SHORT).show()
+                    Toast.makeText(baseContext, "Failed to send verification email.", Toast.LENGTH_SHORT).show()
                 }
             }
     }
 
-    private fun goToLogin() {
-        val homeIntent = Intent(
-            this,
-            LoginActivity::class.java
-        )
-        startActivity(homeIntent)
+    // Start new activity
+    private fun newIntent(context: Context, clazz: Class<*>) {
+        startActivity(Intent(context, clazz))
     }
 }
