@@ -3,12 +3,19 @@ package fr.isen.gerbisnucleaires.secugerbisnucleaires
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.security.keystore.KeyGenParameterSpec
+import android.security.keystore.KeyProperties
+import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.Nurse
+import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.SecuGerbis
 import kotlinx.android.synthetic.main.activity_login.*
+import java.util.*
+import javax.crypto.KeyGenerator
 
 class LoginActivity : AppCompatActivity() {
 
@@ -17,6 +24,15 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        /*val keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES,"AndroidKeyStore")
+        val kenGenParameterSpec = KeyGenParameterSpec.Builder("SecureGerbisKey",
+            KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
+            .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
+            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+            .build()
+        keyGenerator.init(kenGenParameterSpec)
+        keyGenerator.generateKey()*/
 
         mAuth = FirebaseAuth.getInstance()
 
@@ -55,6 +71,7 @@ class LoginActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(this, "Authentication Failed", Toast.LENGTH_LONG).show()
                     }
+
                 }
         }
     }
@@ -73,13 +90,5 @@ class LoginActivity : AppCompatActivity() {
             SignUpActivity::class.java
         )
         startActivity(signUpIntent)
-    }
-
-    private fun updateUI(user: FirebaseUser?) {
-        if (user != null) {
-            Toast.makeText(this, "Connected", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(this, "Wrong password", Toast.LENGTH_LONG).show();
-        }
     }
 }
