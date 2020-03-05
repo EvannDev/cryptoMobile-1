@@ -2,21 +2,16 @@ package fr.isen.gerbisnucleaires.secugerbisnucleaires
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_home.*
 import java.util.concurrent.Executor
-import java.net.Authenticator
-import java.security.KeyStore
-import java.util.concurrent.Executor
-import javax.crypto.KeyGenerator
-import javax.crypto.SecretKey
 
 class HomeActivity : AppCompatActivity() {
 
@@ -52,9 +47,9 @@ class HomeActivity : AppCompatActivity() {
             newIntent(this, PatientsInfoActivity::class.java)
         }
 
-        logoutHomeButton.setOnClickListener{
+        logoutHomeButton.setOnClickListener {
             mAuth.signOut()
-            newIntent(this,LoginActivity::class.java)
+            newIntent(this, LoginActivity::class.java)
         }
     }
 
@@ -106,11 +101,6 @@ class HomeActivity : AppCompatActivity() {
             .setSubtitle("Utiliser l'authentification biométrique pour continuer")
             .setNegativeButtonText("Annuler")
             .build()
-    }
-
-    // Start new activity
-    private fun newIntent(context: Context, clazz: Class<*>) {
-        startActivity(Intent(context, clazz))
     }
 
     // Start new activity
