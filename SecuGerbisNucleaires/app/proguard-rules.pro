@@ -14,6 +14,14 @@
 
 # Entry points
 -keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.LoginActivity
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.AddPatientActivity
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.AddVisitActivity
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.EditPersonalActivity
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.PatientsInfoActivity
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.PersonalInfoActivity
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.SignUpActivity
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.SpecificPatientActivity
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.SpecificVisitActivity
 
 # Uncomment this to preserve the line number information for
 # debugging stack traces.

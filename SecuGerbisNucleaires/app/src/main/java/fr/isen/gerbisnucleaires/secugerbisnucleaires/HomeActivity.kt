@@ -52,11 +52,6 @@ class HomeActivity : AppCompatActivity(), LoginDialog.LoginDialogListener {
 
         logoutHomeButton.setOnClickListener {
             mAuth.signOut()
-            newIntent(applicationContext, LoginActivity::class.java)
-        }
-
-        logoutHomeButton.setOnClickListener {
-            mAuth.signOut()
             Toast.makeText(applicationContext, "Disconnected", Toast.LENGTH_LONG).show()
             newIntent(applicationContext, LoginActivity::class.java)
         }
