@@ -2,15 +2,15 @@ package fr.isen.gerbisnucleaires.secugerbisnucleaires
 
 import android.content.Intent
 import android.graphics.Paint
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.FirebaseDatabase
-import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.Nurse
 import kotlinx.android.synthetic.main.activity_login.*
+
 
 class LoginActivity : AppCompatActivity() {
 
@@ -22,6 +22,7 @@ class LoginActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
 
+        Log.d("EMULATOR", "Is that an emulator = " + isProbablyAnEmulator())
 
         textbuttonsignin.setPaintFlags(textbuttonsignin.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
 
@@ -33,6 +34,18 @@ class LoginActivity : AppCompatActivity() {
             goToSignUp()
         }
     }
+
+    // To see if the app is running on an emulator device
+    fun isProbablyAnEmulator() = Build.FINGERPRINT.startsWith("generic")
+            || Build.FINGERPRINT.startsWith("unknown")
+            || Build.MODEL.contains("google_sdk")
+            || Build.MODEL.contains("Emulator")
+            || Build.MODEL.contains("Android SDK built for x86")
+            || Build.BOARD == "QC_Reference_Phone" //bluestacks
+            || Build.MANUFACTURER.contains("Genymotion")
+            || Build.HOST.startsWith("Build") //MSI App Player
+            || (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"))
+            || "google_sdk" == Build.PRODUCT
 
     private fun doLogin() {
 
