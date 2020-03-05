@@ -37,10 +37,6 @@ class LoginActivity : AppCompatActivity() {
             doLogin()
         }
 
-        buttonLogout.setOnClickListener {
-            doLogout()
-        }
-
         textbuttonsignin.setOnClickListener {
             newIntent(applicationContext, SignUpActivity::class.java)
         }
