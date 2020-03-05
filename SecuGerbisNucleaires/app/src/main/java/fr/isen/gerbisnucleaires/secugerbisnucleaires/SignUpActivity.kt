@@ -1,9 +1,14 @@
 package fr.isen.gerbisnucleaires.secugerbisnucleaires
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.security.keystore.KeyGenParameterSpec
+import android.security.keystore.KeyProperties
+import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -11,13 +16,20 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.Nurse
+import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.SecuGerbis
 import kotlinx.android.synthetic.main.activity_sign_up.*
+import java.security.KeyStore
+import javax.crypto.Cipher
+import javax.crypto.KeyGenerator
+import javax.crypto.SecretKey
+import javax.crypto.spec.IvParameterSpec
 
 
 class SignUpActivity : AppCompatActivity() {
 
     private lateinit var mAuth: FirebaseAuth
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
@@ -30,12 +42,12 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun registerUser() {
-
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("Code_Admin")
 
         val signUpListener = object : ValueEventListener {
 
+            @RequiresApi(Build.VERSION_CODES.FROYO)
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (childSnapshot in dataSnapshot.children) {
                     checkField(childSnapshot.value.toString())
@@ -49,6 +61,7 @@ class SignUpActivity : AppCompatActivity() {
         myRef.addValueEventListener(signUpListener)
     }
 
+    @RequiresApi(Build.VERSION_CODES.FROYO)
     private fun checkField(adminCodeKey : String) {
         val email = emailSignUpEdit.text.toString()
         val password = passwordSignUpEdit.text.toString()
@@ -84,13 +97,18 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun createAccount() {
-        val email = emailSignUpEdit.text.toString()
-        val password = passwordSignUpEdit.text.toString()
-        val firstname = firstnameSignUpEdit.text.toString()
-        val lastname = lastnameSignUpEdit.text.toString()
-        val phone = phoneSignUpEdit.text.toString()
 
-        mAuth.createUserWithEmailAndPassword(email, password)
+        val realEmail = emailSignUpEdit.text.toString()
+        val realPassword = passwordSignUpEdit.text.toString()
+
+        val email = SecuGerbis(emailSignUpEdit.text.toString()).chiffrement()
+        val password = SecuGerbis(passwordSignUpEdit.text.toString()).chiffrement()
+        val firstname = SecuGerbis(firstnameSignUpEdit.text.toString()).chiffrement()
+        val lastname = SecuGerbis(lastnameSignUpEdit.text.toString()).chiffrement()
+        val phone = SecuGerbis(phoneSignUpEdit.text.toString()).chiffrement()
+
+
+        mAuth.createUserWithEmailAndPassword(realEmail, realPassword)
             .addOnCompleteListener(this) {
                 if (it.isSuccessful) {
                     Toast.makeText(this, "Registered", Toast.LENGTH_LONG).show()
@@ -105,16 +123,16 @@ class SignUpActivity : AppCompatActivity() {
             }
     }
 
-
     private fun fillRealTimeDatabase(firstname : String, lastname : String, email : String, phone : String, password: String){
 
-        val nurseId =  mAuth.currentUser?.uid.toString()
+        val nurseId =mAuth.currentUser?.uid.toString()
 
         val nurse = Nurse(nurseId, firstname, lastname, phone, email,password)
 
         FirebaseDatabase.getInstance().getReference("Nurse").child(nurseId).setValue(nurse).addOnCompleteListener {
             Toast.makeText(this, "Registered", Toast.LENGTH_LONG).show()
         }
+
     }
 
     private fun sendEmailVerification(){
@@ -141,7 +159,4 @@ class SignUpActivity : AppCompatActivity() {
         )
         startActivity(homeIntent)
     }
-
-
-
 }
