@@ -11,7 +11,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.scottyab.rootbeer.RootBeer
+import kotlinx.android.synthetic.main.activity_login.*
+import java.io.BufferedReader
+import java.io.InputStreamReader
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.Nurse
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.SecuGerbis
 import kotlinx.android.synthetic.main.activity_login.*
@@ -22,19 +29,13 @@ import javax.crypto.KeyGenerator
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var mAuth: FirebaseAuth
+    private var postListener: ValueEventListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        val keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES,"AndroidKeyStore")
-        val kenGenParameterSpec = KeyGenParameterSpec.Builder("SecureGerbisKey",
-            KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
-            .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
-            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
-            .build()
-        keyGenerator.init(kenGenParameterSpec)
-        keyGenerator.generateKey()
+        checkRootMethod()
 
         mAuth = FirebaseAuth.getInstance()
 
@@ -76,8 +77,7 @@ class LoginActivity : AppCompatActivity() {
 
         if (UserEdit.text.toString().isEmpty() || PasswordEdit.text.toString().isEmpty()) {
             Toast.makeText(this, "You should fill everything", Toast.LENGTH_SHORT).show()
-        }
-        else {
+        } else {
             val email = UserEdit.text.toString()
             val password = PasswordEdit.text.toString()
 
@@ -115,5 +115,14 @@ class LoginActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+    }
+
+    private fun checkRootMethod() {
+        val rootBeer = RootBeer(applicationContext)
+        if(rootBeer.isRooted()) {
+            Log.d("ROOT", "Le device est root")
+        } else {
+            Log.d("ROOT", "Le device n'est pas root")
+        }
     }
 }

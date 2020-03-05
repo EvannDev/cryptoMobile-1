@@ -121,7 +121,9 @@ class SignUpActivity : AppCompatActivity() {
                 if (it.isSuccessful) {
                     Toast.makeText(this, "$firstname $lastname has been added to Nurses list", Toast.LENGTH_LONG).show()
                     sendEmailVerification()
-                    fillRealTimeDatabase(firstname, lastname, email, phone,password)
+
+                    fillRealTimeDatabase(firstname, lastname, email, phone, password)
+
                     goToLogin()
                     finish()
                 } else {
@@ -135,7 +137,8 @@ class SignUpActivity : AppCompatActivity() {
 
         val nurseId =mAuth.currentUser?.uid.toString()
 
-        val nurse = Nurse(nurseId, firstname, lastname, phone, email,password)
+        val nurse = Nurse(nurseId, firstname, lastname, phone, email, password)
+
 
         FirebaseDatabase.getInstance().getReference("Nurse").child(nurseId).setValue(nurse).addOnCompleteListener {
             Toast.makeText(this, "Registered", Toast.LENGTH_LONG).show()

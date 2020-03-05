@@ -53,6 +53,13 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
+
+        logoutHomeButton.setOnClickListener{
+            mAuth.signOut()
+            Toast.makeText(this, "Deconnected", Toast.LENGTH_LONG).show()
+            newIntent(this,LoginActivity::class.java)
+        }
+
     private fun bioAuth() {
         val biometricManager = BiometricManager.from(this)
 
@@ -65,6 +72,7 @@ class HomeActivity : AppCompatActivity() {
                 Log.e(TAG, "La biométrie n'est pas disponible")
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED ->
                 Log.e(TAG, "L'utilisateur n'a pas configuré la biométrie")
+
         }
 
         biometricPrompt.authenticate(promptInfo)

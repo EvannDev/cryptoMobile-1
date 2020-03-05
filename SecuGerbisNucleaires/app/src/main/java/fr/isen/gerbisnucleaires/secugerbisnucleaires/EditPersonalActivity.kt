@@ -157,6 +157,14 @@ class EditPersonalActivity : AppCompatActivity() {
 
     }
 
+    private fun goToPersonnal() {
+        val personnalIntent = Intent(
+            this,
+            PersonalInfoActivity::class.java
+        )
+        startActivity(personnalIntent)
+    }
+
     private fun checkIfAuth(mAuth : FirebaseAuth){
         if(mAuth.currentUser == null){
             newIntent(this@EditPersonalActivity, LoginActivity::class.java)
