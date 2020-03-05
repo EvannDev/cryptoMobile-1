@@ -53,13 +53,6 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-
-        logoutHomeButton.setOnClickListener{
-            mAuth.signOut()
-            Toast.makeText(this, "Deconnected", Toast.LENGTH_LONG).show()
-            newIntent(this,LoginActivity::class.java)
-        }
-
     private fun bioAuth() {
         val biometricManager = BiometricManager.from(this)
 

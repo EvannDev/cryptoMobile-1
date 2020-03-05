@@ -4,27 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.graphics.Paint
 import android.os.Build
-import android.os.Bundle
-import android.security.keystore.KeyGenParameterSpec
-import android.security.keystore.KeyProperties
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.scottyab.rootbeer.RootBeer
 import kotlinx.android.synthetic.main.activity_login.*
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.Nurse
-import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.SecuGerbis
-import kotlinx.android.synthetic.main.activity_login.*
-import java.util.*
-import javax.crypto.KeyGenerator
 
 
 class LoginActivity : AppCompatActivity() {
