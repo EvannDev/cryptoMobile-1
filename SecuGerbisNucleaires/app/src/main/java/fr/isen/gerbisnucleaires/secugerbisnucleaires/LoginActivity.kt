@@ -97,4 +97,7 @@ class LoginActivity : AppCompatActivity() {
             Toast.makeText(this, "Wrong password", Toast.LENGTH_LONG).show()
         }
     }
+
+    override fun onBackPressed() {
+    }
 }
