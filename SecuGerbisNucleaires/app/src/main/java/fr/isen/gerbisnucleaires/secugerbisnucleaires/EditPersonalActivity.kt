@@ -123,7 +123,7 @@ class EditPersonalActivity : AppCompatActivity() {
                             map["password"] = SecuGerbis(confirm1).encrypt()
                         } else {
                             user?.updatePassword(password)
-                            map["password"] = password
+                            map["password"] = SecuGerbis(password).decrypt()
                         }
 
                         val ref = FirebaseDatabase.getInstance().reference
