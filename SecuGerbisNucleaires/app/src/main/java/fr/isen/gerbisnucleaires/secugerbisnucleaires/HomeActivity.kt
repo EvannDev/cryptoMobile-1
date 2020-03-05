@@ -25,6 +25,7 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         mAuth = FirebaseAuth.getInstance()
+
         bioSetup()
 
         // Click on book icon
@@ -39,39 +40,39 @@ class HomeActivity : AppCompatActivity() {
 
         // Click on patient icon
         patientsInfoButton.setOnClickListener {
-            newIntent(this, PatientsInfoActivity::class.java)
+            newIntent(applicationContext, PatientsInfoActivity::class.java)
         }
 
         // Click on patient text
         textPatient.setOnClickListener {
-            newIntent(this, PatientsInfoActivity::class.java)
+            newIntent(applicationContext, PatientsInfoActivity::class.java)
         }
 
         logoutHomeButton.setOnClickListener {
             mAuth.signOut()
-            newIntent(this, LoginActivity::class.java)
+            newIntent(applicationContext, LoginActivity::class.java)
+        }
+
+        logoutHomeButton.setOnClickListener {
+            mAuth.signOut()
+            Toast.makeText(applicationContext, "Disconnected", Toast.LENGTH_LONG).show()
+            newIntent(applicationContext, LoginActivity::class.java)
         }
     }
 
 
-        logoutHomeButton.setOnClickListener{
-            mAuth.signOut()
-            Toast.makeText(this, "Deconnected", Toast.LENGTH_LONG).show()
-            newIntent(this,LoginActivity::class.java)
-        }
-
     private fun bioAuth() {
-        val biometricManager = BiometricManager.from(this)
+        val biometricManager = BiometricManager.from(applicationContext)
 
         when (biometricManager.canAuthenticate()) {
             BiometricManager.BIOMETRIC_SUCCESS ->
-                Log.d(TAG, "L'app peut utiliser la biométrie")
+                Log.d(TAG, "The app can use biometric auth")
             BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE ->
-                Log.e(TAG, "Le support ne possède pas de biométrie")
+                Log.e(TAG, "The phone does not support biometric auth")
             BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE ->
-                Log.e(TAG, "La biométrie n'est pas disponible")
+                Log.e(TAG, "Biometric auth is not available")
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED ->
-                Log.e(TAG, "L'utilisateur n'a pas configuré la biométrie")
+                Log.e(TAG, "The user didn't set up biometric auth")
 
         }
 
@@ -79,15 +80,15 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun bioSetup() {
-        executor = ContextCompat.getMainExecutor(this)
+        executor = ContextCompat.getMainExecutor(applicationContext)
         biometricPrompt = BiometricPrompt(this, executor,
             object : BiometricPrompt.AuthenticationCallback() {
                 override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                     // errorCode 13 ==> NegativeButton Event
                     val text: String = if (errorCode == 13)
-                        "Authentification annulée"
+                        "Authentication canceled"
                     else
-                        "Problème d'authentification : $errString"
+                        "Authentication issue : $errString"
 
                     Toast.makeText(applicationContext, text, Toast.LENGTH_SHORT).show()
                 }
@@ -95,19 +96,19 @@ class HomeActivity : AppCompatActivity() {
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                     super.onAuthenticationSucceeded(result)
                     newIntent(applicationContext, PersonalInfoActivity::class.java)
-                    Toast.makeText(applicationContext, "Authentification réussie", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "Authentication succeeded", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onAuthenticationFailed() {
                     super.onAuthenticationFailed()
-                    Toast.makeText(applicationContext, "Problème d'authentification", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "Authentication issue", Toast.LENGTH_SHORT).show()
                 }
             })
 
         promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle("Accéder à vos informations")
-            .setSubtitle("Utiliser l'authentification biométrique pour continuer")
-            .setNegativeButtonText("Annuler")
+            .setTitle("Get access to your information")
+            .setSubtitle("Please use the biometric authentication to continue")
+            .setNegativeButtonText("Cancel")
             .build()
     }
 
@@ -117,11 +118,12 @@ class HomeActivity : AppCompatActivity() {
         checkIfAuth(mAuth)
     }
 
-    private fun checkIfAuth(mAuth : FirebaseAuth){
-        if(mAuth.currentUser == null){
-            newIntent(this@HomeActivity, LoginActivity::class.java)
+    private fun checkIfAuth(mAuth: FirebaseAuth) {
+        if (mAuth.currentUser == null) {
+            newIntent(applicationContext, LoginActivity::class.java)
         }
     }
+
     // Start new activity
     private fun newIntent(context: Context, clazz: Class<*>) {
         startActivity(Intent(context, clazz))

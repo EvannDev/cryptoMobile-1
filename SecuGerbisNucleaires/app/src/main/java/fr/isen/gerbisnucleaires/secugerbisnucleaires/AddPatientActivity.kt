@@ -30,10 +30,9 @@ class AddPatientActivity : AppCompatActivity() {
         val age = intent.getStringExtra("age")
         val disease = intent.getStringExtra("disease")
 
-        if (uuid == "" && firstName == "" && lastName == "" && age == "0" && disease == ""){
+        if (uuid == "" && firstName == "" && lastName == "" && age == "0" && disease == "") {
             addPatient()
-        }
-        else {
+        } else {
             addPatientAddButton.text = "Update Patient Information"
             updatePatientInfo(uuid, title, lastName, firstName, age, disease)
         }
@@ -46,13 +45,13 @@ class AddPatientActivity : AppCompatActivity() {
         checkIfAuth(mAuth)
     }
 
-    fun cancelClickButton() {
+    private fun cancelClickButton() {
         addPatientCancelButton.setOnClickListener {
             this.finish()
         }
     }
 
-    fun addPatient(){
+    private fun addPatient() {
         addPatientAddButton.setOnClickListener {
             val firebase = FirebaseDatabase.getInstance()
             val ref = firebase.reference
@@ -60,37 +59,35 @@ class AddPatientActivity : AppCompatActivity() {
             val patientId = ref.child("Patients").push().key.toString()
             val patientName = addPatientLastnameFieldInput.text.toString()
 
-            val patientFirstname = addPatientFirstnameFieldInput.text.toString()
+            val patientFirstName = addPatientFirstnameFieldInput.text.toString()
             val patientTitle = addPatientTitleSpinner.selectedItem.toString()
             val patientDisease = addPatientDiseaseValue.text.toString()
             val patientAge = addPatientAgeValue.text.toString().toInt()
 
-            val patient = Patient(patientId, Name(patientName,patientFirstname,patientTitle),patientDisease,patientAge)
+            val patient = Patient(patientId, Name(patientName, patientFirstName, patientTitle), patientDisease, patientAge)
 
-            if(patientName != "" && patientFirstname != "" && patientDisease != "" && (patientAge > 0 && patientAge <= 110)){
+            if (patientName != "" && patientFirstName != "" && patientDisease != "" && (patientAge in 1..110)) {
                 ref.child("Patients").child(patientId).setValue(patient)
 
                 val goToPatientsInfoActivity = Intent(this@AddPatientActivity, PatientsInfoActivity::class.java)
                 startActivity(goToPatientsInfoActivity)
 
-                Toast.makeText(this@AddPatientActivity, "The Patient have just been added to Firebase", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "The Patient have just been added to Firebase", Toast.LENGTH_LONG).show()
 
                 this.finish()
 
-            }
-            else {
-                if(patientName == "" || patientFirstname == "" || patientDisease == "") {
-                    Toast.makeText(this@AddPatientActivity, "ERREUR : All the field must be fill !!!", Toast.LENGTH_LONG).show()
-                }
-                else {
-                    Toast.makeText(this@AddPatientActivity, "ERREUR : Age must be set between 1 and 110 years old !!! ", Toast.LENGTH_LONG).show()
+            } else {
+                if (patientName == "" || patientFirstName == "" || patientDisease == "") {
+                    Toast.makeText(applicationContext, "ERROR : All the field must be fill !!!", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(applicationContext, "ERROR : Age must be set between 1 and 110 years old !!! ", Toast.LENGTH_LONG).show()
                 }
             }
         }
     }
 
-    fun updatePatientInfo(uuid : String, title : String, lastName : String, firstName : String, age : String, disease : String) {
-        when(title) {
+    private fun updatePatientInfo(uuid: String, title: String, lastName: String, firstName: String, age: String, disease: String) {
+        when (title) {
             "Sir" -> addPatientTitleSpinner.setSelection(0)
             "Mr" -> addPatientTitleSpinner.setSelection(1)
             "Mrs" -> addPatientTitleSpinner.setSelection(2)
@@ -111,15 +108,15 @@ class AddPatientActivity : AppCompatActivity() {
 
             val patientName = addPatientLastnameFieldInput.text.toString()
 
-            val patientFirstname = addPatientFirstnameFieldInput.text.toString()
+            val patientFirstName = addPatientFirstnameFieldInput.text.toString()
             val patientTitle = addPatientTitleSpinner.selectedItem.toString()
             val patientDisease = addPatientDiseaseValue.text.toString()
             val patientAge = addPatientAgeValue.text.toString().toInt()
 
 
 
-            if(patientName != "" && patientFirstname != "" && patientDisease != "" && (patientAge > 0 && patientAge <= 110)){
-                val patient = Patient(uuid,Name(patientName,patientFirstname,patientTitle),patientDisease,patientAge)
+            if (patientName != "" && patientFirstName != "" && patientDisease != "" && (patientAge in 1..110)) {
+                val patient = Patient(uuid, Name(patientName, patientFirstName, patientTitle), patientDisease, patientAge)
 
                 ref.child(uuid).setValue(patient).addOnCompleteListener {
                     Toast.makeText(applicationContext, "Changes saved", Toast.LENGTH_LONG).show()
@@ -128,27 +125,26 @@ class AddPatientActivity : AppCompatActivity() {
                 val goToPatientsInfoActivity = Intent(this@AddPatientActivity, PatientsInfoActivity::class.java)
                 startActivity(goToPatientsInfoActivity)
 
-                Toast.makeText(this@AddPatientActivity, "The Patient Information have been Updated into Firebase", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "The Patient Information have been Updated into Firebase", Toast.LENGTH_LONG).show()
 
                 this.finish()
 
-            }
-            else {
-                if(patientName == "" || patientFirstname == "" || patientDisease == "") {
-                    Toast.makeText(this@AddPatientActivity, "ERREUR : All the field must be fill !!!", Toast.LENGTH_LONG).show()
-                }
-                else {
-                    Toast.makeText(this@AddPatientActivity, "ERREUR : Age must be set between 1 and 110 years old !!! ", Toast.LENGTH_LONG).show()
+            } else {
+                if (patientName == "" || patientFirstName == "" || patientDisease == "") {
+                    Toast.makeText(applicationContext, "ERROR : All the field must be fill !!!", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(applicationContext, "ERROR : Age must be set between 1 and 110 years old !!! ", Toast.LENGTH_LONG).show()
                 }
             }
         }
     }
 
-    private fun checkIfAuth(mAuth : FirebaseAuth){
-        if(mAuth.currentUser == null){
-            newIntent(this@AddPatientActivity, LoginActivity::class.java)
+    private fun checkIfAuth(mAuth: FirebaseAuth) {
+        if (mAuth.currentUser == null) {
+            newIntent(applicationContext, LoginActivity::class.java)
         }
     }
+
     // Start new activity
     private fun newIntent(context: Context, clazz: Class<*>) {
         startActivity(Intent(context, clazz))

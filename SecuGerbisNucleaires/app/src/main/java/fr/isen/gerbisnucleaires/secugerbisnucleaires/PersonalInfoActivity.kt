@@ -2,10 +2,9 @@ package fr.isen.gerbisnucleaires.secugerbisnucleaires
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -13,11 +12,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.SecuGerbis
 import kotlinx.android.synthetic.main.activity_personal_item.*
-import java.security.KeyStore
-import java.util.*
-import javax.crypto.Cipher
-import javax.crypto.SecretKey
-import javax.crypto.spec.IvParameterSpec
 
 class PersonalInfoActivity : AppCompatActivity() {
 
@@ -27,7 +21,7 @@ class PersonalInfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_personal_item)
 
-        isConnect(this)
+        isConnect()
 
         val user = FirebaseAuth.getInstance().currentUser
 
@@ -36,22 +30,22 @@ class PersonalInfoActivity : AppCompatActivity() {
             .child(user!!.uid)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
-                    Toast.makeText(applicationContext, "Can not read data from database", Toast.LENGTH_LONG).show()
+                    Toast.makeText(applicationContext, "Cannot read data from database", Toast.LENGTH_LONG).show()
                 }
 
                 override fun onDataChange(p0: DataSnapshot) {
-                    var map = p0.value as Map<String, Any>
-                    val firstnameNurseDecode = SecuGerbis(map["firstname"].toString()).dechiffrement()
-                    val lastnameNurseDecode = SecuGerbis(map["lastname"].toString()).dechiffrement()
-                    val phoneNurseDecode = SecuGerbis(map["phone"].toString()).dechiffrement()
-                    val emailNurseDecode = SecuGerbis(map["email"].toString()).dechiffrement()
+                    val map = p0.value as Map<*, *>
+                    val firstNameNurseDecode = SecuGerbis(map["firstname"].toString()).decrypt()
+                    val lastNameNurseDecode = SecuGerbis(map["lastname"].toString()).decrypt()
+                    val phoneNurseDecode = SecuGerbis(map["phone"].toString()).decrypt()
+                    val emailNurseDecode = SecuGerbis(map["email"].toString()).decrypt()
 
-                    firstnameNurse.text = firstnameNurseDecode
-                    lastnameNurse.text = lastnameNurseDecode
+                    firstnameNurse.text = firstNameNurseDecode
+                    lastnameNurse.text = lastNameNurseDecode
                     phoneNurse.text = phoneNurseDecode
-                    emailNurse.text= emailNurseDecode
+                    emailNurse.text = emailNurseDecode
 
-                    editButtonClick(firstnameNurseDecode,lastnameNurseDecode,phoneNurseDecode,emailNurseDecode)
+                    editButtonClick(firstNameNurseDecode, lastNameNurseDecode, phoneNurseDecode, emailNurseDecode)
                 }
             })
 
@@ -68,30 +62,30 @@ class PersonalInfoActivity : AppCompatActivity() {
         checkIfAuth(mAuth)
     }
 
-    private fun isConnect(activity: Context){
+    private fun isConnect() {
         //Detecting Connection State
         val connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected")
-        connectedRef.addValueEventListener(object : ValueEventListener{
+        connectedRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
-                Toast.makeText(activity,"onCancelled",Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "onCancelled", Toast.LENGTH_SHORT).show()
             }
+
             override fun onDataChange(p0: DataSnapshot) {
                 val connected = p0.getValue(Boolean::class.java) ?: false
-                if(connected){
-                    Toast.makeText(activity,"Online",Toast.LENGTH_LONG).show()
-                }
-                else{
-                    Toast.makeText(activity,"Offline",Toast.LENGTH_LONG).show()
+                if (connected) {
+                    Toast.makeText(applicationContext, "Online", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(applicationContext, "Offline", Toast.LENGTH_LONG).show()
                 }
             }
         })
     }
 
-    fun editButtonClick(firstname: String, lastname: String, phone: String, email: String) {
+    fun editButtonClick(firstName: String, lastName: String, phone: String, email: String) {
         buttonEdit.setOnClickListener {
             val intent = Intent(this, EditPersonalActivity::class.java)
-            intent.putExtra("firstname", firstname)
-            intent.putExtra("lastname", lastname)
+            intent.putExtra("firstname", firstName)
+            intent.putExtra("lastname", lastName)
             intent.putExtra("phone", phone)
             intent.putExtra("email", email)
             startActivity(intent)
@@ -99,11 +93,12 @@ class PersonalInfoActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkIfAuth(mAuth : FirebaseAuth){
-        if(mAuth.currentUser == null){
-            newIntent(this@PersonalInfoActivity, LoginActivity::class.java)
+    private fun checkIfAuth(mAuth: FirebaseAuth) {
+        if (mAuth.currentUser == null) {
+            newIntent(applicationContext, LoginActivity::class.java)
         }
     }
+
     // Start new activity
     private fun newIntent(context: Context, clazz: Class<*>) {
         startActivity(Intent(context, clazz))

@@ -2,7 +2,6 @@ package fr.isen.gerbisnucleaires.secugerbisnucleaires.recyclerview
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.R
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.recyclerview.patient.Patient
@@ -19,6 +18,6 @@ class PatientAdapter(private val patients: ArrayList<Patient>, var itemClickList
     override fun getItemCount(): Int = patients.size
 
     interface OnItemClickListener {
-        fun onItemClick(patient : Patient)
+        fun onItemClick(patient: Patient)
     }
 }

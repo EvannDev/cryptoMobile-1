@@ -6,9 +6,9 @@ import fr.isen.gerbisnucleaires.secugerbisnucleaires.recyclerview.patient.Patien
 import kotlinx.android.synthetic.main.activity_patient_item.view.*
 
 class PatientHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    fun bind(patient: Patient, clickListener : PatientAdapter.OnItemClickListener) {
+    fun bind(patient: Patient, clickListener: PatientAdapter.OnItemClickListener) {
         itemView.patientName.text = (patient.name.title + " " + patient.name.name + " " + patient.name.firstName)
-        itemView.patientAge.text =  (patient.age.toString() + " years old")
+        itemView.patientAge.text = (patient.age.toString() + " years old")
         itemView.patientDisease.text = patient.disease
 
         itemView.setOnClickListener {

@@ -17,6 +17,6 @@ class VisitAdapter(private val visits: ArrayList<Visit>, var itemClickListener: 
     override fun getItemCount(): Int = visits.size
 
     interface OnItemClickListener {
-        fun onItemClick(visit : Visit)
+        fun onItemClick(visit: Visit)
     }
 }

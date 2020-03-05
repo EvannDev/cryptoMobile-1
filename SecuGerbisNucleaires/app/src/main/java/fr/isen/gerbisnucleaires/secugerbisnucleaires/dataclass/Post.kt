@@ -8,8 +8,8 @@ data class Post(
     var phone: String,
     var starCount: Int = 0,
     var stars: MutableMap<String, Boolean> = HashMap()
-){
-    fun toMap(): Map<String, Any?>{
+) {
+    fun toMap(): Map<String, Any?> {
         return mapOf(
             "uid" to uid,
             "firstname" to firstname,
@@ -18,7 +18,6 @@ data class Post(
             "phone" to phone,
             "starCount" to starCount,
             "stars" to stars
-
         )
     }
 }

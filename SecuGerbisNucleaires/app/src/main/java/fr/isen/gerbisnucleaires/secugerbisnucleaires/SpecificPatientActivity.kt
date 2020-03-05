@@ -46,17 +46,17 @@ class SpecificPatientActivity : AppCompatActivity(), VisitAdapter.OnItemClickLis
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (childSnapshot in dataSnapshot.children) {
                     val visit = childSnapshot.getValue(Visit::class.java)!!
-                    if(visit.patientId == uuid) {
+                    if (visit.patientId == uuid) {
                         visits.add(visit)
                     }
 
-                    visitRecycler.layoutManager = LinearLayoutManager(this@SpecificPatientActivity)
-                    visitRecycler.adapter = VisitAdapter(visits,this@SpecificPatientActivity)
+                    visitRecycler.layoutManager = LinearLayoutManager(applicationContext)
+                    visitRecycler.adapter = VisitAdapter(visits, this@SpecificPatientActivity)
                 }
             }
 
             override fun onCancelled(p0: DatabaseError) {
-                Toast.makeText(this@SpecificPatientActivity, "Can't read informations from Firebase", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Can't read information from Firebase", Toast.LENGTH_LONG).show()
             }
         }
         myRef.addValueEventListener(visitListener)
@@ -68,21 +68,21 @@ class SpecificPatientActivity : AppCompatActivity(), VisitAdapter.OnItemClickLis
         checkIfAuth(mAuth)
     }
 
-    fun  cancelButton() {
+    private fun cancelButton() {
         SpecificPatientCancelButton.setOnClickListener {
             val intent = Intent(this@SpecificPatientActivity, PatientsInfoActivity::class.java)
             startActivity(intent)
         }
     }
 
-    fun updatePatientInfo(uuid : String, title : String, lastName : String, firstName : String, age : String, disease : String) {
+    private fun updatePatientInfo(uuid: String, title: String, lastName: String, firstName: String, age: String, disease: String) {
         SpecificPatientEditButton.setOnClickListener {
 
             val intent = Intent(this@SpecificPatientActivity, AddPatientActivity::class.java)
             intent.putExtra("uuid", uuid)
             intent.putExtra("title", title)
             intent.putExtra("first_name", firstName)
-            intent.putExtra("last_name",lastName)
+            intent.putExtra("last_name", lastName)
             intent.putExtra("age", age)
             intent.putExtra("disease", disease)
             startActivity(intent)
@@ -92,7 +92,7 @@ class SpecificPatientActivity : AppCompatActivity(), VisitAdapter.OnItemClickLis
     override fun onBackPressed() {
     }
 
-    private fun deletePatient(uuid : String){
+    private fun deletePatient(uuid: String) {
         SpecificPatientDeletePatientButton.setOnClickListener {
             val databaseVisit = FirebaseDatabase.getInstance()
             val myRefVisit = databaseVisit.getReference("Visits")
@@ -101,14 +101,14 @@ class SpecificPatientActivity : AppCompatActivity(), VisitAdapter.OnItemClickLis
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     for (childSnapshot in dataSnapshot.children) {
                         val visit = childSnapshot.getValue(Visit::class.java)!!
-                        if(visit.patientId == uuid) {
+                        if (visit.patientId == uuid) {
                             myRefVisit.child(visit.uuid).removeValue()
                         }
                     }
                 }
 
                 override fun onCancelled(p0: DatabaseError) {
-                    Toast.makeText(this@SpecificPatientActivity, "Can't read informations from Firebase", Toast.LENGTH_LONG).show()
+                    Toast.makeText(applicationContext, "Can't read information from Firebase", Toast.LENGTH_LONG).show()
                 }
             }
             myRefVisit.addValueEventListener(visitListener)
@@ -119,7 +119,7 @@ class SpecificPatientActivity : AppCompatActivity(), VisitAdapter.OnItemClickLis
         }
     }
 
-    fun addVisit(patientUuid : String, title : String, lastName : String, firstName : String, age : String, disease: String){
+    fun addVisit(patientUuid: String, title: String, lastName: String, firstName: String, age: String, disease: String) {
         SpecificPatientAddVisitButton.setOnClickListener {
             val intent = Intent(this@SpecificPatientActivity, AddVisitActivity::class.java)
             intent.putExtra("patientUuid", patientUuid)
@@ -149,11 +149,12 @@ class SpecificPatientActivity : AppCompatActivity(), VisitAdapter.OnItemClickLis
         startActivity(intent)
     }
 
-    private fun checkIfAuth(mAuth : FirebaseAuth){
-        if(mAuth.currentUser == null){
-            newIntent(this@SpecificPatientActivity, LoginActivity::class.java)
+    private fun checkIfAuth(mAuth: FirebaseAuth) {
+        if (mAuth.currentUser == null) {
+            newIntent(applicationContext, LoginActivity::class.java)
         }
     }
+
     // Start new activity
     private fun newIntent(context: Context, clazz: Class<*>) {
         startActivity(Intent(context, clazz))
