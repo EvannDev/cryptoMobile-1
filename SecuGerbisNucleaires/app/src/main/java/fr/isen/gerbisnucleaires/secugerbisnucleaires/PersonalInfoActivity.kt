@@ -21,8 +21,6 @@ class PersonalInfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_personal_item)
 
-        isConnect()
-
         val user = FirebaseAuth.getInstance().currentUser
 
         FirebaseDatabase.getInstance().reference
@@ -60,25 +58,6 @@ class PersonalInfoActivity : AppCompatActivity() {
         super.onStart()
         mAuth = FirebaseAuth.getInstance()
         checkIfAuth(mAuth)
-    }
-
-    private fun isConnect() {
-        //Detecting Connection State
-        val connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected")
-        connectedRef.addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                Toast.makeText(applicationContext, "onCancelled", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-                val connected = p0.getValue(Boolean::class.java) ?: false
-                if (connected) {
-                    Toast.makeText(applicationContext, "Online", Toast.LENGTH_LONG).show()
-                } else {
-                    Toast.makeText(applicationContext, "Offline", Toast.LENGTH_LONG).show()
-                }
-            }
-        })
     }
 
     fun editButtonClick(firstName: String, lastName: String, phone: String, email: String) {

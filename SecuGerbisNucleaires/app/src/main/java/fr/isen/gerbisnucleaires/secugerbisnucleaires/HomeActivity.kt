@@ -1,6 +1,7 @@
 package fr.isen.gerbisnucleaires.secugerbisnucleaires
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,11 +10,15 @@ import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import android.util.Log
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.activity_login_dialog.*
 import java.util.concurrent.Executor
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(), LoginDialog.LoginDialogListener {
 
     private lateinit var mAuth: FirebaseAuth
     private lateinit var executor: Executor
@@ -30,22 +35,22 @@ class HomeActivity : AppCompatActivity() {
 
         // Click on book icon
         personnalInfoButton.setOnClickListener {
-            bioAuth()
+            bioAuth(PersonalInfoActivity::class.java)
         }
 
         // Click on book text
         textInfirmiers.setOnClickListener {
-            bioAuth()
+            bioAuth(PersonalInfoActivity::class.java)
         }
 
         // Click on patient icon
         patientsInfoButton.setOnClickListener {
-            newIntent(applicationContext, PatientsInfoActivity::class.java)
+            bioAuth(PatientsInfoActivity::class.java)
         }
 
         // Click on patient text
         textPatient.setOnClickListener {
-            newIntent(applicationContext, PatientsInfoActivity::class.java)
+            bioAuth(PatientsInfoActivity::class.java)
         }
 
         logoutHomeButton.setOnClickListener {
@@ -60,20 +65,62 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
+    private fun passwordAuth(clazz: Class<*>) {
+        val loginDialog = LoginDialog(clazz)
 
-    private fun bioAuth() {
+        loginDialog.show(supportFragmentManager, "passLogin")
+    }
+
+    override fun onDialogPositiveClick(dialog: DialogFragment, clazz: Class<*>) {
+        if (userDialog.text.toString().isEmpty() || passwordDialog.text.toString().isEmpty()) {
+            Toast.makeText(applicationContext, "Fill the fields first", Toast.LENGTH_SHORT).show()
+        } else {
+            val email = userDialog.text.toString()
+            val password = passwordDialog.text.toString()
+
+            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    if (mAuth.currentUser?.isEmailVerified!!) {
+                        Toast.makeText(applicationContext, "Success", Toast.LENGTH_SHORT).show()
+                        newIntent(applicationContext, clazz)
+                    } else {
+                        Toast.makeText(applicationContext, "Email must be verified", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(applicationContext, "Authentication Failed", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
+    private fun bioAuth(clazz: Class<*>) {
         val biometricManager = BiometricManager.from(applicationContext)
 
         when (biometricManager.canAuthenticate()) {
-            BiometricManager.BIOMETRIC_SUCCESS ->
-                Log.d(TAG, "The app can use biometric auth")
-            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE ->
-                Log.e(TAG, "The phone does not support biometric auth")
-            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE ->
-                Log.e(TAG, "Biometric auth is not available")
-            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED ->
-                Log.e(TAG, "The user didn't set up biometric auth")
+            BiometricManager.BIOMETRIC_SUCCESS -> {
+                val str = "The app can use biometric auth"
+                Log.d(TAG, str)
+            }
 
+            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
+                val str = "The phone does not support biometric auth"
+                Log.e(TAG, str)
+                Toast.makeText(applicationContext, str, Toast.LENGTH_SHORT).show()
+                passwordAuth(clazz)
+            }
+
+            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
+                val str = "Biometric auth is not available"
+                Log.e(TAG, str)
+                Toast.makeText(applicationContext, str, Toast.LENGTH_SHORT).show()
+                passwordAuth(clazz)
+            }
+
+            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
+                val str = "The user didn't set up biometric auth"
+                Log.e(TAG, str)
+                Toast.makeText(applicationContext, str, Toast.LENGTH_SHORT).show()
+            }
         }
 
         biometricPrompt.authenticate(promptInfo)

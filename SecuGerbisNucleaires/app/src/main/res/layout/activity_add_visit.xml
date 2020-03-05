@@ -83,7 +83,8 @@
         app:layout_constraintBottom_toTopOf="@+id/addVisitPatientStateValue"
         app:layout_constraintEnd_toEndOf="@+id/addVisitTemperatureValue"
         app:layout_constraintStart_toEndOf="@+id/addVisitTreatmentName"
-        app:layout_constraintTop_toBottomOf="@+id/addVisitTemperatureValue" />
+        app:layout_constraintTop_toBottomOf="@+id/addVisitTemperatureValue"
+        android:autofillHints="no" />
 
     <TextView
         android:id="@+id/addVisitPatientStateName"

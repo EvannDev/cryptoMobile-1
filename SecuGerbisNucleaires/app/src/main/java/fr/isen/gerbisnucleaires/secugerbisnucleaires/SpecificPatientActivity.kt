@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.SecuGerbis
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.recyclerview.Visit
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.recyclerview.VisitAdapter
 import kotlinx.android.synthetic.main.activity_specific_patient.*
@@ -23,11 +24,11 @@ class SpecificPatientActivity : AppCompatActivity(), VisitAdapter.OnItemClickLis
         setContentView(R.layout.activity_specific_patient)
 
         val uuid = intent.getStringExtra("uuid")
-        val title = intent.getStringExtra("title")
-        val firstName = intent.getStringExtra("first_name")
-        val lastName = intent.getStringExtra("last_name")
-        val age = intent.getStringExtra("age")
-        val disease = intent.getStringExtra("disease")
+        val title = SecuGerbis(intent.getStringExtra("title")).decrypt()
+        val firstName = SecuGerbis(intent.getStringExtra("first_name")).decrypt()
+        val lastName = SecuGerbis(intent.getStringExtra("last_name")).decrypt()
+        val age = SecuGerbis(intent.getStringExtra("age")).decrypt()
+        val disease = SecuGerbis(intent.getStringExtra("disease")).decrypt()
 
         specificPatientName.text = ("$title $firstName $lastName")
         specificPatientAge.text = ("$age years old")
@@ -80,11 +81,11 @@ class SpecificPatientActivity : AppCompatActivity(), VisitAdapter.OnItemClickLis
 
             val intent = Intent(this@SpecificPatientActivity, AddPatientActivity::class.java)
             intent.putExtra("uuid", uuid)
-            intent.putExtra("title", title)
-            intent.putExtra("first_name", firstName)
-            intent.putExtra("last_name", lastName)
-            intent.putExtra("age", age)
-            intent.putExtra("disease", disease)
+            intent.putExtra("title", SecuGerbis(title).encrypt())
+            intent.putExtra("first_name", SecuGerbis(firstName).encrypt())
+            intent.putExtra("last_name", SecuGerbis(lastName).encrypt())
+            intent.putExtra("age", SecuGerbis(age).encrypt())
+            intent.putExtra("disease", SecuGerbis(disease).encrypt())
             startActivity(intent)
         }
     }
@@ -123,16 +124,16 @@ class SpecificPatientActivity : AppCompatActivity(), VisitAdapter.OnItemClickLis
         SpecificPatientAddVisitButton.setOnClickListener {
             val intent = Intent(this@SpecificPatientActivity, AddVisitActivity::class.java)
             intent.putExtra("patientUuid", patientUuid)
-            intent.putExtra("patientTitle", title)
-            intent.putExtra("patientLastname", lastName)
-            intent.putExtra("patientFirstname", firstName)
-            intent.putExtra("patientAge", age)
-            intent.putExtra("patientDisease", disease)
+            intent.putExtra("patientTitle", SecuGerbis(title).encrypt())
+            intent.putExtra("patientLastname", SecuGerbis(lastName).encrypt())
+            intent.putExtra("patientFirstname", SecuGerbis(firstName).encrypt())
+            intent.putExtra("patientAge", SecuGerbis(age).encrypt())
+            intent.putExtra("patientDisease", SecuGerbis(disease).encrypt())
             intent.putExtra("uuid", "")
-            intent.putExtra("dateOfVisit", "")
-            intent.putExtra("temperature", "")
-            intent.putExtra("treatment", "")
-            intent.putExtra("patientState", "")
+            intent.putExtra("dateOfVisit", SecuGerbis("").encrypt())
+            intent.putExtra("temperature", SecuGerbis("").encrypt())
+            intent.putExtra("treatment", SecuGerbis("").encrypt())
+            intent.putExtra("patientState", SecuGerbis("").encrypt())
             startActivity(intent)
         }
     }

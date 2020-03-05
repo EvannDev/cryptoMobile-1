@@ -4,5 +4,5 @@ data class Patient(
     var uuid: String = "",
     val name: Name = Name("", "", ""),
     val disease: String = "",
-    val age: Int = 0
+    val age: String = ""
 )
