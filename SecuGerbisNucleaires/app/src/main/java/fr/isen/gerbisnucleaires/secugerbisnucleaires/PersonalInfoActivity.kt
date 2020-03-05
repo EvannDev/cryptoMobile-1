@@ -21,6 +21,8 @@ import javax.crypto.spec.IvParameterSpec
 
 class PersonalInfoActivity : AppCompatActivity() {
 
+    private lateinit var mAuth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_personal_item)
@@ -53,10 +55,17 @@ class PersonalInfoActivity : AppCompatActivity() {
                 }
             })
 
+
         homeButton.setOnClickListener {
             val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mAuth = FirebaseAuth.getInstance()
+        checkIfAuth(mAuth)
     }
 
     private fun isConnect(activity: Context){
@@ -88,5 +97,15 @@ class PersonalInfoActivity : AppCompatActivity() {
             startActivity(intent)
             this.finish()
         }
+    }
+
+    private fun checkIfAuth(mAuth : FirebaseAuth){
+        if(mAuth.currentUser == null){
+            newIntent(this@PersonalInfoActivity, LoginActivity::class.java)
+        }
+    }
+    // Start new activity
+    private fun newIntent(context: Context, clazz: Class<*>) {
+        startActivity(Intent(context, clazz))
     }
 }

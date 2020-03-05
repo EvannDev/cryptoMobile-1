@@ -1,11 +1,13 @@
 package fr.isen.gerbisnucleaires.secugerbisnucleaires
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -16,6 +18,8 @@ import kotlinx.android.synthetic.main.activity_specific_visit.*
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class SpecificVisitActivity : AppCompatActivity() {
+
+    private lateinit var mAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,6 +75,12 @@ class SpecificVisitActivity : AppCompatActivity() {
         specificVisitPatientStateValue.setMovementMethod(ScrollingMovementMethod())
     }
 
+    override fun onStart() {
+        super.onStart()
+        mAuth = FirebaseAuth.getInstance()
+        checkIfAuth(mAuth)
+    }
+
     fun cancelButton(patientId : String, patientTitle : String, patientFirstname : String, patientLastname : String, patientAge : String, patientDisease : String) {
         specificVisitCancelButton.setOnClickListener {
             val intent = Intent(this@SpecificVisitActivity, SpecificPatientActivity::class.java)
@@ -114,5 +124,15 @@ class SpecificVisitActivity : AppCompatActivity() {
             intent.putExtra("patientState", patientState)
             startActivity(intent)
         }
+    }
+
+    private fun checkIfAuth(mAuth : FirebaseAuth){
+        if(mAuth.currentUser == null){
+            newIntent(this@SpecificVisitActivity, LoginActivity::class.java)
+        }
+    }
+    // Start new activity
+    private fun newIntent(context: Context, clazz: Class<*>) {
+        startActivity(Intent(context, clazz))
     }
 }
