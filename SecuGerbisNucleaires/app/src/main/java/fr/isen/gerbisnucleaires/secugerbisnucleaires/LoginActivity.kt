@@ -9,10 +9,6 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.scottyab.rootbeer.RootBeer
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -25,7 +21,6 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        getKey()
         checkRootMethod()
 
         mAuth = FirebaseAuth.getInstance()
@@ -103,19 +98,5 @@ class LoginActivity : AppCompatActivity() {
         } else {
             Log.d("ROOT", "Device is not ROOT")
         }
-    }
-
-    private fun getKey() {
-        val ref = FirebaseDatabase.getInstance().getReference("KeyStore")
-        val postListener = object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-                val key = p0.child("KeySymUser").value.toString()
-            }
-        }
-
-        ref.addValueEventListener(postListener)
     }
 }
