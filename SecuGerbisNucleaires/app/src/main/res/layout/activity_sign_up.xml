@@ -15,6 +15,7 @@
         android:textColor="@color/colorBlack"
         android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
@@ -37,10 +38,11 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/lastnameSignUp"
-        android:layout_width="0dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/firstnameSignUp"
-        app:layout_constraintStart_toStartOf="@+id/firstnameSignUp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/firstnameSignUp">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -52,42 +54,45 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailSignUp"
-        android:layout_width="0dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/firstnameSignUp"
-        app:layout_constraintStart_toStartOf="@+id/lastnameSignUp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lastnameSignUp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/emailSignUpEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:hint="@string/email" />
+            android:hint="@string/email"
+            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/phoneSignUp"
-        android:layout_width="0dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/emailSignUp"
-        app:layout_constraintStart_toStartOf="@+id/emailSignUp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailSignUp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/phoneSignUpEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="phone"
-            android:hint="@string/phone" />
+            android:hint="@string/phone"
+            android:inputType="phone" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordSignUp"
-        android:layout_width="0dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/phoneSignUp"
-        app:layout_constraintStart_toStartOf="@+id/phoneSignUp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/phoneSignUp"
         app:passwordToggleEnabled="true">
 
@@ -95,16 +100,17 @@
             android:id="@+id/passwordSignUpEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="@string/password" />
+            android:hint="@string/password"
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/codeAdmin"
-        android:layout_width="0dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/passwordSignUp"
-        app:layout_constraintStart_toStartOf="@+id/passwordSignUp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/confirmPasswordSignUp">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -119,20 +125,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="62dp"
-        android:text="@string/sign_up"
+        android:layout_marginEnd="32dp"
         android:background="@color/colorBlack"
+        android:text="@string/sign_up"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/codeAdmin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/buttonCancel"
-        app:layout_constraintTop_toTopOf="@+id/buttonCancel" />
+        app:layout_constraintTop_toBottomOf="@+id/codeAdmin" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/confirmPasswordSignUp"
-        android:layout_width="0dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/passwordSignUp"
-        app:layout_constraintStart_toStartOf="@+id/passwordSignUp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordSignUp"
         app:passwordToggleEnabled="true">
 
@@ -141,20 +151,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/confirm_password"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/buttonCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/cancel"
+        android:layout_marginStart="32dp"
         android:background="@color/colorRed"
+        android:text="@string/cancel"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonsignup"
-        app:layout_constraintStart_toStartOf="@+id/codeAdmin"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/codeAdmin" />
 
 
