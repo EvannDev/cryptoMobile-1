@@ -1,10 +1,12 @@
 package fr.isen.gerbisnucleaires.secugerbisnucleaires
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.recyclerview.Visit
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.recyclerview.VisitAdapter
@@ -14,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_specific_patient.*
 class SpecificPatientActivity : AppCompatActivity(), VisitAdapter.OnItemClickListener {
 
     val visits: ArrayList<Visit> = arrayListOf()
+    private lateinit var mAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +60,12 @@ class SpecificPatientActivity : AppCompatActivity(), VisitAdapter.OnItemClickLis
             }
         }
         myRef.addValueEventListener(visitListener)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mAuth = FirebaseAuth.getInstance()
+        checkIfAuth(mAuth)
     }
 
     fun  cancelButton() {
@@ -138,6 +147,16 @@ class SpecificPatientActivity : AppCompatActivity(), VisitAdapter.OnItemClickLis
         intent.putExtra("dateOfVisit", visit.dateOfVisit)
 
         startActivity(intent)
+    }
+
+    private fun checkIfAuth(mAuth : FirebaseAuth){
+        if(mAuth.currentUser == null){
+            newIntent(this@SpecificPatientActivity, LoginActivity::class.java)
+        }
+    }
+    // Start new activity
+    private fun newIntent(context: Context, clazz: Class<*>) {
+        startActivity(Intent(context, clazz))
     }
 
 }

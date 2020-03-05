@@ -27,4 +27,27 @@
     <string name="visit_date">Visit Date :</string>
     <string name="delete_visit">Delete Visit</string>
     <string name="edit_visit_info">Edit Visit Info</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="admin_code">Enter The Admin Code</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="login">Login</string>
+    <string name="connexion">Connexion</string>
+    <string name="don_t_have_an_account">Don\'t have an account ?</string>
+    <string name="sign_up_login_page"><u>Sign Up !</u></string>
+    <string name="medecine_logo">Medecine Logo</string>
+    <string name="return_button">Return</string>
+    <string name="modify">Modify</string>
+    <string name="phone_number">Phone number</string>
+    <string name="personal_informations">Personal informations</string>
+    <string name="logout">Logout</string>
+    <string name="nurse_informations">Nurse informations</string>
+    <string name="patient_informations">Patient informations</string>
+    <string name="modify_your_informations">Modify your informations</string>
+    <string name="current_password">Current password</string>
+    <string name="save">Save</string>
+    <string name="new_password">New password</string>
+    <string name="confirm_new_password">Confirm New Password</string>
 </resources>

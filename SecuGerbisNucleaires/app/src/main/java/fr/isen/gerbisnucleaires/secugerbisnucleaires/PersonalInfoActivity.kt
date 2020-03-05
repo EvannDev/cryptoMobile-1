@@ -4,16 +4,24 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.activity_edit_personal.*
+import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.SecuGerbis
 import kotlinx.android.synthetic.main.activity_personal_item.*
+import java.security.KeyStore
+import java.util.*
+import javax.crypto.Cipher
+import javax.crypto.SecretKey
+import javax.crypto.spec.IvParameterSpec
 
 class PersonalInfoActivity : AppCompatActivity() {
+
+    private lateinit var mAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,12 +40,18 @@ class PersonalInfoActivity : AppCompatActivity() {
                 }
 
                 override fun onDataChange(p0: DataSnapshot) {
-                    val map = p0.value as Map<String, Any>
-                    firstnameNurse.text = map["firstname"].toString()
-                    lastnameNurse.text = map["lastname"].toString()
-                    phoneNurse.text = map["phone"].toString()
-                    emailNurse.text = map["email"].toString()
-                    editButtonClick(map["firstname"].toString(), map["lastname"].toString(), map["phone"].toString(), map["email"].toString())
+                    var map = p0.value as Map<String, Any>
+                    val firstnameNurseDecode = SecuGerbis(map["firstname"].toString()).dechiffrement()
+                    val lastnameNurseDecode = SecuGerbis(map["lastname"].toString()).dechiffrement()
+                    val phoneNurseDecode = SecuGerbis(map["phone"].toString()).dechiffrement()
+                    val emailNurseDecode = SecuGerbis(map["email"].toString()).dechiffrement()
+
+                    firstnameNurse.text = firstnameNurseDecode
+                    lastnameNurse.text = lastnameNurseDecode
+                    phoneNurse.text = phoneNurseDecode
+                    emailNurse.text= emailNurseDecode
+
+                    editButtonClick(firstnameNurseDecode,lastnameNurseDecode,phoneNurseDecode,emailNurseDecode)
                 }
             })
 
@@ -46,6 +60,12 @@ class PersonalInfoActivity : AppCompatActivity() {
             val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mAuth = FirebaseAuth.getInstance()
+        checkIfAuth(mAuth)
     }
 
     private fun isConnect(activity: Context){
@@ -77,5 +97,15 @@ class PersonalInfoActivity : AppCompatActivity() {
             startActivity(intent)
             this.finish()
         }
+    }
+
+    private fun checkIfAuth(mAuth : FirebaseAuth){
+        if(mAuth.currentUser == null){
+            newIntent(this@PersonalInfoActivity, LoginActivity::class.java)
+        }
+    }
+    // Start new activity
+    private fun newIntent(context: Context, clazz: Class<*>) {
+        startActivity(Intent(context, clazz))
     }
 }

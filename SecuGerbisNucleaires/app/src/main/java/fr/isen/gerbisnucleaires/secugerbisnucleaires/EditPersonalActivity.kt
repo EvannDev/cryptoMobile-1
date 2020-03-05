@@ -14,7 +14,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.SecuGerbis
 import kotlinx.android.synthetic.main.activity_edit_personal.*
 
 class EditPersonalActivity : AppCompatActivity() {
@@ -27,6 +27,8 @@ class EditPersonalActivity : AppCompatActivity() {
     lateinit var confirmedPass1: EditText
     lateinit var confirmedPass2: EditText
     lateinit var buttonSave: Button
+
+    private lateinit var mAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,14 +48,24 @@ class EditPersonalActivity : AppCompatActivity() {
         confirmedPass2 = findViewById(R.id.confirmedPass2)
         buttonSave = findViewById(R.id.buttonSaveChanges)
 
-        firstNameText.setText(firstname.toString())
-        lastNameText.setText(lastname.toString())
-        phoneText.setText(phone.toString())
-        emailText.setText(email.toString())
+        firstNameText.setText(firstname?.toString())
+        lastNameText.setText(lastname?.toString())
+        phoneText.setText(phone?.toString())
+        emailText.setText(email?.toString())
 
         buttonSave.setOnClickListener {
             saveData()
         }
+
+        returnButton.setOnClickListener {
+            newIntent(this@EditPersonalActivity, PersonalInfoActivity::class.java)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mAuth = FirebaseAuth.getInstance()
+        checkIfAuth(mAuth)
     }
 
     private fun saveData(){
@@ -106,11 +118,11 @@ class EditPersonalActivity : AppCompatActivity() {
             }
 
             var map = mutableMapOf<String, Any>()
-            map["firstname"] = firstname
-            map["lastname"] = lastname
-            map["phone"] = phone
-            map["email"] = email
-            map["password"] = confirm1
+            map["firstname"] = SecuGerbis(firstname).chiffrement()
+            map["lastname"] = SecuGerbis(lastname).chiffrement()
+            map["phone"] = SecuGerbis(phone).chiffrement()
+            map["email"] = SecuGerbis(email).chiffrement()
+            map["password"] = SecuGerbis(confirm1).chiffrement()
 
 
             val mAuth = FirebaseAuth.getInstance()
@@ -121,7 +133,7 @@ class EditPersonalActivity : AppCompatActivity() {
                         val user = mAuth.currentUser
                         if(!confirm1.isEmpty()){
                             user?.updatePassword(confirm1)
-                            map["password"] = confirm1
+                            map["password"] = SecuGerbis(confirm1).chiffrement()
                         }
                         else{
                             user?.updatePassword(password)
@@ -136,7 +148,7 @@ class EditPersonalActivity : AppCompatActivity() {
                             .addOnCompleteListener {
                                 Toast.makeText(applicationContext, "Changes saved", Toast.LENGTH_LONG).show()
                             }
-                        goToPersonnal()
+                            newIntent(this@EditPersonalActivity, PersonalInfoActivity::class.java)
                     } else {
                         Toast.makeText(this, "Last password is wrong", Toast.LENGTH_LONG).show()
                     }
@@ -145,15 +157,21 @@ class EditPersonalActivity : AppCompatActivity() {
 
     }
 
-    private fun newIntent(context: Context, clazz: Class<*>) {
-        startActivity(Intent(context, clazz))
-    }
-
     private fun goToPersonnal() {
         val personnalIntent = Intent(
             this,
             PersonalInfoActivity::class.java
         )
         startActivity(personnalIntent)
+    }
+
+    private fun checkIfAuth(mAuth : FirebaseAuth){
+        if(mAuth.currentUser == null){
+            newIntent(this@EditPersonalActivity, LoginActivity::class.java)
+        }
+    }
+    // Start new activity
+    private fun newIntent(context: Context, clazz: Class<*>) {
+        startActivity(Intent(context, clazz))
     }
 }
