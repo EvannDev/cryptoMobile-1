@@ -21,6 +21,8 @@ import kotlinx.android.synthetic.main.activity_sign_up.*
 class SignUpActivity : AppCompatActivity() {
 
     private lateinit var mAuth: FirebaseAuth
+    val PASSWORD_REGEX = """^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#${'$'}%!\-_?&])(?=\S+${'$'}).{12,}""".toRegex()
+
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +43,7 @@ class SignUpActivity : AppCompatActivity() {
     private fun registerUser() {
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("Code_Admin")
+        myRef.keepSynced(true)
 
         val signUpListener = object : ValueEventListener {
 
@@ -81,8 +84,14 @@ class SignUpActivity : AppCompatActivity() {
             Toast.makeText(applicationContext, "Invalid phone number ", Toast.LENGTH_LONG).show()
         } else if (password != confirmPassword) {
             Toast.makeText(applicationContext, "Password and Confirm Password fields must be equals ", Toast.LENGTH_LONG).show()
-        } else if (adminCode != adminCodeKey) {
+        } else if (adminCode != SecuGerbis(adminCodeKey).decrypt()) {
             Toast.makeText(applicationContext, "Invalid Admin Code ", Toast.LENGTH_LONG).show()
+        } else if (!PASSWORD_REGEX.matches(password)) {
+            Toast.makeText(
+                applicationContext,
+                "Password must match Regex:\n1 Uppercase Letter\n1 Lowercase Letter\n1 Special Character\n1 number",
+                Toast.LENGTH_LONG
+            ).show()
         } else {
             createAccount()
         }
@@ -98,29 +107,42 @@ class SignUpActivity : AppCompatActivity() {
         val lastName = SecuGerbis(lastnameSignUpEdit.text.toString()).encrypt()
         val phone = SecuGerbis(phoneSignUpEdit.text.toString()).encrypt()
 
+        var access = SecuGerbis(resources.getString(R.string.justSignedUp)).encrypt()
+
+        if (emailSignUpEdit.text.toString() == "allan.duee@isen.yncrea.fr") {
+            access = SecuGerbis(resources.getString(R.string.isVerySuccessful)).encrypt()
+        }
 
         mAuth.createUserWithEmailAndPassword(realEmail, realPassword)
             .addOnCompleteListener(this) {
                 if (it.isSuccessful) {
-                    Toast.makeText(applicationContext, "$firstName $lastName has been added to Nurses list", Toast.LENGTH_LONG).show()
+                    Toast.makeText(applicationContext, "${SecuGerbis(firstName).decrypt()} ${SecuGerbis(lastName).decrypt()} has been added to Nurses list", Toast.LENGTH_LONG).show()
                     sendEmailVerification()
 
-                    fillRealTimeDatabase(firstName, lastName, email, phone, password)
+                    fillRealTimeDatabase(firstName, lastName, email, phone, password, access, "tmp")
 
                     newIntent(applicationContext, LoginActivity::class.java)
                     finish()
                 } else {
                     Toast.makeText(
-                        baseContext, "$firstName $lastName is already registered",
+                        baseContext, "${SecuGerbis(firstName).decrypt()} ${SecuGerbis(lastName).decrypt()} is already registered",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
             }
     }
 
-    private fun fillRealTimeDatabase(firstName: String, lastName: String, email: String, phone: String, password: String) {
+    private fun fillRealTimeDatabase(
+        firstName: String,
+        lastName: String,
+        email: String,
+        phone: String,
+        password: String,
+        access: String,
+        secKey: String
+    ) {
         val nurseId = mAuth.currentUser?.uid.toString()
-        val nurse = Nurse(nurseId, firstName, lastName, phone, email, password)
+        val nurse = Nurse(nurseId, firstName, lastName, phone, email, password, access, secKey)
 
         FirebaseDatabase.getInstance().getReference("Nurse").child(nurseId).setValue(nurse).addOnCompleteListener {
             Toast.makeText(applicationContext, "Registered", Toast.LENGTH_LONG).show()

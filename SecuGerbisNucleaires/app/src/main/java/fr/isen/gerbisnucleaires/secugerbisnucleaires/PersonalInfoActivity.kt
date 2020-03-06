@@ -23,7 +23,9 @@ class PersonalInfoActivity : AppCompatActivity() {
 
         val user = FirebaseAuth.getInstance().currentUser
 
-        FirebaseDatabase.getInstance().reference
+        val ref = FirebaseDatabase.getInstance().reference
+        ref.keepSynced(true)
+        ref
             .child("Nurse")
             .child(user!!.uid)
             .addListenerForSingleValueEvent(object : ValueEventListener {
@@ -33,8 +35,8 @@ class PersonalInfoActivity : AppCompatActivity() {
 
                 override fun onDataChange(p0: DataSnapshot) {
                     val map = p0.value as Map<*, *>
-                    val firstNameNurseDecode = SecuGerbis(map["firstname"].toString()).decrypt()
-                    val lastNameNurseDecode = SecuGerbis(map["lastname"].toString()).decrypt()
+                    val firstNameNurseDecode = SecuGerbis(map["firstName"].toString()).decrypt()
+                    val lastNameNurseDecode = SecuGerbis(map["lastName"].toString()).decrypt()
                     val phoneNurseDecode = SecuGerbis(map["phone"].toString()).decrypt()
                     val emailNurseDecode = SecuGerbis(map["email"].toString()).decrypt()
 
@@ -63,8 +65,8 @@ class PersonalInfoActivity : AppCompatActivity() {
     fun editButtonClick(firstName: String, lastName: String, phone: String, email: String) {
         buttonEdit.setOnClickListener {
             val intent = Intent(this, EditPersonalActivity::class.java)
-            intent.putExtra("firstname", firstName)
-            intent.putExtra("lastname", lastName)
+            intent.putExtra("firstName", firstName)
+            intent.putExtra("lastName", lastName)
             intent.putExtra("phone", phone)
             intent.putExtra("email", email)
             startActivity(intent)
@@ -81,5 +83,8 @@ class PersonalInfoActivity : AppCompatActivity() {
     // Start new activity
     private fun newIntent(context: Context, clazz: Class<*>) {
         startActivity(Intent(context, clazz))
+    }
+
+    override fun onBackPressed() {
     }
 }
