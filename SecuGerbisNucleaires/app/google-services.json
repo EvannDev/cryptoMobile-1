@@ -52,6 +52,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "383232385072-o6nn2kqdbvtd3ga6m86jcf4nuvdrcbqn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.isen.gerbisnucleaires.secugerbisnucleaires",
+            "certificate_hash": "7ab4d18ad7be684da5efdbc5b0342bbffdd92f56"
+          }
+        },
+        {
           "client_id": "383232385072-enuenuvars82lvuagrrlsp4sg110urq2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
