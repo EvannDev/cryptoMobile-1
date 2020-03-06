@@ -1,18 +1,19 @@
 package fr.isen.gerbisnucleaires.secugerbisnucleaires
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
-import android.util.Log
 import androidx.fragment.app.DialogFragment
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.activity_login_dialog.*
+import kotlinx.android.synthetic.main.activity_login_dialog.view.*
 import java.util.concurrent.Executor
 
 class HomeActivity : AppCompatActivity(), LoginDialog.LoginDialogListener {
@@ -28,25 +29,29 @@ class HomeActivity : AppCompatActivity(), LoginDialog.LoginDialogListener {
 
         mAuth = FirebaseAuth.getInstance()
 
-        bioSetup()
+        executor = ContextCompat.getMainExecutor(applicationContext)
 
         // Click on book icon
         personnalInfoButton.setOnClickListener {
+            bioSetup(PersonalInfoActivity::class.java)
             bioAuth(PersonalInfoActivity::class.java)
         }
 
         // Click on book text
         textInfirmiers.setOnClickListener {
+            bioSetup(PersonalInfoActivity::class.java)
             bioAuth(PersonalInfoActivity::class.java)
         }
 
         // Click on patient icon
         patientsInfoButton.setOnClickListener {
+            bioSetup(PatientsInfoActivity::class.java)
             bioAuth(PatientsInfoActivity::class.java)
         }
 
         // Click on patient text
         textPatient.setOnClickListener {
+            bioSetup(PatientsInfoActivity::class.java)
             bioAuth(PatientsInfoActivity::class.java)
         }
 
@@ -58,19 +63,22 @@ class HomeActivity : AppCompatActivity(), LoginDialog.LoginDialogListener {
     }
 
     private fun passwordAuth(clazz: Class<*>) {
-        val loginDialog = LoginDialog(clazz)
-
-        loginDialog.show(supportFragmentManager, "passLogin")
+        val logDialog = LoginDialog(clazz)
+        logDialog.show(supportFragmentManager, "login")
     }
 
-    override fun onDialogPositiveClick(dialog: DialogFragment, clazz: Class<*>) {
-        if (userDialog.text.toString().isEmpty() || passwordDialog.text.toString().isEmpty()) {
+    override fun onDialogNegativeClick(dialog: Dialog?) {
+        dialog?.cancel()
+    }
+
+    override fun onDialogPositiveClick(dialog: DialogFragment, view: View, clazz: Class<*>) {
+        val email = view.emailDialog.text.toString()
+        val pass = view.passDialog.text.toString()
+
+        if (email.isEmpty() || pass.isEmpty()) {
             Toast.makeText(applicationContext, "Fill the fields first", Toast.LENGTH_SHORT).show()
         } else {
-            val email = userDialog.text.toString()
-            val password = passwordDialog.text.toString()
-
-            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
+            mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     if (mAuth.currentUser?.isEmailVerified!!) {
                         Toast.makeText(applicationContext, "Success", Toast.LENGTH_SHORT).show()
@@ -91,7 +99,7 @@ class HomeActivity : AppCompatActivity(), LoginDialog.LoginDialogListener {
         when (biometricManager.canAuthenticate()) {
             BiometricManager.BIOMETRIC_SUCCESS -> {
                 val str = "The app can use biometric auth"
-                Log.d(TAG, str)
+                Toast.makeText(applicationContext, str, Toast.LENGTH_SHORT).show()
             }
 
             BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
@@ -115,8 +123,7 @@ class HomeActivity : AppCompatActivity(), LoginDialog.LoginDialogListener {
         biometricPrompt.authenticate(promptInfo)
     }
 
-    private fun bioSetup() {
-        executor = ContextCompat.getMainExecutor(applicationContext)
+    private fun bioSetup(clazz: Class<*>) {
         biometricPrompt = BiometricPrompt(this, executor,
             object : BiometricPrompt.AuthenticationCallback() {
                 override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
@@ -131,7 +138,7 @@ class HomeActivity : AppCompatActivity(), LoginDialog.LoginDialogListener {
 
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                     super.onAuthenticationSucceeded(result)
-                    newIntent(applicationContext, PersonalInfoActivity::class.java)
+                    newIntent(applicationContext, clazz)
                     Toast.makeText(applicationContext, "Authentication succeeded", Toast.LENGTH_SHORT).show()
                 }
 
@@ -166,9 +173,5 @@ class HomeActivity : AppCompatActivity(), LoginDialog.LoginDialogListener {
     }
 
     override fun onBackPressed() {
-    }
-
-    companion object {
-        private const val TAG = "SGN"
     }
 }

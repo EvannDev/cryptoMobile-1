@@ -17,6 +17,7 @@ data class SecuGerbis(val data: String) {
         val cipher = Cipher.getInstance("AES/CBC/PKCS7Padding")
         val secretKeySpec = SecretKeySpec(key, "AES")
         cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, IvParameterSpec(ivs))
+
         val cipherContent = cipher.doFinal(data.toByteArray(Charsets.UTF_8))
 
         return Base64.getEncoder().encodeToString(cipherContent)

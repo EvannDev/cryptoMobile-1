@@ -9,7 +9,6 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
 import com.scottyab.rootbeer.RootBeer
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -23,7 +22,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         // Offline capabilities
-        //FirebaseDatabase.getInstance().setPersistenceEnabled(true)
+//        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
 
         checkRootMethod()
 
@@ -60,12 +59,12 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun doLogin() {
-        if (userEdit.text.toString().isEmpty() || passwordEdit.text.toString().isEmpty()) {
+        val email = userEdit.text.toString()
+        val password = passwordEdit.text.toString()
+
+        if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(applicationContext, "You should fill everything", Toast.LENGTH_SHORT).show()
         } else {
-            val email = userEdit.text.toString()
-            val password = passwordEdit.text.toString()
-
             mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {

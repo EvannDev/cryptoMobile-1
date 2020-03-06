@@ -33,8 +33,8 @@ class PersonalInfoActivity : AppCompatActivity() {
 
                 override fun onDataChange(p0: DataSnapshot) {
                     val map = p0.value as Map<*, *>
-                    val firstNameNurseDecode = SecuGerbis(map["firstname"].toString()).decrypt()
-                    val lastNameNurseDecode = SecuGerbis(map["lastname"].toString()).decrypt()
+                    val firstNameNurseDecode = SecuGerbis(map["firstName"].toString()).decrypt()
+                    val lastNameNurseDecode = SecuGerbis(map["lastName"].toString()).decrypt()
                     val phoneNurseDecode = SecuGerbis(map["phone"].toString()).decrypt()
                     val emailNurseDecode = SecuGerbis(map["email"].toString()).decrypt()
 
@@ -63,8 +63,8 @@ class PersonalInfoActivity : AppCompatActivity() {
     fun editButtonClick(firstName: String, lastName: String, phone: String, email: String) {
         buttonEdit.setOnClickListener {
             val intent = Intent(this, EditPersonalActivity::class.java)
-            intent.putExtra("firstname", firstName)
-            intent.putExtra("lastname", lastName)
+            intent.putExtra("firstName", firstName)
+            intent.putExtra("lastName", lastName)
             intent.putExtra("phone", phone)
             intent.putExtra("email", email)
             startActivity(intent)
