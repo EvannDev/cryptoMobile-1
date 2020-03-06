@@ -82,4 +82,7 @@ class PersonalInfoActivity : AppCompatActivity() {
     private fun newIntent(context: Context, clazz: Class<*>) {
         startActivity(Intent(context, clazz))
     }
+
+    override fun onBackPressed() {
+    }
 }

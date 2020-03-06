@@ -30,8 +30,8 @@ class EditPersonalActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_personal)
 
-        val firstName = intent.getStringExtra("firstname")
-        val lastName = intent.getStringExtra("lastname")
+        val firstName = intent.getStringExtra("firstName")
+        val lastName = intent.getStringExtra("lastName")
         val phone = intent.getStringExtra("phone")
         val email = intent.getStringExtra("email")
 
@@ -93,21 +93,15 @@ class EditPersonalActivity : AppCompatActivity() {
         } else if (password.isEmpty()) {
             passwordText.error = "Please enter your password"
             return
+        } else if (confirm1.isNotEmpty() && confirm1.length < 12) {
+            Toast.makeText(applicationContext, "Password should be longer than 12 characters ", Toast.LENGTH_LONG).show()
+        } else if(!PASSWORD_REGEX.matches(confirm1)) {
+            Toast.makeText(applicationContext, "Password must match Regex:\n1 Uppercase Letter\n1 Lowercase Letter\n1 Special Character\n1 number", Toast.LENGTH_LONG).show()
+        } else if (confirm1 != confirm2) {
+            confirmedPass1.error = "Enter the same password"
+            confirmedPass2.error = "Enter the same password"
+            return
         } else {
-
-            if (confirm1.isNotEmpty() && confirm1.length < 12) {
-                Toast.makeText(applicationContext, "Password should be longer than 12 characters ", Toast.LENGTH_LONG).show()
-            }
-
-            if(!PASSWORD_REGEX.matches(password)) {
-                Toast.makeText(applicationContext, "Password must match Regex:\n1 Uppercase Letter\n1 Lowercase Letter\n1 Special Character\n1 number", Toast.LENGTH_LONG).show()
-            }
-
-            if (confirm1 != confirm2) {
-                confirmedPass1.error = "Enter the same password"
-                confirmedPass2.error = "Enter the same password"
-                return
-            }
 
             val map = mutableMapOf<String, Any>()
             map["firstname"] = SecuGerbis(firstName).encrypt()
@@ -157,5 +151,8 @@ class EditPersonalActivity : AppCompatActivity() {
     // Start new activity
     private fun newIntent(context: Context, clazz: Class<*>) {
         startActivity(Intent(context, clazz))
+    }
+
+    override fun onBackPressed() {
     }
 }
