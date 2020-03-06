@@ -13,6 +13,11 @@
 #}
 
 # Entry points
+-android
+-dontpreverify
+-allowaccessmodification
+-optimizations !code/simplification/arithmetic
+
 -keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.LoginActivity{fun onCreate();}
 -keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.AddPatientActivity{ fun onCreate();}
 -keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.AddVisitActivity{fun onCreate();}
