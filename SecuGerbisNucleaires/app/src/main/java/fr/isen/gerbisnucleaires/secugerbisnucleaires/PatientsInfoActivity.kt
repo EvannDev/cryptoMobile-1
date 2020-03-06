@@ -40,6 +40,7 @@ class PatientsInfoActivity : AppCompatActivity(), PatientAdapter.OnItemClickList
 
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("Patients")
+        myRef.keepSynced(true)
 
         val postListener = object : ValueEventListener {
 

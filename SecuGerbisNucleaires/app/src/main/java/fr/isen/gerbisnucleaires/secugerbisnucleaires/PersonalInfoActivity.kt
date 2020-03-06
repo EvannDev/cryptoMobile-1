@@ -23,7 +23,9 @@ class PersonalInfoActivity : AppCompatActivity() {
 
         val user = FirebaseAuth.getInstance().currentUser
 
-        FirebaseDatabase.getInstance().reference
+        val ref = FirebaseDatabase.getInstance().reference
+        ref.keepSynced(true)
+        ref
             .child("Nurse")
             .child(user!!.uid)
             .addListenerForSingleValueEvent(object : ValueEventListener {

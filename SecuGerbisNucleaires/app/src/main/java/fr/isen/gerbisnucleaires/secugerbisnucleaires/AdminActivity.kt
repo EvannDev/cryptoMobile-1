@@ -37,7 +37,6 @@ class AdminActivity : AppCompatActivity(), NurseAdapter.OnItemClickListener {
 
 
     val nurses: ArrayList<Nurse> = arrayListOf()
-    private lateinit var mAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +46,7 @@ class AdminActivity : AppCompatActivity(), NurseAdapter.OnItemClickListener {
 
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("Nurse")
+        myRef.keepSynced(true)
 
         val nurseListener = object : ValueEventListener {
 
@@ -73,7 +73,9 @@ class AdminActivity : AppCompatActivity(), NurseAdapter.OnItemClickListener {
     private fun changeAdminCodeButtonClick() {
         changeAdminCodeButton.setOnClickListener {
             if(adminCodeValue.text.toString().isNotEmpty()){
-                FirebaseDatabase.getInstance().getReference("Code_Admin").child("key").setValue(SecuGerbis(adminCodeValue.text.toString()).encrypt()).addOnCompleteListener {
+                val ref =FirebaseDatabase.getInstance().getReference("Code_Admin")
+                    ref.keepSynced(true)
+                    ref.child("key").setValue(SecuGerbis(adminCodeValue.text.toString()).encrypt()).addOnCompleteListener {
                     Toast.makeText(applicationContext, "Code Admin have been changed", Toast.LENGTH_LONG).show()
                     adminCodeValue.setText("")
                 }

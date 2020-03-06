@@ -155,6 +155,7 @@ class AddVisitActivity : AppCompatActivity() {
 
             val firebase = FirebaseDatabase.getInstance()
             val ref = firebase.reference
+            ref.keepSynced(true)
 
             val newVisit = Visit(visitId, patientUuid,
                 SecuGerbis(temperature).encrypt(),

@@ -57,6 +57,7 @@ class AddPatientActivity : AppCompatActivity() {
         addPatientAddButton.setOnClickListener {
             val firebase = FirebaseDatabase.getInstance()
             val ref = firebase.reference
+            ref.keepSynced(true)
 
             val patientId = ref.child("Patients").push().key.toString()
             val patientName = addPatientLastnameFieldInput.text.toString()
@@ -111,6 +112,7 @@ class AddPatientActivity : AppCompatActivity() {
 
         addPatientAddButton.setOnClickListener {
             val ref = FirebaseDatabase.getInstance().getReference("Patients")
+            ref.keepSynced(true)
 
             val patientName = addPatientLastnameFieldInput.text.toString()
 
