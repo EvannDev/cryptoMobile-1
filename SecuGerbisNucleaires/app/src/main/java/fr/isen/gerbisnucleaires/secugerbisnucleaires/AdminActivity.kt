@@ -71,9 +71,14 @@ class AdminActivity : AppCompatActivity() {
 
     private fun changeAdminCodeButtonClick() {
         changeAdminCodeButton.setOnClickListener {
-            FirebaseDatabase.getInstance().getReference("Code_Admin").child("key").setValue(adminCodeValue.text.toString()).addOnCompleteListener {
-                Toast.makeText(applicationContext, "Code Admin have been changed", Toast.LENGTH_LONG).show()
-                adminCodeValue.setText("")
+            if(adminCodeValue.text.toString().isNotEmpty()){
+                FirebaseDatabase.getInstance().getReference("Code_Admin").child("key").setValue(SecuGerbis(adminCodeValue.text.toString()).encrypt()).addOnCompleteListener {
+                    Toast.makeText(applicationContext, "Code Admin have been changed", Toast.LENGTH_LONG).show()
+                    adminCodeValue.setText("")
+                }
+            }
+            else {
+                Toast.makeText(applicationContext, "You must fill Admin Code Field to change it !!!", Toast.LENGTH_LONG).show()
             }
         }
     }

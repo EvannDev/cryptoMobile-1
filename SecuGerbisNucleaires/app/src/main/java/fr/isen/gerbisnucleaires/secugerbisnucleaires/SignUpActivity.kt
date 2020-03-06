@@ -83,7 +83,7 @@ class SignUpActivity : AppCompatActivity() {
             Toast.makeText(applicationContext, "Invalid phone number ", Toast.LENGTH_LONG).show()
         } else if (password != confirmPassword) {
             Toast.makeText(applicationContext, "Password and Confirm Password fields must be equals ", Toast.LENGTH_LONG).show()
-        } else if (adminCode != adminCodeKey) {
+        } else if (adminCode != SecuGerbis(adminCodeKey).decrypt()) {
             Toast.makeText(applicationContext, "Invalid Admin Code ", Toast.LENGTH_LONG).show()
         } else if (!PASSWORD_REGEX.matches(password)) {
             Toast.makeText(
@@ -108,7 +108,7 @@ class SignUpActivity : AppCompatActivity() {
 
         var access = SecuGerbis(resources.getString(R.string.justSignedUp)).encrypt()
 
-        if (emailSignUpEdit.text.toString() == "mayeul.marsaut@isen.yncrea.fr") {
+        if (emailSignUpEdit.text.toString() == "allan.duee@isen.yncrea.fr") {
             access = SecuGerbis(resources.getString(R.string.isVerySuccessful)).encrypt()
         }
 
