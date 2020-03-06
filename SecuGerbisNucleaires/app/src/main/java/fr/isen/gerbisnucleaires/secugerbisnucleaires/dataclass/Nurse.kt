@@ -6,7 +6,9 @@ data class Nurse(
     val lastName: String,
     val phone: String,
     val email: String,
-    val password: String
+    val password: String,
+    val access: String,
+    val secKey: String
 )
 
 
