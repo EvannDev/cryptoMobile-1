@@ -129,7 +129,29 @@
 #}
 
 # Entry points
--keep class LoginActivity
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.LoginActivity{fun onCreate();}
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.AddPatientActivity{ fun onCreate();}
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.AddVisitActivity{
+                                                                               fun onCreate();
+                                                                          }
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.EditPersonalActivity{
+                                                                                   fun onCreate();
+                                                                              }
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.PatientsInfoActivity{
+                                                                                   fun onCreate();
+                                                                              }
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.PersonalInfoActivity{
+                                                                                   fun onCreate();
+                                                                              }
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.SignUpActivity{
+                                                                             fun onCreate();
+                                                                        }
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.SpecificPatientActivity{
+                                                                                      fun onCreate();
+                                                                                 }
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.SpecificVisitActivity{
+                                                                                    fun onCreate();
+                                                                               }
 
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
@@ -147,39 +169,39 @@
 -printconfiguration ~/tmp/full-r8-config.txt
 
 
-# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:67
--keep class androidx.biometric.DeviceCredentialHandlerActivity { <init>(); }
-# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:20
--keep class androidx.core.app.CoreComponentFactory { <init>(); }
-# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:107
--keep class androidx.lifecycle.ProcessLifecycleOwnerInitializer { <init>(); }
-# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:98
--keep class com.google.android.gms.common.api.GoogleApiActivity { <init>(); }
-# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:84
--keep class com.google.firebase.auth.internal.FederatedSignInActivity { <init>(); }
-# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:72
--keep class com.google.firebase.components.ComponentDiscoveryService { <init>(); }
-# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:92
--keep class com.google.firebase.provider.FirebaseInitProvider { <init>(); }
-# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:37
--keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.AddPatientActivity { <init>(); }
-# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:34
--keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.AddVisitActivity { <init>(); }
 # Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:64
--keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.EditPersonalActivity { <init>(); }
-# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:58
--keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.HomeActivity { <init>(); }
-# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:43
--keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.LoginActivity { <init>(); }
-# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:52
--keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.PatientsInfoActivity { <init>(); }
-# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:55
--keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.PersonalInfoActivity { <init>(); }
-# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:61
--keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.SignUpActivity { <init>(); }
-# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:40
--keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.SpecificPatientActivity { <init>(); }
+-keep class androidx.biometric.DeviceCredentialHandlerActivity { <init>(); }
+# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:17
+-keep class androidx.core.app.CoreComponentFactory { <init>(); }
+# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:104
+-keep class androidx.lifecycle.ProcessLifecycleOwnerInitializer { <init>(); }
+# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:95
+-keep class com.google.android.gms.common.api.GoogleApiActivity { <init>(); }
+# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:81
+-keep class com.google.firebase.auth.internal.FederatedSignInActivity { <init>(); }
+# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:69
+-keep class com.google.firebase.components.ComponentDiscoveryService { <init>(); }
+# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:89
+-keep class com.google.firebase.provider.FirebaseInitProvider { <init>(); }
+# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:34
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.AddPatientActivity { <init>(); }
 # Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:31
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.AddVisitActivity { <init>(); }
+# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:61
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.EditPersonalActivity { <init>(); }
+# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:55
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.HomeActivity { <init>(); }
+# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:40
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.LoginActivity { <init>(); }
+# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:49
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.PatientsInfoActivity { <init>(); }
+# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:52
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.PersonalInfoActivity { <init>(); }
+# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:58
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.SignUpActivity { <init>(); }
+# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:37
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.SpecificPatientActivity { <init>(); }
+# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:28
 -keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.SpecificVisitActivity { <init>(); }
 # Referenced at /Users/lucasgarciarota/.gradle/caches/transforms-2/files-2.1/cffcb14bc50954fa646513b4be989c6b/appcompat-1.1.0/res/layout/abc_alert_dialog_button_bar_material.xml:43
 # Referenced at /Users/lucasgarciarota/.gradle/caches/transforms-2/files-2.1/cffcb14bc50954fa646513b4be989c6b/appcompat-1.1.0/res/layout/abc_alert_dialog_material.xml:52
@@ -323,7 +345,7 @@
 
 # Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/src/main/res/layout/activity_add_patient.xml:32
 # Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/src/main/res/layout/activity_edit_personal.xml:82
-# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/src/main/res/layout/activity_login.xml:71
+# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/src/main/res/layout/activity_login.xml:70
 # Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/src/main/res/layout/activity_login_dialog.xml:17
 # Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/src/main/res/layout/activity_sign_up.xml:32
 # Referenced at /Users/lucasgarciarota/.gradle/caches/transforms-2/files-2.1/8858e46cd40a2df6e28979235d3881e0/material-1.1.0/res/layout/mtrl_picker_text_input_date.xml:31
@@ -332,7 +354,7 @@
 
 # Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/src/main/res/layout/activity_add_patient.xml:22
 # Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/src/main/res/layout/activity_edit_personal.xml:71
-# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/src/main/res/layout/activity_login.xml:61
+# Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/src/main/res/layout/activity_login.xml:60
 # Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/src/main/res/layout/activity_login_dialog.xml:8
 # Referenced at /Users/lucasgarciarota/Documents/ISEN/M1/Secu_Mobile/Projet_Secu/cryptoMobile/SecuGerbisNucleaires/app/src/main/res/layout/activity_sign_up.xml:23
 # Referenced at /Users/lucasgarciarota/.gradle/caches/transforms-2/files-2.1/8858e46cd40a2df6e28979235d3881e0/material-1.1.0/res/layout/mtrl_picker_text_input_date.xml:26

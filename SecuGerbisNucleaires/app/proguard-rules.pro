@@ -13,15 +13,15 @@
 #}
 
 # Entry points
--keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.LoginActivity
--keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.AddPatientActivity
--keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.AddVisitActivity
--keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.EditPersonalActivity
--keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.PatientsInfoActivity
--keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.PersonalInfoActivity
--keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.SignUpActivity
--keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.SpecificPatientActivity
--keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.SpecificVisitActivity
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.LoginActivity{fun onCreate();}
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.AddPatientActivity{ fun onCreate();}
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.AddVisitActivity{fun onCreate();}
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.EditPersonalActivity{fun onCreate();}
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.PatientsInfoActivity{fun onCreate();}
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.PersonalInfoActivity{fun onCreate();}
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.SignUpActivity{fun onCreate();}
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.SpecificPatientActivity{fun onCreate();}
+-keep class fr.isen.gerbisnucleaires.secugerbisnucleaires.SpecificVisitActivity{fun onCreate();}
 
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
