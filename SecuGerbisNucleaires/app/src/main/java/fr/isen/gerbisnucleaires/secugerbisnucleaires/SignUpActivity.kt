@@ -124,7 +124,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun fillRealTimeDatabase(firstName: String, lastName: String, email: String, phone: String, password: String) {
         val nurseId = mAuth.currentUser?.uid.toString()
-        val nurse = Nurse(nurseId, firstName, lastName, phone, email, password)
+        val nurse = Nurse(nurseId, firstName, lastName, phone, email, password, SecuGerbis("Confirm").encrypt(), SecuGerbis("tmp").encrypt())
 
         FirebaseDatabase.getInstance().getReference("Nurse").child(nurseId).setValue(nurse).addOnCompleteListener {
             Toast.makeText(applicationContext, "Registered", Toast.LENGTH_LONG).show()

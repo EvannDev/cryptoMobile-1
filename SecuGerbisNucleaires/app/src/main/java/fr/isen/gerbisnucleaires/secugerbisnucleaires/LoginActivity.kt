@@ -70,7 +70,8 @@ class LoginActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         if (mAuth.currentUser?.isEmailVerified!!) {
                             Toast.makeText(applicationContext, "Welcome", Toast.LENGTH_SHORT).show()
-                            newIntent(applicationContext, HomeActivity::class.java)
+                            newIntent(applicationContext, AdminActivity::class.java)
+                           // newIntent(applicationContext, HomeActivity::class.java)
                         } else {
                             Toast.makeText(applicationContext, "Email must be verified", Toast.LENGTH_SHORT).show()
                         }
