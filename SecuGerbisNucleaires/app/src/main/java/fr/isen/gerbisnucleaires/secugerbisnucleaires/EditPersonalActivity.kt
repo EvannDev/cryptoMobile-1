@@ -126,6 +126,7 @@ class EditPersonalActivity : AppCompatActivity() {
                         }
 
                         val ref = FirebaseDatabase.getInstance().reference
+                        ref.keepSynced(true)
 
                         val user1 = FirebaseAuth.getInstance().currentUser
 

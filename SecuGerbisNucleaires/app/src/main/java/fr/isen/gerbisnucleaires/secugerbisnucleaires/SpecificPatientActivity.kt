@@ -41,6 +41,7 @@ class SpecificPatientActivity : AppCompatActivity(), VisitAdapter.OnItemClickLis
 
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("Visits")
+        myRef.keepSynced(true)
 
         val visitListener = object : ValueEventListener {
 
@@ -97,6 +98,7 @@ class SpecificPatientActivity : AppCompatActivity(), VisitAdapter.OnItemClickLis
         SpecificPatientDeletePatientButton.setOnClickListener {
             val databaseVisit = FirebaseDatabase.getInstance()
             val myRefVisit = databaseVisit.getReference("Visits")
+            myRefVisit.keepSynced(true)
 
             val visitListener = object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {

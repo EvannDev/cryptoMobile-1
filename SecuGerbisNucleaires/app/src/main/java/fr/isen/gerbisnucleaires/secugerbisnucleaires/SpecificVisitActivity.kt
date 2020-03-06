@@ -41,6 +41,7 @@ class SpecificVisitActivity : AppCompatActivity() {
 
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("Patients")
+        myRef.keepSynced(true)
 
         val patientListener = object : ValueEventListener {
 

@@ -80,6 +80,7 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     if (mAuth.currentUser?.isEmailVerified!!) {
                         val dbr = FirebaseDatabase.getInstance().getReference("Nurse")
+                        dbr.keepSynced(true)
                         val listener = object : ValueEventListener {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
                                 for (child in dataSnapshot.children) {

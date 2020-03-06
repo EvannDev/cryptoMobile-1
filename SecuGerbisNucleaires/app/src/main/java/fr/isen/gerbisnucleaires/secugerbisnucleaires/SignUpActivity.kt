@@ -43,6 +43,7 @@ class SignUpActivity : AppCompatActivity() {
     private fun registerUser() {
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("Code_Admin")
+        myRef.keepSynced(true)
 
         val signUpListener = object : ValueEventListener {
 
@@ -115,7 +116,7 @@ class SignUpActivity : AppCompatActivity() {
         mAuth.createUserWithEmailAndPassword(realEmail, realPassword)
             .addOnCompleteListener(this) {
                 if (it.isSuccessful) {
-                    Toast.makeText(applicationContext, "$firstName $lastName has been added to Nurses list", Toast.LENGTH_LONG).show()
+                    Toast.makeText(applicationContext, "${SecuGerbis(firstName).decrypt()} ${SecuGerbis(lastName).decrypt()} has been added to Nurses list", Toast.LENGTH_LONG).show()
                     sendEmailVerification()
 
                     fillRealTimeDatabase(firstName, lastName, email, phone, password, access, "tmp")
@@ -124,7 +125,7 @@ class SignUpActivity : AppCompatActivity() {
                     finish()
                 } else {
                     Toast.makeText(
-                        baseContext, "$firstName $lastName is already registered",
+                        baseContext, "${SecuGerbis(firstName).decrypt()} ${SecuGerbis(lastName).decrypt()} is already registered",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
