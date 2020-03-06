@@ -16,9 +16,9 @@ import fr.isen.gerbisnucleaires.secugerbisnucleaires.recyclerview.NurseAdapter
 import kotlinx.android.synthetic.main.activity_admin.*
 import kotlinx.android.synthetic.main.activity_nurse_item.*
 
-class AdminActivity : AppCompatActivity() {
+class AdminActivity : AppCompatActivity(), NurseAdapter.OnItemClickListener {
 
-    fun onItemClick(nurse: Nurse) {
+    override fun onItemClick(nurse: Nurse) {
         /*val intent = Intent(this@AdminActivity, SpecificPatientActivity::class.java)
         intent.putExtra("uuid", patient.uuid)
         intent.putExtra("title", patient.name.title)
@@ -28,12 +28,13 @@ class AdminActivity : AppCompatActivity() {
         intent.putExtra("disease", patient.disease)
         startActivity(intent)*/
         confirmNurseButton.setOnClickListener {
-            Log.d("TEST", "Confirm Button")
+            Log.d("TEST", "Confirm Button ${SecuGerbis(nurse.email).decrypt()}")
         }
         rejectNurseButton.setOnClickListener {
-            Log.d("TEST", "Reject Button")
+            Log.d("TEST", "Reject Button ${SecuGerbis(nurse.email).decrypt()}")
         }
     }
+
 
     val nurses: ArrayList<Nurse> = arrayListOf()
     private lateinit var mAuth: FirebaseAuth
@@ -42,10 +43,12 @@ class AdminActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin)
 
+        changeAdminCodeButtonClick()
+
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("Nurse")
 
-        val postListener = object : ValueEventListener {
+        val nurseListener = object : ValueEventListener {
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (childSnapshot in dataSnapshot.children) {
@@ -64,9 +67,7 @@ class AdminActivity : AppCompatActivity() {
                     .show()
             }
         }
-        myRef.addValueEventListener(postListener)
-
-        changeAdminCodeButtonClick()
+        myRef.addValueEventListener(nurseListener)
     }
 
     private fun changeAdminCodeButtonClick() {
@@ -83,3 +84,4 @@ class AdminActivity : AppCompatActivity() {
         }
     }
 }
+

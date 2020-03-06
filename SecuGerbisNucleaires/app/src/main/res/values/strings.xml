@@ -60,4 +60,9 @@
     <string name="new_nurses">New Nurses :</string>
     <string name="confirm">Confirm</string>
     <string name="reject">Reject</string>
+    <string name="all_nurses">All Nurses</string>
+    <string name="nurses_to_accept">Nurses To Accept</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

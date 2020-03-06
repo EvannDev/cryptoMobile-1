@@ -3,11 +3,10 @@ package fr.isen.gerbisnucleaires.secugerbisnucleaires.recyclerview
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import fr.isen.gerbisnucleaires.secugerbisnucleaires.AdminActivity
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.R
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.Nurse
 
-class NurseAdapter(private val nurses: ArrayList<Nurse>, var itemClickListener: AdminActivity) : RecyclerView.Adapter<NurseHolder>(){
+class NurseAdapter(private val nurses: ArrayList<Nurse>, var itemClickListener: OnItemClickListener) : RecyclerView.Adapter<NurseHolder>(){
 
         override fun onBindViewHolder(holder: NurseHolder, position: Int) {
             holder.bind(nurses[position], itemClickListener)
@@ -19,8 +18,8 @@ class NurseAdapter(private val nurses: ArrayList<Nurse>, var itemClickListener: 
 
         override fun getItemCount(): Int = nurses.size
 
-        interface OnItemClickListener {
-            fun onItemClick(nurse: Nurse)
-        }
+    interface OnItemClickListener {
+        fun onItemClick(nurse: Nurse)
+    }
 
 }
