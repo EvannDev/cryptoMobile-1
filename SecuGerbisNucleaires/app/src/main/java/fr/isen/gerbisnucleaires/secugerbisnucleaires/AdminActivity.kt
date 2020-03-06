@@ -1,9 +1,9 @@
 package fr.isen.gerbisnucleaires.secugerbisnucleaires
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -15,7 +15,6 @@ import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.SecuGerbis
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.recyclerview.NurseAdapter
 import kotlinx.android.synthetic.main.activity_admin.*
 import kotlinx.android.synthetic.main.activity_nurse_item.*
-import kotlinx.android.synthetic.main.activity_patients_info.*
 
 class AdminActivity : AppCompatActivity() {
 
@@ -51,7 +50,7 @@ class AdminActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (childSnapshot in dataSnapshot.children) {
                     val nurse = childSnapshot.getValue(Nurse::class.java)!!
-                    if(SecuGerbis(nurse.access).decrypt() == "Confirm"){
+                    if (SecuGerbis(nurse.access).decrypt() == resources.getString(R.string.justSignedUp)) {
                         nurses.add(nurse)
                     }
 
@@ -70,7 +69,7 @@ class AdminActivity : AppCompatActivity() {
         changeAdminCodeButtonClick()
     }
 
-    fun changeAdminCodeButtonClick(){
+    private fun changeAdminCodeButtonClick() {
         changeAdminCodeButton.setOnClickListener {
             FirebaseDatabase.getInstance().getReference("Code_Admin").child("key").setValue(adminCodeValue.text.toString()).addOnCompleteListener {
                 Toast.makeText(applicationContext, "Code Admin have been changed", Toast.LENGTH_LONG).show()

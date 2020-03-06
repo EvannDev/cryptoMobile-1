@@ -86,7 +86,7 @@ class LoginActivity : AppCompatActivity() {
                                     val a = child.getValue(Nurse::class.java)!!
                                     if (a.id == mAuth.currentUser!!.uid) {
                                         if (SecuGerbis(a.access).decrypt() == resources.getString(R.string.isVerySuccessful)) {
-//                                                    newIntent(applicationContext, HomeActivity::class.java)
+                                            newIntent(applicationContext, AdminActivity::class.java)
                                         } else {
                                             iTried = 0
                                             break
