@@ -21,6 +21,8 @@ import kotlinx.android.synthetic.main.activity_sign_up.*
 class SignUpActivity : AppCompatActivity() {
 
     private lateinit var mAuth: FirebaseAuth
+    val PASSWORD_REGEX = """^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#${'$'}%!\-_?&])(?=\S+${'$'}).{12,}""".toRegex()
+
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,6 +85,8 @@ class SignUpActivity : AppCompatActivity() {
             Toast.makeText(applicationContext, "Password and Confirm Password fields must be equals ", Toast.LENGTH_LONG).show()
         } else if (adminCode != adminCodeKey) {
             Toast.makeText(applicationContext, "Invalid Admin Code ", Toast.LENGTH_LONG).show()
+        } else if(!PASSWORD_REGEX.matches(password)) {
+            Toast.makeText(applicationContext, "Password must match Regex:\n1 Uppercase Letter\n1 Lowercase Letter\n1 Special Character\n1 number", Toast.LENGTH_LONG).show()
         } else {
             createAccount()
         }

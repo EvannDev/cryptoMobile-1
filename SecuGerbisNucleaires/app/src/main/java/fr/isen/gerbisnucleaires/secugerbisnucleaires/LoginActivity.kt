@@ -23,7 +23,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         // Offline capabilities
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
+        //FirebaseDatabase.getInstance().setPersistenceEnabled(true)
 
         checkRootMethod()
 

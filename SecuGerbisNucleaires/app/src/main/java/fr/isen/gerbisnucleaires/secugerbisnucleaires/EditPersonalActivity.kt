@@ -24,6 +24,7 @@ class EditPersonalActivity : AppCompatActivity() {
     lateinit var buttonSave: Button
 
     private lateinit var mAuth: FirebaseAuth
+    val PASSWORD_REGEX = """^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#${'$'}%!\-_?&])(?=\S+${'$'}).{12,}""".toRegex()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,6 +97,10 @@ class EditPersonalActivity : AppCompatActivity() {
 
             if (confirm1.isNotEmpty() && confirm1.length < 12) {
                 Toast.makeText(applicationContext, "Password should be longer than 12 characters ", Toast.LENGTH_LONG).show()
+            }
+
+            if(!PASSWORD_REGEX.matches(password)) {
+                Toast.makeText(applicationContext, "Password must match Regex:\n1 Uppercase Letter\n1 Lowercase Letter\n1 Special Character\n1 number", Toast.LENGTH_LONG).show()
             }
 
             if (confirm1 != confirm2) {
