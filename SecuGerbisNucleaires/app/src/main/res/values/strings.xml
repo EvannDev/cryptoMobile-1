@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">SecuGerbisNucleaires</string>
+    <string name="justSignedUp">Confirm</string>
+    <string name="confirmed">ConfirmedByAdmin</string>
+    <string name="fullySignedUp">Done</string>
+    <string name="isVerySuccessful">iSucceeded</string>
     <string name="book_icon">Book icon</string>
     <string name="patient_icon">Patient icon</string>
     <string name="patients_list">Patient\'s List : </string>

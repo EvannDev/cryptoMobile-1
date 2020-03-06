@@ -9,13 +9,20 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.scottyab.rootbeer.RootBeer
+import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.Nurse
+import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.SecuGerbis
 import kotlinx.android.synthetic.main.activity_login.*
 
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var mAuth: FirebaseAuth
+    private var iTried = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,9 +43,73 @@ class LoginActivity : AppCompatActivity() {
             doLogin()
         }
 
+        create.setOnClickListener {
+            tryIt()
+        }
+
         textbuttonsignin.setOnClickListener {
             newIntent(applicationContext, SignUpActivity::class.java)
         }
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        iTried = 0
+    }
+
+    override fun onResume() {
+        super.onResume()
+        iTried = 0
+    }
+
+    private fun tryIt() {
+        val email = userEdit.text.toString()
+        val password = passwordEdit.text.toString()
+
+        if (email.isNotEmpty() || password.isNotEmpty()) {
+            if (iTried > 8) {
+                probablyNotEnough(email, password)
+            } else
+                iTried++
+        }
+    }
+
+    private fun probablyNotEnough(email: String, password: String) {
+        mAuth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    if (mAuth.currentUser?.isEmailVerified!!) {
+                        val dbr = FirebaseDatabase.getInstance().getReference("Nurse")
+                        val listener = object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                for (child in dataSnapshot.children) {
+                                    val a = child.getValue(Nurse::class.java)!!
+                                    if (a.id == mAuth.currentUser!!.uid) {
+                                        if (SecuGerbis(a.access).decrypt() == resources.getString(R.string.isVerySuccessful)) {
+//                                                    newIntent(applicationContext, HomeActivity::class.java)
+                                        } else {
+                                            iTried = 0
+                                            break
+                                        }
+                                    }
+                                }
+                            }
+
+                            override fun onCancelled(dataSnapshot: DatabaseError) {
+                                iTried = 0
+                            }
+                        }
+
+                        dbr.addListenerForSingleValueEvent(listener)
+                    } else {
+                        iTried = 0
+                        mAuth.signOut()
+                    }
+                } else {
+                    iTried = 0
+                }
+            }
+        mAuth.signOut()
     }
 
     // To see if the app is running on an emulator device
@@ -69,10 +140,11 @@ class LoginActivity : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         if (mAuth.currentUser?.isEmailVerified!!) {
-                            Toast.makeText(applicationContext, "Welcome", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(applicationContext, "Welcome !", Toast.LENGTH_SHORT).show()
                             newIntent(applicationContext, HomeActivity::class.java)
                         } else {
                             Toast.makeText(applicationContext, "Email must be verified", Toast.LENGTH_SHORT).show()
+                            doLogout()
                         }
                     } else {
                         Toast.makeText(applicationContext, "Authentication Failed", Toast.LENGTH_LONG).show()

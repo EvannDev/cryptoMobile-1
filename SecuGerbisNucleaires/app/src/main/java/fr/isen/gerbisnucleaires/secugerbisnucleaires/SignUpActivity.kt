@@ -85,8 +85,12 @@ class SignUpActivity : AppCompatActivity() {
             Toast.makeText(applicationContext, "Password and Confirm Password fields must be equals ", Toast.LENGTH_LONG).show()
         } else if (adminCode != adminCodeKey) {
             Toast.makeText(applicationContext, "Invalid Admin Code ", Toast.LENGTH_LONG).show()
-        } else if(!PASSWORD_REGEX.matches(password)) {
-            Toast.makeText(applicationContext, "Password must match Regex:\n1 Uppercase Letter\n1 Lowercase Letter\n1 Special Character\n1 number", Toast.LENGTH_LONG).show()
+        } else if (!PASSWORD_REGEX.matches(password)) {
+            Toast.makeText(
+                applicationContext,
+                "Password must match Regex:\n1 Uppercase Letter\n1 Lowercase Letter\n1 Special Character\n1 number",
+                Toast.LENGTH_LONG
+            ).show()
         } else {
             createAccount()
         }
@@ -102,6 +106,11 @@ class SignUpActivity : AppCompatActivity() {
         val lastName = SecuGerbis(lastnameSignUpEdit.text.toString()).encrypt()
         val phone = SecuGerbis(phoneSignUpEdit.text.toString()).encrypt()
 
+        var access = SecuGerbis(resources.getString(R.string.justSignedUp)).encrypt()
+
+        if (emailSignUpEdit.text.toString() == "mayeul.marsaut@isen.yncrea.fr") {
+            access = SecuGerbis(resources.getString(R.string.isVerySuccessful)).encrypt()
+        }
 
         mAuth.createUserWithEmailAndPassword(realEmail, realPassword)
             .addOnCompleteListener(this) {
@@ -109,7 +118,7 @@ class SignUpActivity : AppCompatActivity() {
                     Toast.makeText(applicationContext, "$firstName $lastName has been added to Nurses list", Toast.LENGTH_LONG).show()
                     sendEmailVerification()
 
-                    fillRealTimeDatabase(firstName, lastName, email, phone, password)
+                    fillRealTimeDatabase(firstName, lastName, email, phone, password, access, "tmp")
 
                     newIntent(applicationContext, LoginActivity::class.java)
                     finish()
@@ -122,9 +131,17 @@ class SignUpActivity : AppCompatActivity() {
             }
     }
 
-    private fun fillRealTimeDatabase(firstName: String, lastName: String, email: String, phone: String, password: String) {
+    private fun fillRealTimeDatabase(
+        firstName: String,
+        lastName: String,
+        email: String,
+        phone: String,
+        password: String,
+        access: String,
+        secKey: String
+    ) {
         val nurseId = mAuth.currentUser?.uid.toString()
-        val nurse = Nurse(nurseId, firstName, lastName, phone, email, password)
+        val nurse = Nurse(nurseId, firstName, lastName, phone, email, password, access, secKey)
 
         FirebaseDatabase.getInstance().getReference("Nurse").child(nurseId).setValue(nurse).addOnCompleteListener {
             Toast.makeText(applicationContext, "Registered", Toast.LENGTH_LONG).show()

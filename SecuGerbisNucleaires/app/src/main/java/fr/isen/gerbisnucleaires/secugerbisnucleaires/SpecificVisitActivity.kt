@@ -49,7 +49,8 @@ class SpecificVisitActivity : AppCompatActivity() {
                 for (childSnapshot in dataSnapshot.children) {
                     val patient = childSnapshot.getValue(Patient::class.java)!!
                     if (patient.uuid == patientId) {
-                        specificVisitTitle.text = "Visit of ${SecuGerbis(patient.name.title).decrypt()} ${SecuGerbis(patient.name.firstName).decrypt()} ${SecuGerbis(patient.name.name).decrypt()}"
+                        specificVisitTitle.text =
+                            "Visit of ${SecuGerbis(patient.name.title).decrypt()} ${SecuGerbis(patient.name.firstName).decrypt()} ${SecuGerbis(patient.name.name).decrypt()}"
                         patientTitle = SecuGerbis(patient.name.title).decrypt()
                         patientFirstName = SecuGerbis(patient.name.firstName).decrypt()
                         patientLastName = SecuGerbis(patient.name.name).decrypt()
