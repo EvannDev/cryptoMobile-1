@@ -1,5 +1,7 @@
 package fr.isen.gerbisnucleaires.secugerbisnucleaires
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -17,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_admin.*
 import kotlinx.android.synthetic.main.activity_nurse_item.*
 
 class AdminActivity : AppCompatActivity(), NurseAdapter.OnItemClickListener {
+    private lateinit var mAuth: FirebaseAuth
 
     override fun onItemClick(nurse: Nurse) {
         /*val intent = Intent(this@AdminActivity, SpecificPatientActivity::class.java)
@@ -84,6 +87,23 @@ class AdminActivity : AppCompatActivity(), NurseAdapter.OnItemClickListener {
                 Toast.makeText(applicationContext, "You must fill Admin Code Field to change it !!!", Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mAuth = FirebaseAuth.getInstance()
+        checkIfAuth(mAuth)
+    }
+
+    private fun checkIfAuth(mAuth: FirebaseAuth) {
+        if (mAuth.currentUser == null) {
+            newIntent(applicationContext, LoginActivity::class.java)
+        }
+    }
+
+    // Start new activity
+    private fun newIntent(context: Context, clazz: Class<*>) {
+        startActivity(Intent(context, clazz))
     }
 }
 
