@@ -1,7 +1,9 @@
 # Projet des gerbis nucléaires
-Un super projet
+projet de Sécurité Mobile de M1 Cybersécurité ISEN Toulon
 
 #  Tâches
+
+Sécurisation de donnée médicale
 
 ## Identifiants
 
@@ -10,3 +12,10 @@ Un super projet
 
 - __Alias__ : gerbis
 - __Mot de passe__ : nucleaires123
+
+## Provided by
+Allan DUEE
+Evann DE BAILLIENCOURT
+Mayeul MARSAUT
+Lucas GARCIA-ROTA
+Mathieu JAFFUS
