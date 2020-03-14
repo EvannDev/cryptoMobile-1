@@ -145,7 +145,6 @@ class LoginActivity : AppCompatActivity() {
                             newIntent(applicationContext, HomeActivity::class.java)
                         } else {
                             Toast.makeText(applicationContext, "Email must be verified", Toast.LENGTH_SHORT).show()
-                            doLogout()
                         }
                     } else {
                         Toast.makeText(applicationContext, "Authentication Failed", Toast.LENGTH_LONG).show()

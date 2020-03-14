@@ -22,15 +22,13 @@
         android:id="@+id/firstnameModify"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="64dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="@string/firstname"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textModify" />
+        app:layout_constraintEnd_toEndOf="@+id/textModify"
+        app:layout_constraintStart_toStartOf="@+id/emailName"
+        app:layout_constraintTop_toBottomOf="@+id/emailName" />
 
     <EditText
         android:id="@+id/lastnameModify"
@@ -56,27 +54,15 @@
         app:layout_constraintStart_toStartOf="@+id/lastnameModify"
         app:layout_constraintTop_toBottomOf="@+id/lastnameModify" />
 
-    <EditText
-        android:id="@+id/emailModify"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:hint="@string/email"
-        android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="@+id/phoneModify"
-        app:layout_constraintStart_toStartOf="@+id/phoneModify"
-        app:layout_constraintTop_toBottomOf="@+id/phoneModify" />
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordModifyLastName"
         android:layout_width="0dp"
         android:layout_height="55dp"
-        android:layout_marginTop="20dp"
 
-        app:layout_constraintEnd_toEndOf="@+id/emailModify"
-        app:layout_constraintStart_toStartOf="@+id/emailModify"
-        app:layout_constraintTop_toBottomOf="@+id/emailModify"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/phoneModify"
+        app:layout_constraintStart_toStartOf="@+id/phoneModify"
+        app:layout_constraintTop_toBottomOf="@+id/phoneModify"
         app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -148,4 +134,27 @@
         app:layout_constraintEnd_toStartOf="@+id/buttonSaveChanges"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/confirmedPass2Name" />
+
+    <TextView
+        android:id="@+id/emailName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/email"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:textColor="@color/colorBlack"
+        app:layout_constraintStart_toStartOf="@+id/textModify"
+        app:layout_constraintTop_toBottomOf="@+id/textModify" />
+
+    <TextView
+        android:id="@+id/emailValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/emailName"
+        app:layout_constraintEnd_toEndOf="@+id/textModify"
+        app:layout_constraintStart_toEndOf="@+id/emailName"
+        app:layout_constraintTop_toTopOf="@+id/emailName" />
 </androidx.constraintlayout.widget.ConstraintLayout>
