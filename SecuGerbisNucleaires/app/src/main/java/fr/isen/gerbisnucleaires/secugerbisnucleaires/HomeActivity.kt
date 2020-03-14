@@ -3,7 +3,9 @@ package fr.isen.gerbisnucleaires.secugerbisnucleaires
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +14,7 @@ import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.google.firebase.auth.FirebaseAuth
+import com.scottyab.rootbeer.RootBeer
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_login_dialog.view.*
 import java.util.concurrent.Executor
@@ -159,6 +162,8 @@ class HomeActivity : AppCompatActivity(), LoginDialog.LoginDialogListener {
         super.onStart()
         mAuth = FirebaseAuth.getInstance()
         checkIfAuth(mAuth)
+        checkRootMethod()
+        checkEmulator()
     }
 
     private fun checkIfAuth(mAuth: FirebaseAuth) {
@@ -174,4 +179,31 @@ class HomeActivity : AppCompatActivity(), LoginDialog.LoginDialogListener {
 
     override fun onBackPressed() {
     }
+
+    private fun checkRootMethod() {
+        val rootBeer = RootBeer(applicationContext)
+        if (rootBeer.isRooted) {
+            Log.d("ROOT", "Device is ROOT")
+            //System.exit(0)
+        }
+    }
+
+    private fun checkEmulator() {
+        if(isProbablyAnEmulator()){
+            Log.d("EMULATOR", "Device is an Emulator")
+            //System.exit(0)
+        }
+    }
+
+    // To see if the app is running on an emulator device
+    private fun isProbablyAnEmulator() = Build.FINGERPRINT.startsWith("generic")
+            || Build.FINGERPRINT.startsWith("unknown")
+            || Build.MODEL.contains("google_sdk")
+            || Build.MODEL.contains("Emulator")
+            || Build.MODEL.contains("Android SDK built for x86")
+            || Build.BOARD == "QC_Reference_Phone" //bluestacks
+            || Build.MANUFACTURER.contains("Genymotion")
+            || Build.HOST.startsWith("Build") //MSI App Player
+            || (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"))
+            || "google_sdk" == Build.PRODUCT
 }

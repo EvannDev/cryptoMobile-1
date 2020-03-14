@@ -3,8 +3,10 @@ package fr.isen.gerbisnucleaires.secugerbisnucleaires
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -12,6 +14,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.scottyab.rootbeer.RootBeer
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.dataclass.SecuGerbis
 import fr.isen.gerbisnucleaires.secugerbisnucleaires.recyclerview.patient.Patient
 import kotlinx.android.synthetic.main.activity_specific_visit.*
@@ -95,6 +98,8 @@ class SpecificVisitActivity : AppCompatActivity() {
         super.onStart()
         mAuth = FirebaseAuth.getInstance()
         checkIfAuth(mAuth)
+        checkRootMethod()
+        checkEmulator()
     }
 
     fun cancelButton(
@@ -179,4 +184,31 @@ class SpecificVisitActivity : AppCompatActivity() {
     private fun newIntent(context: Context, clazz: Class<*>) {
         startActivity(Intent(context, clazz))
     }
+
+    private fun checkRootMethod() {
+        val rootBeer = RootBeer(applicationContext)
+        if (rootBeer.isRooted) {
+            Log.d("ROOT", "Device is ROOT")
+            //System.exit(0)
+        }
+    }
+
+    private fun checkEmulator() {
+        if(isProbablyAnEmulator()){
+            Log.d("EMULATOR", "Device is an Emulator")
+            //System.exit(0)
+        }
+    }
+
+    // To see if the app is running on an emulator device
+    private fun isProbablyAnEmulator() = Build.FINGERPRINT.startsWith("generic")
+            || Build.FINGERPRINT.startsWith("unknown")
+            || Build.MODEL.contains("google_sdk")
+            || Build.MODEL.contains("Emulator")
+            || Build.MODEL.contains("Android SDK built for x86")
+            || Build.BOARD == "QC_Reference_Phone" //bluestacks
+            || Build.MANUFACTURER.contains("Genymotion")
+            || Build.HOST.startsWith("Build") //MSI App Player
+            || (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"))
+            || "google_sdk" == Build.PRODUCT
 }

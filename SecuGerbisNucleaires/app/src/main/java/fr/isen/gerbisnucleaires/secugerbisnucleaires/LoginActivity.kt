@@ -28,14 +28,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        // Offline capabilities
-//        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
-
-        checkRootMethod()
-
         mAuth = FirebaseAuth.getInstance()
 
-        Log.d("EMULATOR", "Is that an emulator = " + isProbablyAnEmulator())
 
         textbuttonsignin.paintFlags = textbuttonsignin.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
@@ -55,6 +49,12 @@ class LoginActivity : AppCompatActivity() {
     override fun onRestart() {
         super.onRestart()
         iTried = 0
+    }
+
+    override fun onStart() {
+        super.onStart()
+        checkRootMethod()
+        checkEmulator()
     }
 
     override fun onResume() {
@@ -166,8 +166,14 @@ class LoginActivity : AppCompatActivity() {
         val rootBeer = RootBeer(applicationContext)
         if (rootBeer.isRooted) {
             Log.d("ROOT", "Device is ROOT")
-        } else {
-            Log.d("ROOT", "Device is not ROOT")
+            //System.exit(0)
+        }
+    }
+
+    private fun checkEmulator() {
+        if(isProbablyAnEmulator()){
+            Log.d("EMULATOR", "Device is an Emulator")
+            //System.exit(0)
         }
     }
 }
